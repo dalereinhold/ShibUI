@@ -183,6 +183,32 @@ ShibUI/
   Use `sui.debug("ModuleName", "Message")` for consistent debug output.
 
 ---
+## Issue Naming Convention
+To maintain clarity and consistancy across GitHub, we use the following format:
+`[IssueType] [ModuleName]: [Description]`
+
+- **Types:**  
+| Type      | Description                                   |
+| --------- | ---------------------------------------------|
+| `feat`    | New feature or module functionality           |
+| `fix`     | Bug fix or module issue                        |
+| `refactor`| Code refactoring                              |
+| `style`   | Visual or layout improvements                 |
+| `test`    | Adding or updating tests                       |
+| `chore`   | Maintenance tasks (e.g., documentation, API updates) |
+
+- **Modules:**
+Use lowercase identifiers for module names, e.g., `attributebar`.
+
+Example:
+```
+feat settings: add toggle for pyramid layout
+fix attributebar: wrong texture on stamina bar
+refactor actionbar: centralize ultimate button scaling
+style groupbar: improve spacing between unit frames
+chore: update to API version 101041
+test: ensure action bar scaling is consistent
+```
 
 ## 📚 References
 
