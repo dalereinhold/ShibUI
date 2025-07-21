@@ -183,19 +183,20 @@ ShibUI/
   Use `sui.debug("ModuleName", "Message")` for consistent debug output.
 
 ---
-## Issue Naming Convention
+## 🏷️ Issue Naming Convention
 To maintain clarity and consistancy across GitHub, we use the following format:
 `[IssueType] [ModuleName]: [Description]`
 
 - **Types:**  
-| Type      | Description                                   |
-| --------- | ---------------------------------------------|
-| `feat`    | New feature or module functionality           |
-| `fix`     | Bug fix or module issue                        |
-| `refactor`| Code refactoring                              |
-| `style`   | Visual or layout improvements                 |
-| `test`    | Adding or updating tests                       |
-| `chore`   | Maintenance tasks (e.g., documentation, API updates) |
+
+| Type       | Description                                          |
+| :--------- | :--------------------------------------------------- |
+| `feat`     | New feature or module functionality                  |
+| `fix`      | Bug fix or module issue                              |
+| `refactor` | Code refactoring                                     |
+| `style`    | Visual or layout improvements                        |
+| `test`     | Adding or updating tests                             |
+| `chore`    | Maintenance tasks (e.g., documentation, API updates) |
 
 - **Modules:**
 Use lowercase identifiers for module names, e.g., `attributebar`.
