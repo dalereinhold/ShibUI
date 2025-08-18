@@ -17,6 +17,11 @@
 
 ## Changelog
 
+### v1.1.47
+- **Added:** Minor delay on targetbar visibility at end of combat.
+- **Changed:** Ultimatebutton scaling behavior, but still fails on barswap.
+- **Added:** Tooltip info about Ultimatebutton misbehaviour.
+
 ### v1.0.46
 - **Init:** First public version of ShibUI.  
 - **Refined:** Codebase with consistent formatting and improved UI control structure.  
