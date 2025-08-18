@@ -75,43 +75,47 @@ local function KeybindButtons(isVisible)
     end
 end
 
-local ultimateButtonDefault = 1.0
-local ultimateButtonScaled = 1.1
+local function ApplyUltimateScale()
+    local isScaled = sui.saved.ultimateButtonScaled
+    local targetScale = isScaled and 1.2 or 1
 
-local function UltimateButtonSize(isScaled)
-    local scale = isScaled and ultimateButtonScaled or ultimateButtonDefault
-    local ultimateButton = _G["ActionButton8"]
-    local companionButton = _G["CompanionUltimateButton"]
-
-    if ultimateButton then
-        ultimateButton:SetScale(scale)
-    end
-    if companionButton then
-        companionButton:SetScale(scale)
+    for _, buttonName in ipairs({ "ActionButton8", "CompanionUltimateButton" }) do
+        local btn = _G[buttonName]
+        if btn then
+            if targetScale <= 1 then
+                -- Always reset to normal when scaling is off
+                btn:SetScale(1)
+            else
+                -- Reset first, then upscale to target
+                btn:SetScale(0.9)
+                zo_callLater(function()
+                    btn:SetScale(targetScale)
+                end, 0)
+            end
+        end
     end
 end
--- end of action bar settings
 
----------------------------------------------------
--- Public Interface
----------------------------------------------------
 function sui.applyActionBarSettings()
     if not sui.saved then return end
-
     WeaponSwap(sui.saved.weaponSwapVisible)
     KeybindButtons(sui.saved.keybindsVisible)
-    UltimateButtonSize(sui.saved.ultimateButtonScaled)
-
+    ApplyUltimateScale()
     sui.debug("Action Bar", "Action bar settings applied.")
 end
--- end of public interface
 
----------------------------------------------------
--- Apply Action Bar Settings
----------------------------------------------------
+function sui.registerActionBarEvents()
+    local em = EVENT_MANAGER
+    local playerActivated = EVENT_PLAYER_ACTIVATED
+    local weaponSwap = EVENT_ACTIVE_WEAPON_PAIR_CHANGED
+
+    em:RegisterForEvent("SUI_UltimateScale_PlayerActivated", playerActivated, ApplyUltimateScale)
+    em:RegisterForEvent("SUI_ActionBar_WeaponSwap", weaponSwap, ApplyUltimateScale)
+end
+
 function sui.initializeActionBar()
     if not sui.saved then return end
-
+    sui.registerActionBarEvents()
     if sui.saved.actionBar then
         BlankTextures()
         ZO_ActionBar1KeybindBG:SetAlpha(0)
@@ -119,7 +123,6 @@ function sui.initializeActionBar()
         DefaultTextures()
         ZO_ActionBar1KeybindBG:SetAlpha(1)
     end
-
     sui.applyActionBarSettings()
 end
 -- end of apply action bar settings

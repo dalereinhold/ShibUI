@@ -31,69 +31,79 @@ end
 -- end of texture control
 
 ---------------------------------------------------
--- Target Bar Visibility Control
+-- Target Bar Visibility Control (with delay)
 ---------------------------------------------------
 local lastTargetBarHidden = nil
+local hideDelayMS = 3000 -- 3 seconds
+local hideTimer = nil
 
-function sui.targetBarVisibility()
-    if not IsPlayerActivated() then return end
-    if not UNIT_FRAMES then return end
+local function setTargetBarHidden(hidden)
+    local targetFrame = ZO_UnitFrames_GetUnitFrame("reticleover")
+    if not targetFrame then return end
+    targetFrame:SetHiddenForReason("disabled", hidden)
+    if lastTargetBarHidden ~= hidden then
+        sui.debug("Target Bar", hidden and "Hidden" or "Visible")
+        lastTargetBarHidden = hidden
+    end
+end
 
+local function updateVisibility(force)
+    if not IsPlayerActivated() or not UNIT_FRAMES then return end
     local targetFrame = ZO_UnitFrames_GetUnitFrame("reticleover")
     if not targetFrame then return end
 
-    local currentHealth, maxHealth = targetFrame:GetHealth()
-    currentHealth = currentHealth or 0
+    local currentHealth = select(1, targetFrame:GetHealth()) or 0
     if currentHealth == 0 then
-        targetFrame:SetHiddenForReason("disabled", true)
-        if lastTargetBarHidden ~= true then
-            sui.debug("Target Bar", "Target bar hidden.")
-            lastTargetBarHidden = true
-        end
+        setTargetBarHidden(true)
         return
     end
 
     if not sui.saved or not sui.saved.hideTargetBar then
-        targetFrame:SetHiddenForReason("disabled", false)
-        if lastTargetBarHidden ~= false then
-            sui.debug("Target Bar", "Target bar visible.")
-            lastTargetBarHidden = false
-        end
+        setTargetBarHidden(false)
         return
     end
 
     local inCombat = IsUnitInCombat("player")
-    local reaction = GetUnitReaction("reticleover")
-    local isHostile = (reaction == UNIT_REACTION_HOSTILE)
+    local isHostile = (GetUnitReaction("reticleover") == UNIT_REACTION_HOSTILE)
 
     if inCombat and isHostile then
-        targetFrame:SetHiddenForReason("disabled", false)
-        if lastTargetBarHidden ~= false then
-            sui.debug("Target Bar", "Target bar visible.")
-            lastTargetBarHidden = false
-        end
+        -- Cancel pending hide
+        if hideTimer then hideTimer = nil end
+        setTargetBarHidden(false)
     else
-        targetFrame:SetHiddenForReason("disabled", true)
-        if lastTargetBarHidden ~= true then
-            sui.debug("Target Bar", "Target bar hidden.")
-            lastTargetBarHidden = true
+        if force then
+            setTargetBarHidden(true)
+        else
+            if not hideTimer then
+                hideTimer = zo_callLater(function()
+                    setTargetBarHidden(true)
+                    hideTimer = nil
+                end, hideDelayMS)
+            end
         end
     end
 end
-
-local em = EVENT_MANAGER
-local handler = sui.targetBarVisibility
-
-local events = {
-    { name = "ShibUI_TargetBarCombat", id = EVENT_PLAYER_COMBAT_STATE },
-    { name = "ShibUI_TargetBarTarget", id = EVENT_RETICLE_TARGET_CHANGED },
-}
-
-for _, evt in ipairs(events) do
-    em:UnregisterForEvent(evt.name, evt.id)
-    em:RegisterForEvent(evt.name, evt.id, handler)
-end
 -- end of target bar visibility control
+
+---------------------------------------------------
+-- Event Handling
+---------------------------------------------------
+local em = EVENT_MANAGER
+
+-- Combat state handler (controls delay)
+em:RegisterForEvent("ShibUI_TargetBarCombat", EVENT_PLAYER_COMBAT_STATE, function(_, inCombat)
+    if inCombat then
+        updateVisibility(true) -- show instantly when entering combat
+    else
+        updateVisibility(false) -- hide after delay when leaving combat
+    end
+end)
+
+-- Target change handler (instant show/hide when needed)
+em:RegisterForEvent("ShibUI_TargetBarTarget", EVENT_RETICLE_TARGET_CHANGED, function()
+    updateVisibility(true)
+end)
+-- end of target change handler
 
 ---------------------------------------------------
 -- Apply Target Bar Settings
@@ -104,6 +114,7 @@ function sui.initializeTargetBar()
     else
         DefaultTextures()
     end
-    sui.targetBarVisibility()
+    -- sui.targetBarVisibility()
+    updateVisibility(true) -- Force update visibility on initialization
 end
 -- end of apply target bar settings

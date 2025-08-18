@@ -1,0 +1,57 @@
+<GuiXml>
+    <!-- ========================================================= -->
+    <!--  ShibUI Action Bar Templates                              -->
+    <!--  All visual/layout changes live here, logic is in Lua.    -->
+    <!-- ========================================================= -->
+
+    <!-- Base Action Button Template -->
+    <Control name="SUI_ActionButtonBase" inherits="ZO_ActionButton" virtual="true">
+        <Dimensions x="50" y="50"/>
+        <Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
+    </Control>
+
+    <!-- Minimal / Blank Action Button -->
+    <Control name="SUI_ActionButtonBlank" inherits="SUI_ActionButtonBase" virtual="true">
+        <!-- Replace all key visual textures with blank -->
+        <Texture name="$(parent)Normal" textureFile="/esoui/art/icons/heraldrycrests_misc_blank_01.dds"/>
+        <Texture name="$(parent)Pressed" textureFile="/esoui/art/icons/heraldrycrests_misc_blank_01.dds"/>
+        <Texture name="$(parent)MouseOver" textureFile="/esoui/art/icons/heraldrycrests_misc_blank_01.dds"/>
+        
+        <!-- Optional: dim background -->
+        <Texture name="$(parent)BG" textureFile="/esoui/art/icons/heraldrycrests_misc_blank_01.dds" alpha="0.5"/>
+        
+        <!-- Hide unnecessary elements -->
+        <Texture name="$(parent)CooldownIcon" hidden="true"/>
+        <Label name="$(parent)ButtonText" hidden="true"/>
+        <Texture name="$(parent)Decoration" hidden="true"/>
+    </Control>
+
+    <!-- Ultimate Button: Normal Size -->
+    <Control name="SUI_UltimateButtonNormal" inherits="SUI_ActionButtonBase" virtual="true">
+        <Dimensions x="55" y="55"/>
+    </Control>
+
+    <!-- Ultimate Button: Scaled Size -->
+    <Control name="SUI_UltimateButtonScaled" inherits="SUI_ActionButtonBase" virtual="true">
+        <Dimensions x="66" y="66"/>
+    </Control>
+
+    <!-- Quickslot Button: Minimal Style -->
+    <Control name="SUI_QuickslotButtonBlank" inherits="ZO_QuickslotButton" virtual="true">
+        <Dimensions x="50" y="50"/>
+        <Texture name="$(parent)Normal" textureFile="/esoui/art/icons/heraldrycrests_misc_blank_01.dds"/>
+        <Texture name="$(parent)Pressed" textureFile="/esoui/art/icons/heraldrycrests_misc_blank_01.dds"/>
+        <Texture name="$(parent)MouseOver" textureFile="/esoui/art/icons/heraldrycrests_misc_blank_01.dds"/>
+        <Label name="$(parent)ButtonText" hidden="true"/>
+    </Control>
+
+    <!-- Companion Ultimate Button: Normal -->
+    <Control name="SUI_CompanionUltimateNormal" inherits="SUI_ActionButtonBase" virtual="true" override="true">
+        <Dimensions x="55" y="55"/>
+    </Control>
+
+    <!-- Companion Ultimate Button: Scaled -->
+    <Control name="SUI_CompanionUltimateScaled" inherits="SUI_ActionButtonBase" virtual="true" override="true">
+        <Dimensions x="66" y="66"/>
+    </Control>
+</GuiXml>

@@ -12,7 +12,7 @@ local sui = ShibUI
 sui.name        = "ShibUI"
 sui.menuName    = "ShibUI Settings"
 sui.displayName = "Shibui User Interface"
-sui.version     = "1.0.46"
+sui.version     = "1.1.47" -- Version bump
 sui.author      = "Shownie & Ai"
 sui.description = "ShibUI is a minimalistic ESO addon that cleans up and modernizes the user interface."
 -- end of global metadata
@@ -23,13 +23,13 @@ sui.description = "ShibUI is a minimalistic ESO addon that cleans up and moderni
 function sui.initialize()
     local initializers = {
         sui.initializeSettings,
-        sui.initializeReloadUI,
-        sui.initializeMiscellaneous,
-        sui.initializeActionBar,
-        sui.initializeCompass,
-        sui.initializeUnitFrame,
+        sui.initializeActionBar, -- tweaks for v1.1.47
         sui.initializeAttributeBar,
-        sui.initializeTargetBar,
+        sui.initializeCompass,
+        sui.initializeMiscellaneous,
+        sui.initializeReloadUI,
+        sui.initializeTargetBar, -- tweaks for v1.1.47
+        sui.initializeUnitFrame,
     }
     for _, init in ipairs(initializers) do
         if type(init) == "function" then
@@ -42,30 +42,12 @@ function sui.initialize()
     local em = EVENT_MANAGER
     local playerActivated = EVENT_PLAYER_ACTIVATED
     local statsUpdated = EVENT_STATS_UPDATED
-    local actionSlotUpdated = EVENT_ACTION_SLOT_UPDATED
-    local hotbarUpdated = EVENT_ACTION_SLOTS_ACTIVE_HOTBAR_UPDATED
 
     em:RegisterForEvent("ShibUI_ApplyKeybinds", playerActivated, function()
         sui.initializeActionBar()
         em:UnregisterForEvent("ShibUI_ApplyKeybinds", playerActivated)
     end)
     
-    em:RegisterForEvent("ShibUI_ApplyUltimateScale", hotbarUpdated, function()
-        sui.applyActionBarSettings()
-        em:UnregisterForEvent("ShibUI_ApplyUltimateScale", hotbarUpdated)
-    end)
-
-    em:RegisterForEvent("ShibUI_ApplyUltimateScale_Slot", actionSlotUpdated, function(_, slotNum)
-        if slotNum == 8 then
-            sui.applyActionBarSettings()
-            -- Also update the companion ultimate button
-            local companionButton = _G["CompanionUltimateButton"]
-            if companionButton then
-                companionButton:SetScale(sui.saved.ultimateButtonScaled and 1.1 or 1.0)
-            end
-        end
-    end)
-
     em:UnregisterForEvent("ShibUI_AttributeBarWidth", statsUpdated)
     local layout = sui.saved.attributeBarPyramid and "pyramid" or "shibui"
     sui.applyAttributeBarLayout(layout)

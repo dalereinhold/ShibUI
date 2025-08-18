@@ -156,7 +156,7 @@ local function ActionBarSettings()
         {
             type = "checkbox",
             name = "Scale Ultimate Buttons",
-            tooltip = "Toggle between normal and larger size for ultimate buttons.",
+            tooltip = "Toggle between normal and larger size for ultimate buttons. Fails to apply correctly in some situations.",
             getFunc = function() return sui.saved.ultimateButtonScaled end,
             setFunc = function(value)
                 sui.saved.ultimateButtonScaled = value
@@ -189,7 +189,7 @@ local function TargetBarSettings()
             getFunc = function() return sui.saved.hideTargetBar end,
             setFunc = function(value)
                 sui.saved.hideTargetBar = value
-                sui.targetBarVisibility()
+                sui.initializeTargetBar()
             end,
             default = sui.defaults.hideTargetBar,
         },
