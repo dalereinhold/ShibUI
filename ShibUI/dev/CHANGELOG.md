@@ -17,6 +17,14 @@
 
 ## Changelog
 
+### v1.2.0
+- **Refactored:** Partial code cleanup and optimization. Now a semi OOP-style structure with module tables and methods.
+- **Reworked:** Action Bar module to use modified GuiXml templates with `ApplyTemplateControl()`.
+- **Added:** actionbar.xml file for Action Bar module.
+- **Fixed:** Ultimate button scaling issue after bar swaps.
+- **Removed:** Debug messages from the Action Bar module.
+- **Removed:** Action Bar settings. Only complete removal of the module is possible now.
+
 ### v1.1.47
 - **Added:** Minor delay on targetbar visibility at end of combat.
 - **Changed:** Ultimatebutton scaling behavior, but still fails on barswap.

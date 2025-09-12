@@ -12,7 +12,7 @@ local sui = ShibUI
 sui.name        = "ShibUI"
 sui.menuName    = "ShibUI Settings"
 sui.displayName = "Shibui User Interface"
-sui.version     = "1.1.47" -- Version bump
+sui.version     = "1.2.47" -- Version bump
 sui.author      = "Shownie & Ai"
 sui.description = "ShibUI is a minimalistic ESO addon that cleans up and modernizes the user interface."
 -- end of global metadata
@@ -20,10 +20,22 @@ sui.description = "ShibUI is a minimalistic ESO addon that cleans up and moderni
 --------------------------------------------------
 -- Main entry point for initializing ShibUI.
 --------------------------------------------------
+local initializers = {
+    function() ShibUI.ActionBar:Initialize() end,
+}
+
+function ShibUI:Initialize()
+    for _, initFunc in ipairs(initializers) do
+        if type(initFunc) == "function" then
+            initFunc()
+        end
+    end
+end
+
 function sui.initialize()
     local initializers = {
         sui.initializeSettings,
-        sui.initializeActionBar, -- tweaks for v1.1.47
+        -- sui.initializeActionBar, -- tweaks for v1.1.47
         sui.initializeAttributeBar,
         sui.initializeCompass,
         sui.initializeMiscellaneous,
@@ -43,7 +55,7 @@ function sui.initialize()
     local playerActivated = EVENT_PLAYER_ACTIVATED
     local statsUpdated = EVENT_STATS_UPDATED
 
-    em:RegisterForEvent("ShibUI_ApplyKeybinds", playerActivated, function()
+    --[[em:RegisterForEvent("ShibUI_ApplyKeybinds", playerActivated, function()
         sui.initializeActionBar()
         em:UnregisterForEvent("ShibUI_ApplyKeybinds", playerActivated)
     end)
@@ -54,7 +66,7 @@ function sui.initialize()
     em:RegisterForEvent("ShibUI_AttributeBarWidth", statsUpdated, function()
         local layout = sui.saved.attributeBarPyramid and "pyramid" or "shibui"
         sui.applyAttributeBarLayout(layout)
-    end)
+    end)]]--
 end
 -- end of main entry point
 
@@ -64,6 +76,7 @@ end
 local function onAddonLoaded(event, addonName)
     if addonName ~= sui.name then return end
     sui.initialize()
+    ShibUI:Initialize()
     EVENT_MANAGER:UnregisterForEvent(sui.name, EVENT_ADD_ON_LOADED)
 end
 

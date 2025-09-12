@@ -18,6 +18,7 @@ sui.defaults = {
     attributeBarSize = "default",
 
     -- Action Bar
+    enableActionBar = true,
     actionBar = true,
     weaponSwapVisible = false,
     keybindsVisible = false,
@@ -123,15 +124,15 @@ local function ActionBarSettings()
             type = "checkbox",
             name = "Enable Action Bar",
             tooltip = "Renmoves textures and applies a modern style to the action bar.",
-            getFunc = function() return sui.saved.actionBar end,
+            getFunc = function() return sui.saved.enableActionBar end,
             setFunc = function(value)
-                sui.saved.actionBar = value
-                sui.initializeActionBar()
+                sui.saved.enableActionBar = value
+                ShibUI.ActionBar:Initialize()
             end,
-            default = sui.defaults.actionBar,
-            requiresReload = true,
+            default = sui.defaults.enableActionBar,
+            requiresReload = false,
         },
-        {
+        --[[{
             type = "checkbox",
             name = "Show Weapon Swap",
             tooltip = "Toggle the visibility of the weapon swap icon.",
@@ -163,7 +164,7 @@ local function ActionBarSettings()
                 sui.applyActionBarSettings()
             end,
             default = sui.defaults.ultimateButtonScaled,
-        },
+        },]]--
     }
 end
 
