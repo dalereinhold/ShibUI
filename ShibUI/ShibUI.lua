@@ -20,18 +20,6 @@ sui.description = "ShibUI is a minimalistic ESO addon that cleans up and moderni
 --------------------------------------------------
 -- Main entry point for initializing ShibUI.
 --------------------------------------------------
-local initializers = {
-    --function() ShibUI.ActionBar:Initialize() end,
-}
-
-function ShibUI:Initialize()
-    for _, initFunc in ipairs(initializers) do
-        if type(initFunc) == "function" then
-            initFunc()
-        end
-    end
-end
-
 function sui.initialize()
     local initializers = {
         sui.initializeSettings,
@@ -50,14 +38,8 @@ function sui.initialize()
     
     sui.debug("Initialize", string.format("%s v%s loaded!", sui.displayName, sui.version))
 
-    --[[local em = EVENT_MANAGER
-    local playerActivated = EVENT_PLAYER_ACTIVATED
+    local em = EVENT_MANAGER
     local statsUpdated = EVENT_STATS_UPDATED
-
-    em:RegisterForEvent("ShibUI_ApplyKeybinds", playerActivated, function()
-        sui.initializeActionBar()
-        em:UnregisterForEvent("ShibUI_ApplyKeybinds", playerActivated)
-    end)
     
     em:UnregisterForEvent("ShibUI_AttributeBarWidth", statsUpdated)
     local layout = sui.saved.attributeBarPyramid and "pyramid" or "shibui"
@@ -65,7 +47,18 @@ function sui.initialize()
     em:RegisterForEvent("ShibUI_AttributeBarWidth", statsUpdated, function()
         local layout = sui.saved.attributeBarPyramid and "pyramid" or "shibui"
         sui.applyAttributeBarLayout(layout)
-    end)]]--
+    end)
+end
+
+function ShibUI:Initialize()
+    local initializers = {
+        function() ShibUI.ActionBar:Initialize() end,
+    }
+    for _, initFunc in ipairs(initializers) do
+        if type(initFunc) == "function" then
+            initFunc()
+        end
+    end
 end
 -- end of main entry point
 
@@ -75,6 +68,7 @@ end
 local function onAddonLoaded(event, addonName)
     if addonName ~= sui.name then return end
     sui.initialize()
+    ShibUI:Initialize()
     EVENT_MANAGER:UnregisterForEvent(sui.name, EVENT_ADD_ON_LOADED)
 end
 

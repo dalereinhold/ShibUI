@@ -123,7 +123,7 @@ local function ActionBarSettings()
         {
             type = "checkbox",
             name = "Enable Action Bar",
-            tooltip = "Renmoves textures and applies a modern style to the action bar.",
+            tooltip = "Removes textures and applies a modern style to the action bar.",
             getFunc = function() return sui.saved.enableActionBar end,
             setFunc = function(value)
                 sui.saved.enableActionBar = value

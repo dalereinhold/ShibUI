@@ -4,8 +4,8 @@
         <Control name="SUI_ActionBar1" virtual="true">
             <Controls>
 
-            <Texture name="$(parent)KeybindBG" alpha="0" />
-            <Button name="$(parent)WeaponSwap" alpha="0" />
+                <Texture name="$(parent)KeybindBG" alpha="0" />
+                <Button name="$(parent)WeaponSwap" alpha="0" />
 
             </Controls>
         </Control>
@@ -24,6 +24,7 @@
          <Control name="SUI_UltimateActionButton_Keyboard_Template" virtual="true" >
             <Dimensions x="60" y="60" />
             <Controls>
+            
                 <Control name="$(parent)FlipCard" override="true">
                     <Dimensions x="57" y="57" />
                 </Control>

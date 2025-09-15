@@ -73,9 +73,3 @@ EVENT_MANAGER:RegisterForEvent("ShibUI_DisableLeadingEdge", EVENT_PLAYER_ACTIVAT
 function ActionBar:Initialize()
     ApplyActionBarTemplates()
 end
-
--- Delay everything until controls exist
-EVENT_MANAGER:RegisterForEvent("ShibUI_ActionBarReady", EVENT_PLAYER_ACTIVATED, function()
-    ActionBar:Initialize()
-    EVENT_MANAGER:UnregisterForEvent("ShibUI_ActionBarReady", EVENT_PLAYER_ACTIVATED)
-end)
