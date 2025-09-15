@@ -12,7 +12,7 @@ local sui = ShibUI
 sui.name        = "ShibUI"
 sui.menuName    = "ShibUI Settings"
 sui.displayName = "Shibui User Interface"
-sui.version     = "1.2.47" -- Version bump
+sui.version     = "1.2.0" -- 1.2 updated ActionBar, 1.3 updated AttributeBar
 sui.author      = "Shownie & Ai"
 sui.description = "ShibUI is a minimalistic ESO addon that cleans up and modernizes the user interface."
 -- end of global metadata
@@ -21,7 +21,7 @@ sui.description = "ShibUI is a minimalistic ESO addon that cleans up and moderni
 -- Main entry point for initializing ShibUI.
 --------------------------------------------------
 local initializers = {
-    function() ShibUI.ActionBar:Initialize() end,
+    --function() ShibUI.ActionBar:Initialize() end,
 }
 
 function ShibUI:Initialize()
@@ -35,12 +35,11 @@ end
 function sui.initialize()
     local initializers = {
         sui.initializeSettings,
-        -- sui.initializeActionBar, -- tweaks for v1.1.47
         sui.initializeAttributeBar,
         sui.initializeCompass,
         sui.initializeMiscellaneous,
         sui.initializeReloadUI,
-        sui.initializeTargetBar, -- tweaks for v1.1.47
+        sui.initializeTargetBar,
         sui.initializeUnitFrame,
     }
     for _, init in ipairs(initializers) do
@@ -51,11 +50,11 @@ function sui.initialize()
     
     sui.debug("Initialize", string.format("%s v%s loaded!", sui.displayName, sui.version))
 
-    local em = EVENT_MANAGER
+    --[[local em = EVENT_MANAGER
     local playerActivated = EVENT_PLAYER_ACTIVATED
     local statsUpdated = EVENT_STATS_UPDATED
 
-    --[[em:RegisterForEvent("ShibUI_ApplyKeybinds", playerActivated, function()
+    em:RegisterForEvent("ShibUI_ApplyKeybinds", playerActivated, function()
         sui.initializeActionBar()
         em:UnregisterForEvent("ShibUI_ApplyKeybinds", playerActivated)
     end)
@@ -76,7 +75,6 @@ end
 local function onAddonLoaded(event, addonName)
     if addonName ~= sui.name then return end
     sui.initialize()
-    ShibUI:Initialize()
     EVENT_MANAGER:UnregisterForEvent(sui.name, EVENT_ADD_ON_LOADED)
 end
 

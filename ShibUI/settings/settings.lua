@@ -81,13 +81,13 @@ local function AttributeBarSettings()
             type = "checkbox",
             name = "Enable Attribute Bar",
             tooltip = "Removes textures and applies a modern style to the attribute bar.",
-            getFunc = function() return sui.saved.attributeBar end,
+            getFunc = function() return sui.saved.AttributeBar end,
             setFunc = function(value)
-                sui.saved.attributeBar = value 
+                sui.saved.AttributeBar = value
                 sui.initializeAttributeBar()
             end,
-            default = sui.defaults.attributeBar,
-            requiresReload = true,
+            default = sui.defaults.AttributeBar,
+            requiresReload = false,
         },
         {
             type = "checkbox",
