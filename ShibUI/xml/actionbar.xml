@@ -56,5 +56,12 @@
             </Controls>
         </Control>
 
+        <!-- Buff Debuff Icons -->
+        <Control name="SUI_BuffDebuffIcon" virtual="true">
+            <Controls>
+                <Texture name="$(parent)Frame" alpha="0" />
+            </Controls>
+        </Control>
+
     </Controls>
 </GuiXml>

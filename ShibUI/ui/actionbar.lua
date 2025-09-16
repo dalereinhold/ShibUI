@@ -28,6 +28,16 @@ local function ApplyActionBarTemplates()
     SecurePostHook(ZO_ActionBarTimer, 'ApplyStyle', function(self)
         ApplyTemplateToControl(self.slot, 'SUI_ActionBarTimer_BackBarSlot_Keyboard_Template')
     end)
+
+    -- Hook the buff/debuff icons
+    SecurePostHook("CreateControlFromVirtual", function(name, parent, template, suffix)
+        if template == "ZO_BuffDebuffIcon" then
+            local control = GetControl(name, suffix)
+            if control then
+                ApplyTemplateToControl(control, "SUI_BuffDebuffIcon")
+            end
+        end
+    end)
 end
 
 --------------------------------------------------
