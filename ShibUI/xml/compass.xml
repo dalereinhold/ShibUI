@@ -1,0 +1,63 @@
+<GuiXml>
+    <Controls>
+        
+        <!-- (Static) Compass -->
+        <!-- ingame / compass / compass.xml -->
+        <Control name="SUI_Compass" virtual="true">
+            <Controls>
+
+                <Compass name="$(parent)Container" scale="0.9" alpha="1"/>
+
+            </Controls>
+        </Control>
+
+        <!-- (Static) Compass Frame -->
+        <!-- ingame / compass / compassframe.xml -->
+        <Control name="SUI_CompassFrame" virtual="true">
+            <Dimensions x="900" y="10"/>
+            <Controls>
+
+                <Texture name="$(parent)Center" alpha="0">
+                    <Controls>
+                        <Texture name="$(parent)TopMungeOverlay" hidden="true"/>
+                        <Texture name="$(parent)BottomMungeOverlay" hidden="true"/>
+                    </Controls>
+                </Texture>
+
+                <Texture name="$(parent)Left" alpha="0">
+                    <Dimensions x="20" y="10"/>
+                </Texture>
+
+                <Texture name="$(parent)Right" alpha="0">
+                    <Dimensions x="20" y="10"/>
+                </Texture>
+
+            </Controls>
+        </Control>
+
+        <!-- Boss Bar -->
+        <!-- ingame / unitframes / bossbar.xml -->
+        <Control name="SUI_BossBar" virtual="true">
+            <Controls>
+                <Control name="$(parent)Health">
+                    <Controls>
+
+                        <StatusBar name="$(parent)BarLeft">
+                            <Dimensions y="16"/>
+                        </StatusBar>
+
+                        <StatusBar name="$(parent)BarRight">
+                            <Dimensions y="16"/>
+                        </StatusBar>
+
+                    </Controls>
+                </Control>
+
+                <Texture name="$(parent)BracketLeft" hidden="true"/>
+                <Texture name="$(parent)BracketRight" hidden="true"/>
+
+            </Controls>
+        </Control>
+
+    </Controls>
+</GuiXml>

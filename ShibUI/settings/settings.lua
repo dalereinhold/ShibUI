@@ -19,16 +19,13 @@ sui.defaults = {
 
     -- Action Bar
     enableActionBar = true,
-    actionBar = true,
-    weaponSwapVisible = false,
-    keybindsVisible = false,
-    ultimateButtonScaled = true,
 
     -- Target Bar
     targetBar = true,
     hideTargetBar = true,
 
     -- Compass and Boss Bar
+    enableCompass = true,
     compass = true,
 
     -- Unit Frame
@@ -204,13 +201,13 @@ local function CompassSettings()
             type = "checkbox",
             name = "Enable Compass and Boss Bar",
             tooltip = "Removes textures and applies a modern style to the compass and boss bar.",
-            getFunc = function() return sui.saved.compass end,
+            getFunc = function() return sui.saved.Compass end,
             setFunc = function(value)
-                sui.saved.compass = value
+                sui.saved.Compass = value
                 sui.initializeCompass()
             end,
-            default = sui.defaults.compass,
-            requiresReload = true,
+            default = sui.defaults.Compass,
+            requiresReload = false,
         },
     }
 end
@@ -265,7 +262,7 @@ local function SettingsPanel()
     appendOptions(AttributeBarSettings())
     appendOptions(ActionBarSettings())
     appendOptions(TargetBarSettings())
-    appendOptions(CompassSettings())
+    -- appendOptions(CompassSettings())
     appendOptions(UnitFrameSettings())
 
     LAM:RegisterAddonPanel(sui.menuName, panelData)

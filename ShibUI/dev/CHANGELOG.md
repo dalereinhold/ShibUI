@@ -24,6 +24,7 @@
 - **Fixed:** Ultimate button scaling issue after bar swaps.
 - **Removed:** Debug messages from the Action Bar module.
 - **Removed:** Action Bar settings. Only complete removal of the module is possible now.
+- **Added:** Buff/Debuff icon support to Action Bar module and XML layout.
 
 ### v1.1.47
 - **Added:** Minor delay on targetbar visibility at end of combat.

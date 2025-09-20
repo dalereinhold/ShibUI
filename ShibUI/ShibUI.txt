@@ -7,6 +7,12 @@
 ## OptionalDependsOn: LibAddonMenu-2.0
 ## SavedVariables: suiSavedVars
 
+xml/actionbar.xml
+xml/compass.xml
+xml/bindings.xml
+
+ui/tempmodule.lua
+
 ShibUI.lua
 
 settings/settings.lua
@@ -15,12 +21,9 @@ core/debug.lua
 core/miscellaneous.lua
 core/reloadui.lua
 
-xml/actionbar.xml
-xml/bindings.xml
-
 ui/actionbar.lua
 ui/attributebar.lua
-ui/compass.lua
+# ui/compass.lua
 ui/targetbar.lua
 ui/unitframe.lua
 
