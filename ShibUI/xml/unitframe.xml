@@ -1,0 +1,27 @@
+<GuiXml>        
+    <Controls>
+
+        <Control name="SUI_GroupUnitFrame" virtual="true">
+            <Controls>
+                <Control name="$(parent)Background1">
+                    <Controls>
+                        <Texture name="$(parent)Left" hidden="true" />
+                        <Texture name="$(parent)Right" hidden="true" />
+                    </Controls>
+                </Control>
+            </Controls>
+        </Control>
+
+        <Control name="SUI_CompanionUnitFrame" virtual="true">
+            <Controls>
+                <Control name="$(parent)Background1">
+                    <Controls>
+                        <Texture name="$(parent)Left" hidden="true" />
+                        <Texture name="$(parent)Right" hidden="true" />
+                    </Controls>
+                </Control>
+            </Controls>
+        </Control>
+
+    </Controls>
+</GuiXml>

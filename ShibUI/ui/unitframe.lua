@@ -1,45 +1,22 @@
 --------------------------------------------------
--- ShibUI Unit Frame Module
+-- Apply Templates
 --------------------------------------------------
+local GROUP_UNIT_FRAME = "ZO_GroupUnitFrame"
+local COMPANION_UNIT_FRAME = "ZO_CompanionUnitFrame"
+local COMPANION_GROUP_UNIT_FRAME = "ZO_CompanionGroupUnitFrame"
 
-local sui = ShibUI
-
---------------------------------------------------
--- Texture Redirection for Unit Frames
---------------------------------------------------
-local blankTexture = "/esoui/art/icons/heraldrycrests_misc_blank_01.dds"
-local basePath = "/esoui/art/unitframes/"
-
-local defaultTextures = { 
-    basePath .. "unitframe_group_left.dds",
-    basePath .. "unitframe_group_right.dds",
-    basePath .. "unitframe_group_withcompanion.dds",
-    basePath .. "target_health_frame.dds",
-}
-
-local function BlankTextures()
-    for _, tex in ipairs(defaultTextures) do
-        RedirectTexture(tex, blankTexture)
+SecurePostHook("CreateControlFromVirtual", function(name, _, template, suffix)
+    if template == GROUP_UNIT_FRAME or template == COMPANION_UNIT_FRAME or template == COMPANION_GROUP_UNIT_FRAME then
+        local control = GetControl(name, suffix)
+        local newTemplate = string.gsub(template, "ZO_", "SUI_")
+        ApplyTemplateToControl(control, newTemplate)
     end
-    sui.debug("Unit Frame", "Textures removed.")
-end
+end)
 
-local function DefaultTextures()
-    for _, tex in ipairs(defaultTextures) do
-        RedirectTexture(tex, tex)
+SecurePostHook(ZO_UnitFrameObject, "ApplyVisualStyle", function(self)
+    if (self.style == GROUP_UNIT_FRAME or self.style == COMPANION_UNIT_FRAME or self.style == COMPANION_GROUP_UNIT_FRAME) and self.healthBar and self.healthBar.barControls then
+        for i = 1, #self.healthBar.barControls do
+            self.healthBar.barControls[i]:SetHeight(18)
+        end
     end
-    sui.debug("Unit Frame", "Default textures restored.")
-end
--- end of texture control
-
---------------------------------------------------
--- Apply Unit Frame Settings
---------------------------------------------------
-function sui.initializeUnitFrame()
-    if sui.saved and sui.saved.unitFrame then
-        BlankTextures()
-    else
-        DefaultTextures()
-    end
-end
--- end of apply unit frame settings
+end)

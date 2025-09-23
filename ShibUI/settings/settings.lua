@@ -8,6 +8,7 @@ local sui = ShibUI
 -- ShibUI default settings
 --------------------------------------------------
 sui.defaults = {
+    -- General
     accountWide = true,
     confirmReload = true,
     debug = false,
@@ -18,18 +19,27 @@ sui.defaults = {
     attributeBarSize = "default",
 
     -- Action Bar
-    enableActionBar = true,
+    --[[
+    actionBar = true,
+    actionBarShowWeaponSwap = false,
+    actionBarShowKeybinds = false,
+    actionBarScaleUltimateButtons = true,
+    ]]--
 
     -- Target Bar
     targetBar = true,
     hideTargetBar = true,
 
     -- Compass and Boss Bar
-    enableCompass = true,
+    --[[
     compass = true,
+    bossBar = true,
+    ]]--
 
     -- Unit Frame
+    --[[
     unitFrame = true,
+    ]]--
 }
 
 --------------------------------------------------
@@ -84,7 +94,7 @@ local function AttributeBarSettings()
                 sui.initializeAttributeBar()
             end,
             default = sui.defaults.AttributeBar,
-            requiresReload = false,
+            requiresReload = true,
         },
         {
             type = "checkbox",
@@ -117,51 +127,6 @@ end
 local function ActionBarSettings()
     return {
         { type = "header", name = "Action Bar" },
-        {
-            type = "checkbox",
-            name = "Enable Action Bar",
-            tooltip = "Removes textures and applies a modern style to the action bar.",
-            getFunc = function() return sui.saved.enableActionBar end,
-            setFunc = function(value)
-                sui.saved.enableActionBar = value
-                ShibUI.ActionBar:Initialize()
-            end,
-            default = sui.defaults.enableActionBar,
-            requiresReload = false,
-        },
-        --[[{
-            type = "checkbox",
-            name = "Show Weapon Swap",
-            tooltip = "Toggle the visibility of the weapon swap icon.",
-            getFunc = function() return sui.saved.weaponSwapVisible end,
-            setFunc = function(value)
-                sui.saved.weaponSwapVisible = value
-                sui.applyActionBarSettings()
-            end,
-            default = sui.defaults.weaponSwapVisible,
-        },
-        {
-            type = "checkbox",
-            name = "Show Keybinds",
-            tooltip = "Toggle the visibility of keybind labels on the action bar.",
-            getFunc = function() return sui.saved.keybindsVisible end,
-            setFunc = function(value)
-                sui.saved.keybindsVisible = value
-                sui.applyActionBarSettings()
-            end,
-            default = sui.defaults.keybindsVisible,
-        },
-        {
-            type = "checkbox",
-            name = "Scale Ultimate Buttons",
-            tooltip = "Toggle between normal and larger size for ultimate buttons. Fails to apply correctly in some situations.",
-            getFunc = function() return sui.saved.ultimateButtonScaled end,
-            setFunc = function(value)
-                sui.saved.ultimateButtonScaled = value
-                sui.applyActionBarSettings()
-            end,
-            default = sui.defaults.ultimateButtonScaled,
-        },]]--
     }
 end
 
@@ -197,18 +162,6 @@ end
 local function CompassSettings()
     return {
         { type = "header", name = "Compass and Boss Bar" },
-        {
-            type = "checkbox",
-            name = "Enable Compass and Boss Bar",
-            tooltip = "Removes textures and applies a modern style to the compass and boss bar.",
-            getFunc = function() return sui.saved.Compass end,
-            setFunc = function(value)
-                sui.saved.Compass = value
-                sui.initializeCompass()
-            end,
-            default = sui.defaults.Compass,
-            requiresReload = false,
-        },
     }
 end
 
@@ -260,10 +213,10 @@ local function SettingsPanel()
 
     appendOptions(GeneralSettings())
     appendOptions(AttributeBarSettings())
-    appendOptions(ActionBarSettings())
+    -- appendOptions(ActionBarSettings())
     appendOptions(TargetBarSettings())
     -- appendOptions(CompassSettings())
-    appendOptions(UnitFrameSettings())
+    -- appendOptions(UnitFrameSettings())
 
     LAM:RegisterAddonPanel(sui.menuName, panelData)
     LAM:RegisterOptionControls(sui.menuName, optionsTable)

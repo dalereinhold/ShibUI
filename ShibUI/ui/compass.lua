@@ -1,46 +1,33 @@
---------------------------------------------------
--- ShibUI Compass/BossBar Module
---------------------------------------------------
+-----------------------------------------------------------
+-- ShibUI Compass/Boss Bar Module
+-----------------------------------------------------------
+ShibUI.Compass = ShibUI.Compass or {}
 
+local Compass = ShibUI.Compass
 local sui = ShibUI
 
----------------------------------------------------
--- Texture Redirection for Compass and BossBar
----------------------------------------------------
-local blankTexture = "/esoui/art/icons/heraldrycrests_misc_blank_01.dds"
-local basePath = "/esoui/art/"
+--------------------------------------------------
+-- Apply Templates
+--------------------------------------------------
+local function ApplyCompassTemplates()
+  ApplyTemplateToControl(ZO_CompassFrame, 'SUI_CompassFrame')
+  ApplyTemplateToControl(ZO_Compass,      'SUI_Compass')
+  ApplyTemplateToControl(ZO_BossBar,      'SUI_BossBar')
 
-local defaultTextures = {
-    basePath .. "bossbar/bossbar_bracket_left.dds",
-    basePath .. "bossbar/bossbar_bracket_right.dds",
-    basePath .. "compass/compass.dds",
-    basePath .. "compass/compass_frame.dds",
-    basePath .. "tooltips/munge_overlay.dds"
-}
-
-local function BlankTextures()
-    for _, tex in ipairs(defaultTextures) do
-        RedirectTexture(tex, blankTexture)
-    end
-    sui.debug("Compass/BossBar", "Textures removed.")
+  -- Don't Resize Compass
+  ZO_CompassFrame:UnregisterForEvent(EVENT_PLAYER_ACTIVATED)
+  ZO_CompassFrame:UnregisterForEvent(EVENT_SCREEN_RESIZED)
 end
 
-local function DefaultTextures()
-    for _, tex in ipairs(defaultTextures) do
-        RedirectTexture(tex, tex)
-    end
-    sui.debug("Compass/BossBar", "Default textures restored.")
+-- Don't Resize Compass Height
+function COMPASS_FRAME:SetBossBarActive (active)
+  self.bossBarActive = active
+  self:RefreshVisible()
 end
--- end of texture control
 
----------------------------------------------------
--- Apply Compass/BossBar Settings
----------------------------------------------------
-function sui.initializeCompass()
-    if sui.saved and sui.saved.compass then
-        BlankTextures()
-    else
-        DefaultTextures()
-    end
+--------------------------------------------------
+-- Initialize
+--------------------------------------------------
+function Compass:Initialize()
+  ApplyCompassTemplates()
 end
--- end of apply compass settings

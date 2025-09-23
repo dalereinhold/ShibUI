@@ -1,8 +1,7 @@
 <GuiXml>
     <Controls>
         
-        <!-- (Static) Compass -->
-        <!-- ingame / compass / compass.xml -->
+        <!-- Compass -->
         <Control name="SUI_Compass" virtual="true">
             <Controls>
 
@@ -11,8 +10,7 @@
             </Controls>
         </Control>
 
-        <!-- (Static) Compass Frame -->
-        <!-- ingame / compass / compassframe.xml -->
+        <!-- Compass Frame -->
         <Control name="SUI_CompassFrame" virtual="true">
             <Dimensions x="900" y="10"/>
             <Controls>
@@ -36,7 +34,6 @@
         </Control>
 
         <!-- Boss Bar -->
-        <!-- ingame / unitframes / bossbar.xml -->
         <Control name="SUI_BossBar" virtual="true">
             <Controls>
                 <Control name="$(parent)Health">

@@ -17,6 +17,17 @@
 
 ## Changelog
 
+### v1.4.0
+- **Reworked:** Group Unit Frame module to use modified GuiXml templates with `ApplyTemplateControl()`.
+- **Added:** unitframe.xml file for Group Unit Frame module.
+- **Disabled:** LAM settings for Group Unit Frame module (settings will be reintroduced in a future update).
+
+### v1.3.0
+- **Reworked:** Compass and Bossbar modules to use modified GuiXml templates with `ApplyTemplateControl()`.
+- **Added:** compass.xml file for Compass module.
+- **Disabled:** LAM settings for Compass and Bossbar modules (settings will be reintroduced in a future update).
+- **Disabled:** LAM settings for Action Bar module (settings will be reintroduced in a future update).
+
 ### v1.2.0
 - **Refactored:** Partial code cleanup and optimization. Now a semi OOP-style structure with module tables and methods.
 - **Reworked:** Action Bar module to use modified GuiXml templates with `ApplyTemplateControl()`.
