@@ -1,5 +1,6 @@
 <GuiXml>
     <Controls>
+    
         <!-- Action Bar -->
         <Control name="SUI_ActionBar1" virtual="true">
             <Controls>

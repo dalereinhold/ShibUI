@@ -1,6 +1,7 @@
 <GuiXml>        
     <Controls>
 
+        <!-- Group Unit Frame -->
         <Control name="SUI_GroupUnitFrame" virtual="true">
             <Controls>
                 <Control name="$(parent)Background1">
@@ -12,6 +13,7 @@
             </Controls>
         </Control>
 
+        <!-- Companion Unit Frame -->
         <Control name="SUI_CompanionUnitFrame" virtual="true">
             <Controls>
                 <Control name="$(parent)Background1">

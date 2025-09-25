@@ -17,6 +17,10 @@
 
 ## Changelog
 
+### v1.5.0
+- **Refactored:** Code cleanup and optimization across all modules.
+- **Fixed:** Action Bar ultimate button scaling issue after bar swaps.
+
 ### v1.4.0
 - **Reworked:** Group Unit Frame module to use modified GuiXml templates with `ApplyTemplateControl()`.
 - **Added:** unitframe.xml file for Group Unit Frame module.

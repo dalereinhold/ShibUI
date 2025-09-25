@@ -18,28 +18,9 @@ sui.defaults = {
     attributeBarPyramid = false,
     attributeBarSize = "default",
 
-    -- Action Bar
-    --[[
-    actionBar = true,
-    actionBarShowWeaponSwap = false,
-    actionBarShowKeybinds = false,
-    actionBarScaleUltimateButtons = true,
-    ]]--
-
     -- Target Bar
     targetBar = true,
     hideTargetBar = true,
-
-    -- Compass and Boss Bar
-    --[[
-    compass = true,
-    bossBar = true,
-    ]]--
-
-    -- Unit Frame
-    --[[
-    unitFrame = true,
-    ]]--
 }
 
 --------------------------------------------------
@@ -49,9 +30,10 @@ local function GeneralSettings()
     return {
         {
             type = "description",
-            text = "ShibUI is a minimal and modern interface mod for ESO, created by Shownie in collaboration with AI. It hides or replaces textures to achieve a clean, unobtrusive style.\n\nThe name 'ShibUI' comes from the Japanese word 'shibui' (渋い), which describes a subtle, refined aesthetic — simple, yet elegant.",
+            text = "|cFFA500ShibUI is a minimal and modern interface mod for ESO, created by Shownie in collaboration with AI. It hides or replaces textures to achieve a clean, unobtrusive style.|r\n\n|c7FC97FThe name 'ShibUI' comes from the Japanese word 'shibui' (渋い), which describes a subtle, refined aesthetic — simple, yet elegant.|r",
             width = "full",
         },
+        { type = "header", name = "General Settings" },
         {
             type = "checkbox",
             name = "Account Wide Settings",
@@ -127,6 +109,7 @@ end
 local function ActionBarSettings()
     return {
         { type = "header", name = "Action Bar" },
+        { type = "description", text = "Action Bar settings coming in future updates.", width = "full" },
     }
 end
 
@@ -162,24 +145,14 @@ end
 local function CompassSettings()
     return {
         { type = "header", name = "Compass and Boss Bar" },
+        { type = "description", text = "Compass and Boss Bar settings coming in future updates.", width = "full" },
     }
 end
 
 local function UnitFrameSettings()
     return {
         { type = "header", name = "Unit Frame" },
-        {
-            type = "checkbox",
-            name = "Enable Unit Frame",
-            tooltip = "Removes textures and applies a modern style to the unit frame.",
-            getFunc = function() return sui.saved.unitFrame end,
-            setFunc = function(value)
-                sui.saved.unitFrame = value
-                sui.initializeUnitFrame() 
-            end,
-            default = sui.defaults.unitFrame,
-            requiresReload = true,
-        },
+        { type = "description", text = "Unit Frame settings coming in future updates.", width = "full" },
     }
 end
 
@@ -213,10 +186,10 @@ local function SettingsPanel()
 
     appendOptions(GeneralSettings())
     appendOptions(AttributeBarSettings())
-    -- appendOptions(ActionBarSettings())
+    appendOptions(ActionBarSettings())
     appendOptions(TargetBarSettings())
-    -- appendOptions(CompassSettings())
-    -- appendOptions(UnitFrameSettings())
+    appendOptions(CompassSettings())
+    appendOptions(UnitFrameSettings())
 
     LAM:RegisterAddonPanel(sui.menuName, panelData)
     LAM:RegisterOptionControls(sui.menuName, optionsTable)
