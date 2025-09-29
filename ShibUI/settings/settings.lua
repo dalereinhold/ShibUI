@@ -1,27 +1,9 @@
 --------------------------------------------------
 -- ShibUI Settings Module
 --------------------------------------------------
-
+ShibUI.Settings = ShibUI.Settings or {}
+local Settings = ShibUI.Settings
 local sui = ShibUI
-
---------------------------------------------------
--- ShibUI default settings
---------------------------------------------------
-sui.defaults = {
-    -- General
-    accountWide = true,
-    confirmReload = true,
-    debug = false,
-    
-    -- Attribute Bar
-    attributeBar = true,
-    attributeBarPyramid = false,
-    attributeBarSize = "default",
-
-    -- Target Bar
-    targetBar = true,
-    hideTargetBar = true,
-}
 
 --------------------------------------------------
 -- Settings Section Helpers
@@ -52,14 +34,6 @@ local function GeneralSettings()
             setFunc = function(value) sui.saved.confirmReload = value end,
             default = sui.defaults.confirmReload,
         },
-        {
-            type = "checkbox",
-            name = "Enable Debug Mode",
-            tooltip = "Show additional debug messages in chat.",
-            getFunc = function() return sui.saved.debug end,
-            setFunc = function(value) sui.saved.debug = value end,
-            default = sui.defaults.debug,
-        },
     }
 end
 
@@ -70,12 +44,12 @@ local function AttributeBarSettings()
             type = "checkbox",
             name = "Enable Attribute Bar",
             tooltip = "Removes textures and applies a modern style to the attribute bar.",
-            getFunc = function() return sui.saved.AttributeBar end,
+            getFunc = function() return sui.saved.attributeBar end,
             setFunc = function(value)
-                sui.saved.AttributeBar = value
+                sui.saved.attributeBar = value
                 sui.initializeAttributeBar()
             end,
-            default = sui.defaults.AttributeBar,
+            default = sui.defaults.attributeBar,
             requiresReload = true,
         },
         {
@@ -162,25 +136,24 @@ end
 local function SettingsPanel()
     local LAM = LibAddonMenu2
     if not LAM then
-        sui.debug("Settings", "LibAddonMenu2 not found. Settings panel will not be created.")
         return
     end
 
     local panelData = {
-        type = "panel",
-        name = sui.menuName,
-        displayName = sui.displayName,
-        author = sui.author,
-        version = sui.version,
-        slashCommand = "/shibui",
-        registerForRefresh = true,
+        type                = "panel",
+        name                = sui.menuName,
+        displayName         = sui.displayName,
+        author              = sui.author,
+        version             = sui.version,
+        slashCommand        = "/shibui",
+        registerForRefresh  = true,
         registerForDefaults = true,
     }
 
     local optionsTable = {}
     local function appendOptions(tbl)
-        for _, v in ipairs(tbl) do
-            table.insert(optionsTable, v)
+        for _, s in ipairs(tbl) do
+            table.insert(optionsTable, s)
         end
     end
 
@@ -198,14 +171,6 @@ end
 --------------------------------------------------
 -- Settings Initialization
 --------------------------------------------------
-function sui.initializeSettings()
-    sui.accountSaved = ZO_SavedVars:NewAccountWide("suiSavedVars", 1, nil, sui.defaults)
-    sui.characterSaved = ZO_SavedVars:New("suiSavedVars", 1, nil, sui.defaults)
-
-    local accountWide = sui.accountSaved.accountWide or false
-    sui.saved = accountWide and sui.accountSaved or sui.characterSaved
-
-    sui.debug("Settings", "Loaded settings: accountWide = " .. tostring(accountWide))
-
+function Settings:Initialize()
     SettingsPanel()
 end

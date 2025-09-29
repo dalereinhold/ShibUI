@@ -19,14 +19,12 @@ local function BlankTextures()
     for _, tex in ipairs(defaultTextures) do
         RedirectTexture(tex, blankTexture)
     end
-    sui.debug("Target Bar", "Textures removed.")
 end
 
 local function DefaultTextures()
     for _, tex in ipairs(defaultTextures) do
         RedirectTexture(tex, tex)
     end
-    sui.debug("Target Bar", "Default textures restored.")
 end
 -- end of texture control
 
@@ -42,7 +40,6 @@ local function setTargetBarHidden(hidden)
     if not targetFrame then return end
     targetFrame:SetHiddenForReason("disabled", hidden)
     if lastTargetBarHidden ~= hidden then
-        sui.debug("Target Bar", hidden and "Hidden" or "Visible")
         lastTargetBarHidden = hidden
     end
 end
@@ -83,7 +80,6 @@ local function updateVisibility(force)
         end
     end
 end
--- end of target bar visibility control
 
 ---------------------------------------------------
 -- Event Handling
@@ -103,7 +99,6 @@ end)
 em:RegisterForEvent("ShibUI_TargetBarTarget", EVENT_RETICLE_TARGET_CHANGED, function()
     updateVisibility(true)
 end)
--- end of target change handler
 
 ---------------------------------------------------
 -- Apply Target Bar Settings
@@ -117,4 +112,3 @@ function sui.initializeTargetBar()
     -- sui.targetBarVisibility()
     updateVisibility(true) -- Force update visibility on initialization
 end
--- end of apply target bar settings

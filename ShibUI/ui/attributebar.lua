@@ -25,16 +25,13 @@ local function BlankTextures()
     for _, tex in ipairs(defaultTextures) do
         RedirectTexture(tex, blankTexture)
     end
-    sui.debug("Attribute Bar", "Textures removed.")
 end
 
 local function DefaultTextures()
     for _, tex in ipairs(defaultTextures) do
         RedirectTexture(tex, tex)
     end
-    sui.debug("Attribute Bar", "Default textures restored.")
 end
--- end of texture control
 
 ---------------------------------------------------
 -- Attribute Bar size and layout control
@@ -82,30 +79,12 @@ local function SetBarSizeToNormal()
     end
 end
 
---[[local POWERTYPE_HEALTH = 1
-local POWERTYPE_MAGICKA = 2
-local POWERTYPE_STAMINA = 6
-
-local function GetExpectedBarWidth(powertype)
-    local maxPower = GetUnitPowerMax("player", powertype)
-    -- Use a threshold to decide between normal and expanded
-    if maxPower > 20000 then -- Adjust threshold as needed for your use case
-        return expandedWidth
-    else
-        return normalWidth
-    end
-end]]
-
 local function SetBarSizeToDefault()
-    -- hpBar:SetWidth(GetExpectedBarWidth(POWERTYPE_HEALTH))
-    -- mpBar:SetWidth(GetExpectedBarWidth(POWERTYPE_MAGICKA))
-    -- spBar:SetWidth(GetExpectedBarWidth(POWERTYPE_STAMINA))
     for _, bar in ipairs(bars) do
         -- Reset to ESO's default dynamic behavior
         UnlockBarWidth(bar)
     end
     if not barSizeDefault then
-        sui.debug("Attribute Bar", "Unlocked bar width to default size (auto-adjusted).")
         barSizeDefault = true
     end
 end
@@ -115,7 +94,6 @@ local function SetBarSizeToExpanded()
         LockBarWidth(bar, expandedWidth)
     end
     if not barSizeExpanded then
-        sui.debug("Attribute Bar", "Locked bar width to expanded size.")
         barSizeExpanded = true
     end
 end
@@ -123,7 +101,11 @@ end
 -- Event handler to keep bar width locked live
 local function OnAttributeBarRelevantUpdate()
     if sui.saved and sui.saved.attributeBar then
-        sui.applyAttributeBarSize(sui.saved.attributeBarSize)
+        if sui.saved then
+            sui.applyAttributeBarSize(sui.saved.attributeBarSize)
+        else
+            sui.applyAttributeBarSize("default")
+        end
     end
 end
 
@@ -148,10 +130,8 @@ function sui.applyAttributeBarSize(mode)
             SetBarSizeToExpanded()
         end
     else
-        sui.debug("Attribute Bar", "Unknown width mode: " .. tostring(mode))
     end
 end
--- end of bar size control
 
 local barLayoutPyramid = false
 local barLayoutShibui = false
@@ -171,7 +151,6 @@ local function SetLayoutPyramid()
     spBar:SetAnchor(BOTTOMLEFT, GuiRoot, BOTTOM, 5, -90)
 
     if not barLayoutPyramid then
-        sui.debug("Attribute Bar", "Set layout to pyramid.")
         barLayoutPyramid = true
     end
 end
@@ -184,7 +163,6 @@ local function SetLayoutShibui()
     spBar:SetAnchor(BOTTOMLEFT, GuiRoot, BOTTOM, 200, -94)
 
     if not barLayoutShibui then
-        sui.debug("Attribute Bar", "Set layout to shibui.")
         barLayoutShibui = true
     end
 end
@@ -200,23 +178,20 @@ local function SetLayoutDefault()
     pBar:SetAnchor(BOTTOM, GuiRoot, BOTTOM, 0, -74)
 
     if not barLayoutDefault then
-        sui.debug("Attribute Bar", "Set layout to default.")
         barLayoutDefault = true
     end
 end
 
 function sui.applyAttributeBarLayout(layout)
-    if layout == "pyramid" then
-        SetLayoutPyramid()
-    elseif layout == "shibui" then
-        SetLayoutShibui()
-    elseif layout == "default" then
-        SetLayoutDefault()
-    else
-        sui.debug("Attribute Bar", "Unknown layout: " .. tostring(layout))
+        if layout == "pyramid" then
+            SetLayoutPyramid()
+        elseif layout == "shibui" then
+            SetLayoutShibui()
+        elseif layout == "default" then
+            SetLayoutDefault()
+        else
     end
 end
--- end of layout control
 
 ---------------------------------------------------
 -- Apply Attribute Bar Settings
@@ -232,4 +207,3 @@ function sui.initializeAttributeBar()
     end
     sui.applyAttributeBarSize(sui.saved.attributeBarSize)
 end
--- end of apply attribute bar settings

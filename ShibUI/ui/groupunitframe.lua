@@ -16,7 +16,7 @@ end)
 SecurePostHook(ZO_UnitFrameObject, "ApplyVisualStyle", function(self)
     if (self.style == GROUP_UNIT_FRAME or self.style == COMPANION_UNIT_FRAME or self.style == COMPANION_GROUP_UNIT_FRAME) and self.healthBar and self.healthBar.barControls then
         for i = 1, #self.healthBar.barControls do
-            self.healthBar.barControls[i]:SetHeight(18)
+            ApplyTemplateToControl(self.healthBar.barControls[i], "SUI_GroupUnitFrameStatus_Keyboard_Template")
         end
     end
 end)

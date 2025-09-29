@@ -58,24 +58,3 @@ function ActionButton:ApplySwapAnimationStyle()
         end
     end
 end
-
-local function DisableUltimateLeadingEdge()
-    local ultimateButtons = {
-        _G["ActionButton8"],           -- Player Ultimate
-        _G["CompanionUltimateButton"]  -- Companion Ultimate
-    }
-
-    for _, ultimate in ipairs(ultimateButtons) do
-        if ultimate then
-            local leadingEdge = ultimate:GetNamedChild("LeadingEdge")
-            if leadingEdge then
-                leadingEdge:SetHidden(true)
-                leadingEdge.SetHidden = function() end    -- neutralize future show/hide
-                leadingEdge.ClearAnchors = function() end -- block ESO re-anchoring it
-                leadingEdge.SetAnchor = function() end    -- block re-anchoring too
-            end
-        end
-    end
-end
-
-EVENT_MANAGER:RegisterForEvent("ShibUI_DisableLeadingEdge", EVENT_PLAYER_ACTIVATED, DisableUltimateLeadingEdge)

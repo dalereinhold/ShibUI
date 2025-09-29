@@ -20,10 +20,15 @@
 ### v1.5.0
 - **Refactored:** Code cleanup and optimization across all modules.
 - **Fixed:** Action Bar ultimate button scaling issue after bar swaps.
+- **Added:** playerprogress.xml file for Player Progress module.
+- **Added:** Player Progress module to track and display player experience and champion points.
+- **Moved:** SavedVariables to `ShibUI.lua` for better organization and accessibility.
+- **Removed:** Debug messages from all modules until further notice.
+- **Refactored:** parts to utilize colon syntax for methods where applicable.
 
 ### v1.4.0
 - **Reworked:** Group Unit Frame module to use modified GuiXml templates with `ApplyTemplateControl()`.
-- **Added:** unitframe.xml file for Group Unit Frame module.
+- **Added:** groupunitframe.xml file for Group Unit Frame module.
 - **Disabled:** LAM settings for Group Unit Frame module (settings will be reintroduced in a future update).
 
 ### v1.3.0

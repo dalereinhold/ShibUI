@@ -10,13 +10,14 @@
 xml/actionbar.xml
 xml/compass.xml
 xml/groupunitframe.xml
+xml/playerprogressbar.xml
 xml/bindings.xml
 
 ShibUI.lua
 
 settings/settings.lua
 
-core/debug.lua
+# core/debug.lua
 core/miscellaneous.lua
 core/reloadui.lua
 
@@ -25,6 +26,7 @@ ui/attributebar.lua
 ui/compass.lua
 ui/targetbar.lua
 ui/groupunitframe.lua
+ui/playerprogressbar.lua
 
 # This Add-on is not created by, affiliated with, or sponsored by, ZeniMax Media Inc. or its affiliates.
 # The Elder Scrolls® and related logos are registered trademarks or trademarks of ZeniMax Media Inc. in the United States

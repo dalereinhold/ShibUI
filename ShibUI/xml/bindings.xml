@@ -2,7 +2,7 @@
     <Layer name="SI_KEYBINDINGS_CATEGORY_GENERAL">
         <Category name="Shibui User Interface">
             <Action name="RELOAD_UI_KEYBIND">
-                <Down>ReloadUI_OnKeybind()</Down>
+                <Down>ReloadUIOnKeybind()</Down>
             </Action>
         </Category>
     </Layer>
