@@ -1,9 +1,11 @@
 --------------------------------------------------
 -- ShibUI Settings Module
 --------------------------------------------------
-ShibUI.Settings = ShibUI.Settings or {}
-local Settings = ShibUI.Settings
-local sui = ShibUI
+local SUI = SUI
+local sv
+
+SUI.Settings = SUI.Settings or {}
+local Settings = SUI.Settings
 
 --------------------------------------------------
 -- Settings Section Helpers
@@ -20,9 +22,9 @@ local function GeneralSettings()
             type = "checkbox",
             name = "Account Wide Settings",
             tooltip = "Use the same settings for all characters on this account.",
-            getFunc = function() return sui.accountSaved.accountWide end,
-            setFunc = function(value) sui.accountSaved.accountWide = value end,
-            default = sui.defaults.accountWide,
+            getFunc = function() return sv.accountWide end,
+            setFunc = function(value) sv.accountWide = value end,
+            default = SUI.defaults.accountWide,
             requiresReload = true,
             width = "full",
         },
@@ -30,9 +32,9 @@ local function GeneralSettings()
             type = "checkbox",
             name = "Confirm Reload UI",
             tooltip = "Show a confirmation prompt before reloading the UI.",
-            getFunc = function() return sui.saved.confirmReload end,
-            setFunc = function(value) sui.saved.confirmReload = value end,
-            default = sui.defaults.confirmReload,
+            getFunc = function() return sv.confirmReload end,
+            setFunc = function(value) sv.confirmReload = value end,
+            default = SUI.defaults.confirmReload,
         },
     }
 end
@@ -44,25 +46,25 @@ local function AttributeBarSettings()
             type = "checkbox",
             name = "Enable Attribute Bar",
             tooltip = "Removes textures and applies a modern style to the attribute bar.",
-            getFunc = function() return sui.saved.attributeBar end,
+            getFunc = function() return sv.attributeBar end,
             setFunc = function(value)
-                sui.saved.attributeBar = value
-                sui.initializeAttributeBar()
+                sv.attributeBar = value
+                SUI.InitializeAttributeBar()
             end,
-            default = sui.defaults.attributeBar,
+            default = SUI.defaults.attributeBar,
             requiresReload = true,
         },
         {
             type = "checkbox",
             name = "Pyramid Layout",
             tooltip = "Stack attribute bars in a pyramid style (Health on top of Magicka and Stamina).",
-            getFunc = function() return sui.saved.attributeBarPyramid end,
+            getFunc = function() return sv.attributeBarPyramid end,
             setFunc = function(value)
-                sui.saved.attributeBarPyramid = value
+                sv.attributeBarPyramid = value
                 local layout = value and "pyramid" or "shibui"
-                sui.applyAttributeBarLayout(layout)
+                SUI.ApplyAttributeBarLayout(layout)
             end,
-            default = sui.defaults.attributeBarPyramid,
+            default = SUI.defaults.attributeBarPyramid,
         },
         {
             type = "dropdown",
@@ -70,12 +72,12 @@ local function AttributeBarSettings()
             tooltip = "Choose Normal or Expanded for fixed width, or Default for dynamic width based on current stats.",
             choices = { "Normal", "Default", "Expanded" },
             choicesValues = { "normal", "default", "expanded" },
-            getFunc = function() return sui.saved.attributeBarSize end,
+            getFunc = function() return sv.attributeBarSize end,
             setFunc = function(mode)
-                sui.saved.attributeBarSize = mode
-                sui.applyAttributeBarSize(mode)
+                sv.attributeBarSize = mode
+                SUI.ApplyAttributeBarSize(mode)
             end,
-            default = sui.defaults.attributeBarSize,
+            default = SUI.defaults.attributeBarSize,
         },
     }
 end
@@ -92,26 +94,14 @@ local function TargetBarSettings()
         { type = "header", name = "Target Bar" },
         {
             type = "checkbox",
-            name = "Enable Target Bar",
-            tooltip = "Removes textures and applies a modern style to the target bar.",
-            getFunc = function() return sui.saved.targetBar end,
-            setFunc = function(value)
-                sui.saved.targetBar = value
-                sui.initializeTargetBar()
-            end,
-            default = sui.defaults.targetBar,
-            requiresReload = true,
-        },
-        {
-            type = "checkbox",
             name = "Hide Target Bar Out of Combat",
             tooltip = "Toggle the visibility of the target bar when not in combat.",
-            getFunc = function() return sui.saved.hideTargetBar end,
+            getFunc = function() return sv.hideTargetBar end,
             setFunc = function(value)
-                sui.saved.hideTargetBar = value
-                sui.initializeTargetBar()
+                sv.hideTargetBar = value
+                SUI.InitializeTargetBar()
             end,
-            default = sui.defaults.hideTargetBar,
+            default = SUI.defaults.hideTargetBar,
         },
     }
 end
@@ -141,10 +131,10 @@ local function SettingsPanel()
 
     local panelData = {
         type                = "panel",
-        name                = sui.menuName,
-        displayName         = sui.displayName,
-        author              = sui.author,
-        version             = sui.version,
+        name                = SUI.menuName,
+        displayName         = SUI.displayName,
+        author              = SUI.author,
+        version             = SUI.version,
         slashCommand        = "/shibui",
         registerForRefresh  = true,
         registerForDefaults = true,
@@ -164,13 +154,14 @@ local function SettingsPanel()
     appendOptions(CompassSettings())
     appendOptions(UnitFrameSettings())
 
-    LAM:RegisterAddonPanel(sui.menuName, panelData)
-    LAM:RegisterOptionControls(sui.menuName, optionsTable)
+    LAM:RegisterAddonPanel(SUI.menuName, panelData)
+    LAM:RegisterOptionControls(SUI.menuName, optionsTable)
 end
 
 --------------------------------------------------
 -- Settings Initialization
 --------------------------------------------------
 function Settings:Initialize()
+    sv = SUI.saved
     SettingsPanel()
 end

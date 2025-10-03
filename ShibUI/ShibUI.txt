@@ -1,7 +1,7 @@
 ## Title: ShibUI
 ## Description: ShibUI is a minimalistic ESO addon that cleans up and modernizes the user interface.
-## Version: 1.5.0
-## AddOnVersion: 150
+## Version: 1.6.0
+## AddOnVersion: 160
 ## APIVersion: 101047 101048
 ## Author: Shownie & Ai
 ## OptionalDependsOn: LibAddonMenu-2.0

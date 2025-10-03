@@ -1,8 +1,11 @@
 --------------------------------------------------
 -- ShibUI Attribute Bar Module
 --------------------------------------------------
+local SUI = SUI
+local sv
 
-local sui = ShibUI
+SUI.AttributeBar = SUI.AttributeBar or {}
+local AttributeBar = SUI.AttributeBar
 
 ---------------------------------------------------
 -- Texture Redirection for Attribute Bar
@@ -74,7 +77,6 @@ local function SetBarSizeToNormal()
         LockBarWidth(bar, normalWidth)
     end
     if not barSizeNormal then
-        sui.debug("Attribute Bar", "Locked bar width to normal size.")
         barSizeNormal = true
     end
 end
@@ -100,16 +102,16 @@ end
 
 -- Event handler to keep bar width locked live
 local function OnAttributeBarRelevantUpdate()
-    if sui.saved and sui.saved.attributeBar then
-        if sui.saved then
-            sui.applyAttributeBarSize(sui.saved.attributeBarSize)
+    if sv and sv.attributeBar then
+        if sv then
+            SUI.applyAttributeBarSize(sv.attributeBarSize)
         else
-            sui.applyAttributeBarSize("default")
+            SUI.applyAttributeBarSize("default")
         end
     end
 end
 
-function sui.applyAttributeBarSize(mode)
+function SUI.applyAttributeBarSize(mode)
     ResetBarSizeFlags()
     if mode == "default" then
         -- Unregister events so bars can resize dynamically
@@ -182,7 +184,7 @@ local function SetLayoutDefault()
     end
 end
 
-function sui.applyAttributeBarLayout(layout)
+function SUI.applyAttributeBarLayout(layout)
         if layout == "pyramid" then
             SetLayoutPyramid()
         elseif layout == "shibui" then
@@ -191,19 +193,29 @@ function sui.applyAttributeBarLayout(layout)
             SetLayoutDefault()
         else
     end
+    
+    EVENT_MANAGER:UnregisterForEvent("ShibUI_AttributeBarWidth", EVENT_STATS_UPDATED)
+    local layout = sv.attributeBarPyramid and "pyramid" or "shibui"
+    SUI.applyAttributeBarLayout(layout)
+
+    EVENT_MANAGER:RegisterForEvent("ShibUI_AttributeBarWidth", EVENT_STATS_UPDATED, function()
+        local layout = sv.attributeBarPyramid and "pyramid" or "shibui"
+        SUI.applyAttributeBarLayout(layout)
+    end)
 end
 
 ---------------------------------------------------
 -- Apply Attribute Bar Settings
 ---------------------------------------------------
-function sui.initializeAttributeBar()
-    if sui.saved and sui.saved.attributeBar then
+function AttributeBar:Initialize()
+    sv = SUI.saved
+    if sv and sv.attributeBar then
         BlankTextures()
-        local layout = sui.saved.attributeBarPyramid and "pyramid" or "shibui"
-        sui.applyAttributeBarLayout(layout)
+        local layout = sv.attributeBarPyramid and "pyramid" or "shibui"
+        SUI.applyAttributeBarLayout(layout)
     else
         DefaultTextures()
-        sui.applyAttributeBarLayout("default")
+        SUI.applyAttributeBarLayout("default")
     end
-    sui.applyAttributeBarSize(sui.saved.attributeBarSize)
+    SUI.applyAttributeBarSize(sv.attributeBarSize)
 end

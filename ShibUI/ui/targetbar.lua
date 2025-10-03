@@ -1,32 +1,11 @@
 --------------------------------------------------
 -- ShibUI Target Bar Module
 --------------------------------------------------
+local SUI = SUI
+local sv
 
-local sui = ShibUI
-
----------------------------------------------------
--- Texture Redirection for Target Bar
----------------------------------------------------
-local blankTexture = "/esoui/art/icons/heraldrycrests_misc_blank_01.dds"
-local basePath = "/esoui/art/unitattributevisualizer/"
-
-local defaultTextures = {
-    basePath .. "targetbar_dynamic_bg.dds",
-    basePath .. "targetbar_dynamic_frame.dds",
-}
-
-local function BlankTextures()
-    for _, tex in ipairs(defaultTextures) do
-        RedirectTexture(tex, blankTexture)
-    end
-end
-
-local function DefaultTextures()
-    for _, tex in ipairs(defaultTextures) do
-        RedirectTexture(tex, tex)
-    end
-end
--- end of texture control
+SUI.TargetBar = SUI.TargetBar or {}
+local TargetBar = SUI.TargetBar
 
 ---------------------------------------------------
 -- Target Bar Visibility Control (with delay)
@@ -35,7 +14,7 @@ local lastTargetBarHidden = nil
 local hideDelayMS = 3000 -- 3 seconds
 local hideTimer = nil
 
-local function setTargetBarHidden(hidden)
+local function SetTargetBarHidden(hidden)
     local targetFrame = ZO_UnitFrames_GetUnitFrame("reticleover")
     if not targetFrame then return end
     targetFrame:SetHiddenForReason("disabled", hidden)
@@ -44,19 +23,19 @@ local function setTargetBarHidden(hidden)
     end
 end
 
-local function updateVisibility(force)
+local function UpdateVisibility(force)
     if not IsPlayerActivated() or not UNIT_FRAMES then return end
     local targetFrame = ZO_UnitFrames_GetUnitFrame("reticleover")
     if not targetFrame then return end
 
     local currentHealth = select(1, targetFrame:GetHealth()) or 0
     if currentHealth == 0 then
-        setTargetBarHidden(true)
+        SetTargetBarHidden(true)
         return
     end
 
-    if not sui.saved or not sui.saved.hideTargetBar then
-        setTargetBarHidden(false)
+    if not sv or not sv.hideTargetBar then
+        SetTargetBarHidden(false)
         return
     end
 
@@ -84,31 +63,24 @@ end
 ---------------------------------------------------
 -- Event Handling
 ---------------------------------------------------
-local em = EVENT_MANAGER
-
 -- Combat state handler (controls delay)
-em:RegisterForEvent("ShibUI_TargetBarCombat", EVENT_PLAYER_COMBAT_STATE, function(_, inCombat)
+EVENT_MANAGER:RegisterForEvent("ShibUI_TargetBarCombat", EVENT_PLAYER_COMBAT_STATE, function(_, inCombat)
     if inCombat then
-        updateVisibility(true) -- show instantly when entering combat
+        UpdateVisibility(true) -- show instantly when entering combat
     else
-        updateVisibility(false) -- hide after delay when leaving combat
+        UpdateVisibility(false) -- hide after delay when leaving combat
     end
 end)
 
 -- Target change handler (instant show/hide when needed)
-em:RegisterForEvent("ShibUI_TargetBarTarget", EVENT_RETICLE_TARGET_CHANGED, function()
-    updateVisibility(true)
+EVENT_MANAGER:RegisterForEvent("ShibUI_TargetBarTarget", EVENT_RETICLE_TARGET_CHANGED, function()
+    UpdateVisibility(true)
 end)
 
 ---------------------------------------------------
 -- Apply Target Bar Settings
 ---------------------------------------------------
-function sui.initializeTargetBar()
-    if sui.saved and sui.saved.targetBar then
-        BlankTextures()
-    else
-        DefaultTextures()
-    end
-    -- sui.targetBarVisibility()
-    updateVisibility(true) -- Force update visibility on initialization
+function TargetBar:Initialize()
+    sv = SUI.saved
+    UpdateVisibility(true) -- Force update visibility on initialization
 end
