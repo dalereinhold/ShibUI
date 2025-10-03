@@ -11,16 +11,16 @@ local SavedVars = SUI.SavedVars
 --------------------------------------------------
 SUI.defaults = {
     -- General
-    accountWide = true,
-    confirmReload = true,
+    accountWide         = true,
+    confirmReload       = true,
 
     -- Attribute Bar
-    attributeBar = true,
+    attributeBar        = true,
     attributeBarPyramid = false,
-    attributeBarSize = "default",
+    attributeBarSize    = "default",
 
     -- Target Bar
-    hideTargetBar = true,
+    hideTargetBar       = true,
 }
 
 --------------------------------------------------
