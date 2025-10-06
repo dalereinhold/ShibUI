@@ -1,13 +1,15 @@
 --------------------------------------------------
--- ShibUI Reload UI Module (OOP Refactor)
+-- ShibUI Reload UI Module
 --------------------------------------------------
+local SUI = SUI
+local sv
 
-ShibUI.ReloadUI = ShibUI.ReloadUI or {}
-local ReloadUI = ShibUI.ReloadUI
-local sui = ShibUI
+SUI.ReloadUI = SUI.ReloadUI or {}
+local ReloadUI = SUI.ReloadUI
 
 --------------------------------------------------
 -- Helper Functions for Reload UI
+-- Optional confirmation dialog before reloading.
 --------------------------------------------------
 local function RegisterDialogs()
     ZO_Dialogs_RegisterCustomDialog("RELOADUI_CONFIRM_DIALOG", {
@@ -30,16 +32,16 @@ end
 --------------------------------------------------
 -- Reload UI Functionality
 --------------------------------------------------
-local function PerformReload()
-    if sui.saved and sui.saved.confirmReload then
+function ReloadUI:PerformReload()
+    if sv and sv.confirmReload then
         ZO_Dialogs_ShowDialog("RELOADUI_CONFIRM_DIALOG")
     else
         _G.ReloadUI()
     end
 end
 
-function ReloadUIOnKeybind()
-    PerformReload()
+function ReloadUI:OnKeybind()
+    self:PerformReload()
 end
 
 
@@ -47,7 +49,8 @@ end
 -- Initialize Reload UI Module
 --------------------------------------------------
 function ReloadUI:Initialize()
+    sv = SUI.SavedVars.saved
     RegisterDialogs()
     ZO_CreateStringId("SI_BINDING_NAME_RELOAD_UI_KEYBIND", "Reload UI")
-    SLASH_COMMANDS["/sui"] = function() PerformReload() end
+    SLASH_COMMANDS["/sui"] = function() self:PerformReload() end
 end

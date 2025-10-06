@@ -15,6 +15,7 @@ xml/bindings.xml
 
 ShibUI.lua
 
+settings/savedvars.lua
 settings/settings.lua
 
 # core/debug.lua

@@ -39,10 +39,6 @@ end
 ---------------------------------------------------
 -- Attribute Bar size and layout control
 ---------------------------------------------------
-local em = EVENT_MANAGER
-local eventStatsUpdated = EVENT_STATS_UPDATED
-local eventPowerUpdate = EVENT_POWER_UPDATE
-
 local shrunkWidth = 141 -- ESO default values
 local normalWidth = 237 -- ESO default values
 local expandedWidth = 323 -- ESO default values
@@ -104,24 +100,24 @@ end
 local function OnAttributeBarRelevantUpdate()
     if sv and sv.attributeBar then
         if sv then
-            SUI.applyAttributeBarSize(sv.attributeBarSize)
+            SUI.ApplyAttributeBarSize(sv.attributeBarSize)
         else
-            SUI.applyAttributeBarSize("default")
+            SUI.ApplyAttributeBarSize("default")
         end
     end
 end
 
-function SUI.applyAttributeBarSize(mode)
+function SUI.ApplyAttributeBarSize(mode)
     ResetBarSizeFlags()
     if mode == "default" then
         -- Unregister events so bars can resize dynamically
-        em:UnregisterForEvent("ShibUI_AttributeBarLock_Stats", eventStatsUpdated)
-        em:UnregisterForEvent("ShibUI_AttributeBarLock_Power", eventPowerUpdate)
+        EVENT_MANAGER:UnregisterForEvent("ShibUI_AttributeBarLock_Stats", EVENT_STATS_UPDATED)
+        EVENT_MANAGER:UnregisterForEvent("ShibUI_AttributeBarLock_Power", EVENT_POWER_UPDATE)
         SetBarSizeToDefault()
     elseif mode == "normal" or mode == "expanded" then
         -- Register events to keep width locked
-        em:RegisterForEvent("ShibUI_AttributeBarLock_Stats", eventStatsUpdated, OnAttributeBarRelevantUpdate)
-        em:RegisterForEvent("ShibUI_AttributeBarLock_Power", eventPowerUpdate, function(_, unitTag)
+        EVENT_MANAGER:RegisterForEvent("ShibUI_AttributeBarLock_Stats", EVENT_STATS_UPDATED, OnAttributeBarRelevantUpdate)
+        EVENT_MANAGER:RegisterForEvent("ShibUI_AttributeBarLock_Power", EVENT_POWER_UPDATE, function(_, unitTag)
             if unitTag == "player" then
                 OnAttributeBarRelevantUpdate()
             end
@@ -184,7 +180,7 @@ local function SetLayoutDefault()
     end
 end
 
-function SUI.applyAttributeBarLayout(layout)
+function SUI.ApplyAttributeBarLayout(layout)
         if layout == "pyramid" then
             SetLayoutPyramid()
         elseif layout == "shibui" then
@@ -193,29 +189,28 @@ function SUI.applyAttributeBarLayout(layout)
             SetLayoutDefault()
         else
     end
-    
-    EVENT_MANAGER:UnregisterForEvent("ShibUI_AttributeBarWidth", EVENT_STATS_UPDATED)
-    local layout = sv.attributeBarPyramid and "pyramid" or "shibui"
-    SUI.applyAttributeBarLayout(layout)
-
-    EVENT_MANAGER:RegisterForEvent("ShibUI_AttributeBarWidth", EVENT_STATS_UPDATED, function()
-        local layout = sv.attributeBarPyramid and "pyramid" or "shibui"
-        SUI.applyAttributeBarLayout(layout)
-    end)
 end
 
 ---------------------------------------------------
 -- Apply Attribute Bar Settings
 ---------------------------------------------------
 function AttributeBar:Initialize()
-    sv = SUI.saved
+    sv = SUI.SavedVars.saved
     if sv and sv.attributeBar then
         BlankTextures()
         local layout = sv.attributeBarPyramid and "pyramid" or "shibui"
-        SUI.applyAttributeBarLayout(layout)
+        SUI.ApplyAttributeBarLayout(layout)
     else
         DefaultTextures()
-        SUI.applyAttributeBarLayout("default")
+        SUI.ApplyAttributeBarLayout("default")
     end
-    SUI.applyAttributeBarSize(sv.attributeBarSize)
+    SUI.ApplyAttributeBarSize(sv.attributeBarSize)
+        EVENT_MANAGER:UnregisterForEvent("ShibUI_AttributeBarWidth", EVENT_STATS_UPDATED)
+    local layout = sv.attributeBarPyramid and "pyramid" or "shibui"
+    SUI.ApplyAttributeBarLayout(layout)
+
+    EVENT_MANAGER:RegisterForEvent("ShibUI_AttributeBarWidth", EVENT_STATS_UPDATED, function()
+        local layout = sv.attributeBarPyramid and "pyramid" or "shibui"
+        SUI.ApplyAttributeBarLayout(layout)
+    end)
 end

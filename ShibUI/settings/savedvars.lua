@@ -28,8 +28,8 @@ SUI.defaults = {
 --------------------------------------------------
 function SavedVars:Initialize()
     -- create both stores
-    local accountSaved   = ZO_SavedVars:NewAccountWide("suiSavedVars", 1, nil, self.defaults)
-    local characterSaved = ZO_SavedVars:New("suiSavedVars", 1, nil, self.defaults)
+    local accountSaved   = ZO_SavedVars:NewAccountWide("suiSavedVars", 1, nil, SUI.defaults)
+    local characterSaved = ZO_SavedVars:New("suiSavedVars", 1, nil, SUI.defaults)
 
     -- decide which one to use
     local useAccount = accountSaved.accountWide or false

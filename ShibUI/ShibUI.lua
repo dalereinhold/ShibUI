@@ -5,7 +5,9 @@
 SUI = SUI or {}
 
 --------------------------------------------------
--- Global metadata for ShibUI.    
+-- Global metadata for ShibUI.
+-- DO NOT MODIFY. Except for version updates.
+-- Version format: MAJOR.MINOR.ESOAPI/0 for private use.
 --------------------------------------------------
 SUI.name        = "ShibUI"
 SUI.menuName    = "ShibUI Settings"
@@ -19,8 +21,9 @@ SUI.description = "ShibUI is a minimalistic ESO addon that cleans up and moderni
 --------------------------------------------------
 function SUI:Initialize()
     local initializers = {
-        function() self.Settings:Initialize() end,
-        function() self.ReloadUI:Initialize() end,
+        function() self.SavedVars:Initialize() end,     -- Saved Vars needs to load first.
+        function() self.Settings:Initialize() end,      -- Settings depends on Saved Vars.
+        function() self.ReloadUI:Initialize() end,      -- Rest is independent or can be loaded in any order.
         function() self.Miscellaneous:Initialize() end,
         function() self.AttributeBar:Initialize() end,
         function() self.TargetBar:Initialize() end,
@@ -35,13 +38,10 @@ end
 --------------------------------------------------
 -- Event handler for when the addon is loaded.
 --------------------------------------------------
-local function AddonLoaded(eventCode, addonName)
+local function InitializeAddon(eventCode, addonName)
     if addonName ~= SUI.name then return end
-
     SUI:Initialize()
-    SUI.initialize()
-
     EVENT_MANAGER:UnregisterForEvent(SUI.name, EVENT_ADD_ON_LOADED)
 end
 
-EVENT_MANAGER:RegisterForEvent(SUI.name, EVENT_ADD_ON_LOADED, AddonLoaded)
+EVENT_MANAGER:RegisterForEvent(SUI.name, EVENT_ADD_ON_LOADED, InitializeAddon)

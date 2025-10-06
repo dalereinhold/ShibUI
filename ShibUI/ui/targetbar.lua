@@ -45,14 +45,14 @@ local function UpdateVisibility(force)
     if inCombat and isHostile then
         -- Cancel pending hide
         if hideTimer then hideTimer = nil end
-        setTargetBarHidden(false)
+        SetTargetBarHidden(false)
     else
         if force then
-            setTargetBarHidden(true)
+            SetTargetBarHidden(true)
         else
             if not hideTimer then
                 hideTimer = zo_callLater(function()
-                    setTargetBarHidden(true)
+                    SetTargetBarHidden(true)
                     hideTimer = nil
                 end, hideDelayMS)
             end
@@ -81,6 +81,6 @@ end)
 -- Apply Target Bar Settings
 ---------------------------------------------------
 function TargetBar:Initialize()
-    sv = SUI.saved
+    sv = SUI.SavedVars.saved
     UpdateVisibility(true) -- Force update visibility on initialization
 end

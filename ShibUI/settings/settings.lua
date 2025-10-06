@@ -162,6 +162,6 @@ end
 -- Settings Initialization
 --------------------------------------------------
 function Settings:Initialize()
-    sv = SUI.saved
+    sv = SUI.SavedVars.saved
     SettingsPanel()
 end
