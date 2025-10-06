@@ -24,7 +24,7 @@ local function GeneralSettings()
             tooltip = "Use the same settings for all characters on this account.",
             getFunc = function() return sv.accountWide end,
             setFunc = function(value) sv.accountWide = value end,
-            default = SUI.defaults.accountWide,
+            default = SUI.SavedVars.defaults.accountWide,
             requiresReload = true,
             width = "full",
         },
@@ -34,7 +34,16 @@ local function GeneralSettings()
             tooltip = "Show a confirmation prompt before reloading the UI.",
             getFunc = function() return sv.confirmReload end,
             setFunc = function(value) sv.confirmReload = value end,
-            default = SUI.defaults.confirmReload,
+            default = SUI.SavedVars.defaults.confirmReload,
+        },
+        {
+            type = "checkbox",
+            name = "Enable Debug Mode",
+            tooltip = "Toggle debug messages for troubleshooting. Requires UI reload to take effect.",
+            getFunc = function() return sv.debug end,
+            setFunc = function(value) sv.debug = value end,
+            default = SUI.SavedVars.defaults.debug,
+            requiresReload = true,
         },
     }
 end
@@ -51,7 +60,7 @@ local function AttributeBarSettings()
                 sv.attributeBar = value
                 SUI.InitializeAttributeBar()
             end,
-            default = SUI.defaults.attributeBar,
+            default = SUI.SavedVars.defaults.attributeBar,
             requiresReload = true,
         },
         {
@@ -64,7 +73,7 @@ local function AttributeBarSettings()
                 local layout = value and "pyramid" or "shibui"
                 SUI.ApplyAttributeBarLayout(layout)
             end,
-            default = SUI.defaults.attributeBarPyramid,
+            default = SUI.SavedVars.defaults.attributeBarPyramid,
         },
         {
             type = "dropdown",
@@ -77,7 +86,7 @@ local function AttributeBarSettings()
                 sv.attributeBarSize = mode
                 SUI.ApplyAttributeBarSize(mode)
             end,
-            default = SUI.defaults.attributeBarSize,
+            default = SUI.SavedVars.defaults.attributeBarSize,
         },
     }
 end
@@ -101,7 +110,7 @@ local function TargetBarSettings()
                 sv.hideTargetBar = value
                 SUI.InitializeTargetBar()
             end,
-            default = SUI.defaults.hideTargetBar,
+            default = SUI.SavedVars.defaults.hideTargetBar,
         },
     }
 end

@@ -9,10 +9,11 @@ local SavedVars = SUI.SavedVars
 --------------------------------------------------
 -- Default settings for SavedVars (if none exist)
 --------------------------------------------------
-SUI.defaults = {
+SUI.SavedVars.defaults = {
     -- General
     accountWide         = true,
     confirmReload       = true,
+    debug               = false,
 
     -- Attribute Bar
     attributeBar        = true,
@@ -28,12 +29,12 @@ SUI.defaults = {
 --------------------------------------------------
 function SavedVars:Initialize()
     -- create both stores
-    local accountSaved   = ZO_SavedVars:NewAccountWide("suiSavedVars", 1, nil, SUI.defaults)
-    local characterSaved = ZO_SavedVars:New("suiSavedVars", 1, nil, SUI.defaults)
+    local accountSaved   = ZO_SavedVars:NewAccountWide("suiSavedVars", 1, nil, self.defaults)
+    local characterSaved = ZO_SavedVars:New("suiSavedVars", 1, nil, self.defaults)
 
     -- decide which one to use
-    local useAccount = accountSaved.accountWide or false
-    local sv = useAccount and accountSaved or characterSaved
+    local useAccount    = accountSaved.accountWide or false
+    local sv            = useAccount and accountSaved or characterSaved
 
     -- expose all handles
     self.accountSaved   = accountSaved

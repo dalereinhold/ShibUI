@@ -1,8 +1,10 @@
 --------------------------------------------------
 -- ShibUI Debugging Module
 --------------------------------------------------
+local SUI = SUI
 
-local sui = ShibUI
+SUI.Debug = SUI.Debug or {}
+local Debug = SUI.Debug
 
 --------------------------------------------------
 -- Private helpers
@@ -23,29 +25,30 @@ local function FormatDebugMessage(source, message)
 end
 
 local function DebugWarnNoArgs()
-    d(string.format("%s[ShibUI]|r %s[%s]|r %s%s|r", colorAddon, colorSource, "General", colorMessage, "sui.debug called with no arguments."))
+    d(string.format("%s[ShibUI]|r %s[%s]|r %s%s|r", colorAddon, colorSource, "General", colorMessage, "Debug called with no arguments."))
     d(debug.traceback())
 end
--- end of private helpers
 
 --------------------------------------------------
 -- Debugging function for ShibUI
+-- Usage: SUI.Debug:Log("Source", "Message", optionalDelayInMs)
+-- Define local Log = function(...) SUI.Debug:Log(...) end for easier access.
+-- Only logs if debug mode is enabled in settings.
 --------------------------------------------------
-function sui.debug(source, message, delay)
-    if not (sui.saved and sui.saved.debug) then return end
-
+function Debug:Log(source, message, delay)
+    if not (SUI.SavedVars.saved and SUI.SavedVars.saved.debug) then return end
+    -- Check for missing arguments
     if source == nil and message == nil then
         DebugWarnNoArgs()
         return
     end
-
+    -- Handle single string argument
     if message == nil and type(source) == "string" then
         message = source
         source = "General"
     end
-
+    -- If no delay is provided, default to 2000ms
     local delayMs = delay or 2000
-
     zo_callLater(function()
         d(FormatDebugMessage(source, message))
     end, delayMs)
