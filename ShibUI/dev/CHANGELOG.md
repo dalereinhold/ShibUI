@@ -17,6 +17,11 @@
 
 ## Changelog
 
+### v1.6.0
+- **Refactored:** Initialization order across all modules to ensure proper loading sequence.
+- **Added:** SavedVars handling to each module for better state management.
+- **Improved:** Overall code structure and readability.
+
 ### v1.5.0
 - **Refactored:** Code cleanup and optimization across all modules.
 - **Fixed:** Action Bar ultimate button scaling issue after bar swaps.
