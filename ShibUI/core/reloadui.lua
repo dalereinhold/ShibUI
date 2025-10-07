@@ -7,6 +7,8 @@ local sv
 SUI.ReloadUI = SUI.ReloadUI or {}
 local ReloadUI = SUI.ReloadUI
 
+local Log = function(...) SUI.Debug:Log(...) end
+
 --------------------------------------------------
 -- Helper Functions for Reload UI
 -- Optional confirmation dialog before reloading.
@@ -33,7 +35,7 @@ end
 -- Reload UI Functionality
 --------------------------------------------------
 function ReloadUI:PerformReload()
-    if sv and sv.confirmReload then
+    if self.enabled then
         ZO_Dialogs_ShowDialog("RELOADUI_CONFIRM_DIALOG")
     else
         _G.ReloadUI()
@@ -49,8 +51,9 @@ end
 -- Initialize Reload UI Module
 --------------------------------------------------
 function ReloadUI:Initialize()
-    sv = SUI.SavedVars.saved
+    self.enabled = SUI.SavedVars.saved and SUI.SavedVars.saved.confirmReload
     RegisterDialogs()
     ZO_CreateStringId("SI_BINDING_NAME_RELOAD_UI_KEYBIND", "Reload UI")
     SLASH_COMMANDS["/sui"] = function() self:PerformReload() end
+    Log("ReloadUI", "Initialized")
 end

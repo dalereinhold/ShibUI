@@ -45,6 +45,24 @@ local function GeneralSettings()
             default = SUI.SavedVars.defaults.debug,
             requiresReload = true,
         },
+        {
+            type = "checkbox",
+            name = "Enable Player Progress Bar Effect",
+            tooltip = "Apply a modern style to the player progress bar.",
+            getFunc = function() return sv.enablePlayerProgressBarEffect end,
+            setFunc = function(value)
+                sv.enablePlayerProgressBarEffect = value
+                if PLAYER_PROGRESS_BAR and PLAYER_PROGRESS_BAR.barControl then
+                    if value then
+                        ApplyTemplateToControl(PLAYER_PROGRESS_BAR.barControl, "SUI_PlayerProgressBarTemplate")
+                    else
+                        PLAYER_PROGRESS_BAR:RefreshTemplate()
+                    end
+                end
+            end,
+            default = SUI.SavedVars.defaults.enablePlayerProgressBarEffect,
+            requiresReload = true,
+        }
     }
 end
 
@@ -106,10 +124,7 @@ local function TargetBarSettings()
             name = "Hide Target Bar Out of Combat",
             tooltip = "Toggle the visibility of the target bar when not in combat.",
             getFunc = function() return sv.hideTargetBar end,
-            setFunc = function(value)
-                sv.hideTargetBar = value
-                SUI.InitializeTargetBar()
-            end,
+            setFunc = function(value) sv.hideTargetBar = value end,
             default = SUI.SavedVars.defaults.hideTargetBar,
         },
     }

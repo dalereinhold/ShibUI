@@ -1,6 +1,13 @@
 --------------------------------------------------
 -- ShibUI Action Bar Module
 --------------------------------------------------
+local SUI = SUI
+local sv
+
+SUI.ActionBar = SUI.ActionBar or {}
+local ActionBar = SUI.ActionBar
+
+local Log = function(...) SUI.Debug:Log(...) end
 
 -- Apply the bar template
 ApplyTemplateToControl(ZO_ActionBar1, "SUI_ActionBar1")
@@ -57,4 +64,9 @@ function ActionButton:ApplySwapAnimationStyle()
             lastAnimation:SetStartAndEndHeight(0, 57)
         end
     end
+end
+
+function ActionBar:Initialize()
+    sv = SUI.SavedVars.saved
+    Log("ActionBar", "Initialized Action Bar Module")
 end

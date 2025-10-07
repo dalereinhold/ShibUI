@@ -24,7 +24,12 @@ function SUI:InitializeModules()
     local initializers = {
         function() self.Settings:Initialize() end,      -- Keep Settings first as other modules depend on it.
         function() self.ReloadUI:Initialize() end,      -- Rest is independent or can be loaded in any order.
+        function() self.Debug:Initialize() end,
         function() self.Miscellaneous:Initialize() end,
+        function() self.GroupUnitFrame:Initialize() end,
+        function() self.PlayerProgressBar:Initialize() end,
+        function() self.Compass:Initialize() end,
+        function() self.ActionBar:Initialize() end,
         function() self.AttributeBar:Initialize() end,
         function() self.TargetBar:Initialize() end,
     }
@@ -43,6 +48,7 @@ function SUI:InitializeAddon(eventCode, addonName)
     if addonName ~= self.name then return end
     self.SavedVars:Initialize() -- Saved Vars must be initialized first.
     self:InitializeModules()    -- Initialize all other modules.
+    self.Debug:Log("Core", string.format("Initialized %s v%s by %s", self.displayName, self.version, self.author))
     -- Unregister the event to prevent re-initialization.
     EVENT_MANAGER:UnregisterForEvent(self.name, EVENT_ADD_ON_LOADED)
 end

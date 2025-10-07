@@ -10,6 +10,7 @@
 xml/actionbar.xml
 xml/compass.xml
 xml/groupunitframe.xml
+xml/targetbar.xml
 xml/playerprogressbar.xml
 xml/bindings.xml
 

@@ -7,6 +7,20 @@ local sv
 SUI.TargetBar = SUI.TargetBar or {}
 local TargetBar = SUI.TargetBar
 
+local Log = function(...) SUI.Debug:Log(...) end
+
+--------------------------------------------------
+-- Target Bar XML Template
+--------------------------------------------------
+local TARGET_UNIT_FRAME = "ZO_TargetUnitFrame"
+
+SecurePostHook("CreateControlFromVirtual", function(name, _, template, suffix)
+    if template == TARGET_UNIT_FRAME then
+        local control = GetControl(name, suffix)
+        ApplyTemplateToControl(control, "SUI_TargetUnitFrame")
+    end
+end)
+
 ---------------------------------------------------
 -- Target Bar Visibility Control (with delay)
 ---------------------------------------------------
@@ -83,4 +97,6 @@ end)
 function TargetBar:Initialize()
     sv = SUI.SavedVars.saved
     UpdateVisibility(true) -- Force update visibility on initialization
+    SetTargetBarHidden(sv.hideTargetBar) -- Apply initial hidden state
+    Log("TargetBar", "Initialized Target Bar Module")
 end

@@ -1,6 +1,14 @@
 --------------------------------------------------
 -- ShibUI Group Unit Frame Module
 --------------------------------------------------
+local SUI = SUI
+local sv
+
+SUI.GroupUnitFrame = SUI.GroupUnitFrame or {}
+local GroupUnitFrame = SUI.GroupUnitFrame
+
+local Log = function(...) SUI.Debug:Log(...) end
+
 local GROUP_UNIT_FRAME = "ZO_GroupUnitFrame"
 local COMPANION_UNIT_FRAME = "ZO_CompanionUnitFrame"
 local COMPANION_GROUP_UNIT_FRAME = "ZO_CompanionGroupUnitFrame"
@@ -20,3 +28,8 @@ SecurePostHook(ZO_UnitFrameObject, "ApplyVisualStyle", function(self)
         end
     end
 end)
+
+function GroupUnitFrame:Initialize()
+    sv = SUI.SavedVars.saved
+    Log("GroupUnitFrame", "Initialized")
+end
