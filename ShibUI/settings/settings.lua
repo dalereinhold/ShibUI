@@ -26,7 +26,6 @@ local function GeneralSettings()
             setFunc = function(value) sv.accountWide = value end,
             default = SUI.SavedVars.defaults.accountWide,
             requiresReload = true,
-            width = "full",
         },
         {
             type = "checkbox",
@@ -112,13 +111,30 @@ end
 local function ActionBarSettings()
     return {
         { type = "header", name = "Action Bar" },
-        { type = "description", text = "Action Bar settings coming in future updates.", width = "full" },
+        { 
+            type = "checkbox",
+            name = "Enable Action Bar Styling",
+            tooltip = "Apply a modern style to the action bar and related elements.",
+            getFunc = function() return sv.actionBar end,
+            setFunc = function(value) sv.actionBar = value end,
+            default = SUI.SavedVars.defaults.actionBar,
+            requiresReload = true,
+        },
     }
 end
 
 local function TargetBarSettings()
     return {
         { type = "header", name = "Target Bar" },
+        {
+            type = "checkbox",
+            name = "Enable Target Bar Styling",
+            tooltip = "Apply a modern style to the target bar.",
+            getFunc = function() return sv.targetBar end,
+            setFunc = function(value) sv.targetBar = value end,
+            default = SUI.SavedVars.defaults.targetBar,
+            requiresReload = true,
+        },
         {
             type = "checkbox",
             name = "Hide Target Bar Out of Combat",

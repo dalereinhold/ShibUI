@@ -52,12 +52,10 @@ function ActionButton:ApplySwapAnimationStyle()
     
     if self.slot == _G["ActionButton8"] then
         self.flipCard:SetDimensions(57, 57)
-        
         local timeline = self.hotbarSwapAnimation
         if timeline then
             local firstAnimation = timeline:GetFirstAnimation()
             local lastAnimation = timeline:GetLastAnimation()
-            
             firstAnimation:SetStartAndEndWidth(57, 57)
             firstAnimation:SetStartAndEndHeight(57, 0)
             lastAnimation:SetStartAndEndWidth(57, 57)
@@ -68,5 +66,9 @@ end
 
 function ActionBar:Initialize()
     sv = SUI.SavedVars.saved
-    Log("ActionBar", "Initialized Action Bar Module")
+    if not sv or not sv.actionBar then
+        Log("ActionBar", "Disabled via settings")
+        return
+    end
+    Log("ActionBar", "Initialized successfully")
 end

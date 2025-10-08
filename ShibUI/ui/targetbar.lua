@@ -96,7 +96,14 @@ end)
 ---------------------------------------------------
 function TargetBar:Initialize()
     sv = SUI.SavedVars.saved
+    if not sv or not sv.targetBar then
+        Log("TargetBar", "Disabled via settings.")
+        return
+    end
+    if not sv.hideTargetBar then
+        Log("TargetBar", "Hide out of combat disabled via settings.")
+    end
     UpdateVisibility(true) -- Force update visibility on initialization
     SetTargetBarHidden(sv.hideTargetBar) -- Apply initial hidden state
-    Log("TargetBar", "Initialized Target Bar Module")
+    Log("TargetBar", "Initialized successfully.")
 end
