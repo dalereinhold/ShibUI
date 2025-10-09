@@ -53,7 +53,16 @@ local function GeneralSettings()
             setFunc = function(value) sv.playerProgressBar = value end,
             default = SUI.SavedVars.defaults.playerProgressBar,
             requiresReload = true,
-        }
+        },
+        {
+            type = "checkbox",
+            name = "Toggle Progress Bar",
+            tooltip = "Toggle the visibility of the player progress bar (for testing).",
+            getFunc = function() return sv.showPlayerProgressBar end,
+            setFunc = function(value) sv.showPlayerProgressBar = value end,
+            default = SUI.SavedVars.defaults.showPlayerProgressBar,
+            requiresReload = false,
+        },
     }
 end
 

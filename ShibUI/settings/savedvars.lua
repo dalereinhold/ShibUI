@@ -29,6 +29,7 @@ SUI.SavedVars.defaults = {
 
     -- Player Progress Bar
     playerProgressBar = true,
+    showPlayerProgressBar = false,
 }
 
 --------------------------------------------------
