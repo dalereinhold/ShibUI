@@ -28,7 +28,7 @@ SUI.SavedVars.defaults = {
     actionBar           = true,
 
     -- Player Progress Bar
-    enablePlayerProgressBarEffect = true,
+    playerProgressBar = true,
 }
 
 --------------------------------------------------

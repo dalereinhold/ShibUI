@@ -34,6 +34,7 @@ local function GeneralSettings()
             getFunc = function() return sv.confirmReload end,
             setFunc = function(value) sv.confirmReload = value end,
             default = SUI.SavedVars.defaults.confirmReload,
+            requiresReload = true,
         },
         {
             type = "checkbox",
@@ -48,18 +49,9 @@ local function GeneralSettings()
             type = "checkbox",
             name = "Enable Player Progress Bar Effect",
             tooltip = "Apply a modern style to the player progress bar.",
-            getFunc = function() return sv.enablePlayerProgressBarEffect end,
-            setFunc = function(value)
-                sv.enablePlayerProgressBarEffect = value
-                if PLAYER_PROGRESS_BAR and PLAYER_PROGRESS_BAR.barControl then
-                    if value then
-                        ApplyTemplateToControl(PLAYER_PROGRESS_BAR.barControl, "SUI_PlayerProgressBarTemplate")
-                    else
-                        PLAYER_PROGRESS_BAR:RefreshTemplate()
-                    end
-                end
-            end,
-            default = SUI.SavedVars.defaults.enablePlayerProgressBarEffect,
+            getFunc = function() return sv.playerProgressBar end,
+            setFunc = function(value) sv.playerProgressBar = value end,
+            default = SUI.SavedVars.defaults.playerProgressBar,
             requiresReload = true,
         }
     }
