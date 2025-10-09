@@ -7,7 +7,7 @@ local sv
 SUI.ActionBar = SUI.ActionBar or {}
 local ActionBar = SUI.ActionBar
 
-local Log = function(...) SUI.Debug:Log(...) end
+local Log = function(...) SUI.Debug:Log("Action Bar", ...) end
 
 -- Apply the bar template
 ApplyTemplateToControl(ZO_ActionBar1, "SUI_ActionBar1")
@@ -67,8 +67,8 @@ end
 function ActionBar:Initialize()
     sv = SUI.SavedVars.saved
     if not sv or not sv.actionBar then
-        Log("ActionBar", "Disabled via settings")
+        Log("Disabled via settings")
         return
     end
-    Log("ActionBar", "Initialized successfully")
+    Log("Initialized successfully")
 end
