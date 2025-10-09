@@ -7,8 +7,13 @@ local sv
 SUI.Settings = SUI.Settings or {}
 local Settings = SUI.Settings
 
+local Log = function(...) SUI.Debug:Log("Settings", ...) end
+
 --------------------------------------------------
 -- Settings Section Helpers
+-- Colors for text:
+-- Orange: |cFFA500Header|r
+-- Light Green: |c7FC97FName|r
 --------------------------------------------------
 local function GeneralSettings()
     return {
@@ -17,10 +22,10 @@ local function GeneralSettings()
             text = "|cFFA500ShibUI is a minimal and modern interface mod for ESO, created by Shownie in collaboration with AI. It hides or replaces textures to achieve a clean, unobtrusive style.|r\n\n|c7FC97FThe name 'ShibUI' comes from the Japanese word 'shibui' (渋い), which describes a subtle, refined aesthetic — simple, yet elegant.|r",
             width = "full",
         },
-        { type = "header", name = "General Settings" },
+        { type = "header", name = "|cFFA500General Settings|r" },
         {
             type = "checkbox",
-            name = "Account Wide Settings",
+            name = "|c7FC97FAccount Wide Settings|r",
             tooltip = "Use the same settings for all characters on this account.",
             getFunc = function() return sv.accountWide end,
             setFunc = function(value) sv.accountWide = value end,
@@ -29,7 +34,7 @@ local function GeneralSettings()
         },
         {
             type = "checkbox",
-            name = "Confirm Reload UI",
+            name = "|c7FC97FConfirm Reload UI|r",
             tooltip = "Show a confirmation prompt before reloading the UI.",
             getFunc = function() return sv.confirmReload end,
             setFunc = function(value) sv.confirmReload = value end,
@@ -38,31 +43,23 @@ local function GeneralSettings()
         },
         {
             type = "checkbox",
-            name = "Enable Debug Mode",
+            name = "|c7FC97FEnable Debug Mode|r",
             tooltip = "Toggle debug messages for troubleshooting. Requires UI reload to take effect.",
             getFunc = function() return sv.debug end,
             setFunc = function(value) sv.debug = value end,
             default = SUI.SavedVars.defaults.debug,
             requiresReload = true,
         },
-        {
-            type = "checkbox",
-            name = "Enable Player Progress Bar Effect",
-            tooltip = "Apply a modern style to the player progress bar.",
-            getFunc = function() return sv.playerProgressBar end,
-            setFunc = function(value) sv.playerProgressBar = value end,
-            default = SUI.SavedVars.defaults.playerProgressBar,
-            requiresReload = true,
-        }
     }
 end
 
 local function AttributeBarSettings()
     return {
-        { type = "header", name = "Attribute Bar" },
+        { type = "header", name = "|cFFA500Attribute Bar|r" },
+        { type = "description", text = "Adjust the appearance and behavior of the attribute bar.", width = "full" },
         {
             type = "checkbox",
-            name = "Enable Attribute Bar",
+            name = "|c7FC97FEnable Attribute Bar|r",
             tooltip = "Removes textures and applies a modern style to the attribute bar.",
             getFunc = function() return sv.attributeBar end,
             setFunc = function(value)
@@ -74,7 +71,7 @@ local function AttributeBarSettings()
         },
         {
             type = "checkbox",
-            name = "Pyramid Layout",
+            name = "|c7FC97FPyramid Layout|r",
             tooltip = "Stack attribute bars in a pyramid style (Health on top of Magicka and Stamina).",
             getFunc = function() return sv.attributeBarPyramid end,
             setFunc = function(value)
@@ -86,7 +83,7 @@ local function AttributeBarSettings()
         },
         {
             type = "dropdown",
-            name = "Attribute Bar Width Mode",
+            name = "|c7FC97FAttribute Bar Width Mode|r",
             tooltip = "Choose Normal or Expanded for fixed width, or Default for dynamic width based on current stats.",
             choices = { "Normal", "Default", "Expanded" },
             choicesValues = { "normal", "default", "expanded" },
@@ -97,30 +94,64 @@ local function AttributeBarSettings()
             end,
             default = SUI.SavedVars.defaults.attributeBarSize,
         },
+        {
+            type = "dropdown",
+            name = "|c7FC97FAttribute Bar Layout|r",
+            tooltip = "Default layout matches the game's default. Pyramid stacks Health on top of Magicka and Stamina. ShibUI stacks and widens attributes horizontally.",
+            choices = { "Default", "Pyramid", "ShibUI" },
+            choicesValues = { "default", "pyramid", "shibui" },
+        },
     }
 end
 
 local function ActionBarSettings()
     return {
-        { type = "header", name = "Action Bar" },
+        { type = "header", name = "|cFFA500Action Bar|r" },
+        { type = "description", text = "Adjust the appearance and behavior of the action bar and related elements.", width = "full" },
         { 
             type = "checkbox",
-            name = "Enable Action Bar Styling",
+            name = "|c7FC97FEnable Action Bar Styling|r",
             tooltip = "Apply a modern style to the action bar and related elements.",
             getFunc = function() return sv.actionBar end,
             setFunc = function(value) sv.actionBar = value end,
             default = SUI.SavedVars.defaults.actionBar,
             requiresReload = true,
         },
+        {
+            type = "checkbox",
+            name = "|c7FC97FHide Weapon Swap Icon|r",
+            tooltip = "Toggle the visibility of the weapon swap icon on the action bar.",
+        },
+        {
+            type = "checkbox",
+            name = "|c7FC97FHide Keybindings|r",
+            tooltip = "Toggle the visibility of keybindings on the action bar.",
+        },
+        {
+            type = "checkbox",
+            name = "|c7FC97FUse Scaled Ultimate Slots|r",
+            tooltip = "Toggle the use of scaled ultimate slots on the action bar.",
+        },
+        {
+            type = "slider",
+            name = "|c7FC97FAdjust Horizontal Action Bar Position|r",
+            tooltip = "Fine-tune the horizontal position of the action bar.",
+        },
+        {
+            type = "checkbox",
+            name = "|c7FC97FBackbar Numeric countdown|r",
+            tooltip = "Show numeric countdown on backbar abilities.",
+        },
     }
 end
 
 local function TargetBarSettings()
     return {
-        { type = "header", name = "Target Bar" },
+        { type = "header", name = "|cFFA500Target Bar|r" },
+        { type = "description", text = "Adjust the appearance and behavior of the target bar.", width = "full" },
         {
             type = "checkbox",
-            name = "Enable Target Bar Styling",
+            name = "|c7FC97FEnable Target Bar Styling|r",
             tooltip = "Apply a modern style to the target bar.",
             getFunc = function() return sv.targetBar end,
             setFunc = function(value) sv.targetBar = value end,
@@ -129,26 +160,73 @@ local function TargetBarSettings()
         },
         {
             type = "checkbox",
-            name = "Hide Target Bar Out of Combat",
+            name = "|c7FC97FHide Target Bar Out of Combat|r",
             tooltip = "Toggle the visibility of the target bar when not in combat.",
             getFunc = function() return sv.hideTargetBar end,
             setFunc = function(value) sv.hideTargetBar = value end,
             default = SUI.SavedVars.defaults.hideTargetBar,
+            requiresReload = true,
         },
     }
 end
 
 local function CompassSettings()
     return {
-        { type = "header", name = "Compass and Boss Bar" },
-        { type = "description", text = "Compass and Boss Bar settings coming in future updates.", width = "full" },
+        { type = "header", name = "|cFFA500Compass and Boss Bar|r" },
+        {type = "description", text = "Adjust the appearance of the compass and boss bar.", width = "full" },
+        {
+            type = "checkbox",
+            name = "|c7FC97FEnable Compass and Boss Bar Styling|r",
+            tooltip = "Apply a modern style to the compass and boss bar.",
+        },
+        {
+            type = "slider",
+            name = "|c7FC97FAdjust Compass/Boss Bar Width|r",
+            tooltip = "Set the width of the compass and boss bar.",
+        },
     }
 end
 
-local function UnitFrameSettings()
+local function GroupFrameSettings()
     return {
-        { type = "header", name = "Unit Frame" },
-        { type = "description", text = "Unit Frame settings coming in future updates.", width = "full" },
+        { type = "header", name = "|cFFA500Group Frame|r" },
+        { type = "description", text = "Adjust the appearance and behavior of group frames.", width = "full" },
+        {
+            type = "checkbox",
+            name = "|c7FC97FEnable Group Frame Styling|r",
+            tooltip = "Apply a modern style to group frames.",
+        },
+        {
+            type = "checkbox",
+            name = "|c7FC97FHide Companion Group Frame|r",
+            tooltip = "Toggle the visibility of the companion group frame.",
+        },
+        {
+            type = "slider",
+            name = "|c7FC97FAdjust Group Frame Width|r",
+            tooltip = "Set the width of group frames.",
+        },
+    }
+end
+
+local function PlayerProgressBarSettings()
+    return {
+        { type = "header", name = "|cFFA500Player Progress Bar|r" },
+        { type = "description", text = "Adjust the appearance of the player progress bar.", width = "full" },
+        {
+            type = "checkbox",
+            name = "|c7FC97FEnable Player Progress Bar Effect|r",
+            tooltip = "Apply a modern style to the player progress bar.",
+            getFunc = function() return sv.playerProgressBar end,
+            setFunc = function(value) sv.playerProgressBar = value end,
+            default = SUI.SavedVars.defaults.playerProgressBar,
+            requiresReload = true,
+        },
+        { 
+            type = "checkbox",
+            name = "|c7FC97FAlways Show Player Progress Bar|r",
+            tooltip = "Keep the player progress bar visible at all times.",
+        },
     }
 end
 
@@ -158,6 +236,7 @@ end
 local function SettingsPanel()
     local LAM = LibAddonMenu2
     if not LAM then
+        Log("LibAddonMenu2 not found. Settings panel will not be created.")
         return
     end
 
@@ -184,10 +263,12 @@ local function SettingsPanel()
     appendOptions(ActionBarSettings())
     appendOptions(TargetBarSettings())
     appendOptions(CompassSettings())
-    appendOptions(UnitFrameSettings())
+    appendOptions(GroupFrameSettings())
+    appendOptions(PlayerProgressBarSettings())
 
     LAM:RegisterAddonPanel(SUI.menuName, panelData)
     LAM:RegisterOptionControls(SUI.menuName, optionsTable)
+    Log("Settings panel created successfully")
 end
 
 --------------------------------------------------
