@@ -260,7 +260,7 @@ local function PlayerProgressBarSettings()
             getFunc = function() return sv.showPlayerProgressBar end,
             setFunc = function() SUI.PlayerProgressBar:Toggle() end,
             default = SUI.SavedVars.defaults.showPlayerProgressBar,
-            requiresReload = false,
+            requiresReload = true,
         },
     }
 end
