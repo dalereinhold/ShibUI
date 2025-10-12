@@ -7,7 +7,7 @@ local sv
 SUI.PlayerProgressBar = SUI.PlayerProgressBar or {}
 local PlayerProgressBar = SUI.PlayerProgressBar
 
-local Log = function(...) SUI.Debug:Log(...) end
+local Log = function(...) SUI.Debug:Log("PlayerProgressBar", ...) end
 
 --------------------------------------------------
 -- XML Template Application
@@ -22,21 +22,22 @@ end)
 --------------------------------------------------
 -- Runtime functions
 --------------------------------------------------
--- Simple Progress Bar Always Visible Toggle
-PLAYER_PROGRESS_BAR.alwaysVisible = sv.showPlayerProgressBar
+-- Prevent progress bar from hiding
+local originalHide = PLAYER_PROGRESS_BAR.Hide
 
-function PlayerProgressBar:ToggleVisibility()
+function PLAYER_PROGRESS_BAR:Hide()
+    if not sv.showPlayerProgressBar then
+        originalHide(self)
+    end
+end
+
+function PlayerProgressBar:Toggle()
     sv.showPlayerProgressBar = not sv.showPlayerProgressBar
-    PLAYER_PROGRESS_BAR.alwaysVisible = sv.showPlayerProgressBar
-
     if sv.showPlayerProgressBar then
         local barType = CanUnitGainChampionPoints("player") and PPB_CP or PPB_XP
         PLAYER_PROGRESS_BAR:ShowCurrent(barType)
-        d("Progress bar: ON")
-    else
-        PLAYER_PROGRESS_BAR:Hide()
-        d("Progress bar: OFF")
     end
+    Log("Progress bar always visible: " .. (sv.showPlayerProgressBar and "ON" or "OFF"))
 end
 
 --------------------------------------------------
@@ -45,8 +46,9 @@ end
 function PlayerProgressBar:Initialize()
     sv = SUI.SavedVars.saved
     if not (sv and sv.playerProgressBar) then
-        Log("PlayerProgressBar", "Disabled")
+        Log("Disabled")
         return    
     end
-    Log("PlayerProgressBar", "Initialized")
+    Log("Initialized")
+    SLASH_COMMANDS["/togglebar"] = function() PlayerProgressBar:Toggle() end
 end

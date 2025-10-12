@@ -100,6 +100,8 @@ local function AttributeBarSettings()
             tooltip = "Default layout matches the game's default. Pyramid stacks Health on top of Magicka and Stamina. ShibUI stacks and widens attributes horizontally.",
             choices = { "Default", "Pyramid", "ShibUI" },
             choicesValues = { "default", "pyramid", "shibui" },
+            getFunc = function() return true end,
+            setFunc = function(value) end,
         },
     }
 end
@@ -121,26 +123,39 @@ local function ActionBarSettings()
             type = "checkbox",
             name = "|c7FC97FHide Weapon Swap Icon|r",
             tooltip = "Toggle the visibility of the weapon swap icon on the action bar.",
+            getFunc = function() return true end,
+            setFunc = function(value) end,
         },
         {
             type = "checkbox",
             name = "|c7FC97FHide Keybindings|r",
             tooltip = "Toggle the visibility of keybindings on the action bar.",
+            getFunc = function() return true end,
+            setFunc = function(value) end,
         },
         {
             type = "checkbox",
             name = "|c7FC97FUse Scaled Ultimate Slots|r",
             tooltip = "Toggle the use of scaled ultimate slots on the action bar.",
+            getFunc = function() return true end,
+            setFunc = function(value) end,
         },
         {
             type = "slider",
             name = "|c7FC97FAdjust Horizontal Action Bar Position|r",
             tooltip = "Fine-tune the horizontal position of the action bar.",
+            min = -100,
+            max = 100,
+            step = 1,
+            getFunc = function() return 1 or 50 end,
+            setFunc = function(value) end,
         },
         {
             type = "checkbox",
             name = "|c7FC97FBackbar Numeric countdown|r",
             tooltip = "Show numeric countdown on backbar abilities.",
+            getFunc = function() return true end,
+            setFunc = function(value) end,
         },
     }
 end
@@ -178,11 +193,18 @@ local function CompassSettings()
             type = "checkbox",
             name = "|c7FC97FEnable Compass and Boss Bar Styling|r",
             tooltip = "Apply a modern style to the compass and boss bar.",
+            getFunc = function() return true end,
+            setFunc = function(value) end,
         },
         {
             type = "slider",
             name = "|c7FC97FAdjust Compass/Boss Bar Width|r",
             tooltip = "Set the width of the compass and boss bar.",
+            min = 400,
+            max = 1600,
+            step = 10,
+            getFunc = function() return 10 or 800 end,
+            setFunc = function(value) end,
         },
     }
 end
@@ -195,16 +217,25 @@ local function GroupFrameSettings()
             type = "checkbox",
             name = "|c7FC97FEnable Group Frame Styling|r",
             tooltip = "Apply a modern style to group frames.",
+            getFunc = function() return true end,
+            setFunc = function(value) end,
         },
         {
             type = "checkbox",
             name = "|c7FC97FHide Companion Group Frame|r",
             tooltip = "Toggle the visibility of the companion group frame.",
+            getFunc = function() return true end,
+            setFunc = function(value) end,
         },
         {
             type = "slider",
             name = "|c7FC97FAdjust Group Frame Width|r",
             tooltip = "Set the width of group frames.",
+            min = 200,
+            max = 600,
+            step = 10,
+            getFunc = function() return 10 or 400 end,
+            setFunc = function(value) end,
         },
     }
 end
@@ -226,6 +257,10 @@ local function PlayerProgressBarSettings()
             type = "checkbox",
             name = "|c7FC97FAlways Show Player Progress Bar|r",
             tooltip = "Keep the player progress bar visible at all times.",
+            getFunc = function() return sv.showPlayerProgressBar end,
+            setFunc = function() SUI.PlayerProgressBar:Toggle() end,
+            default = SUI.SavedVars.defaults.showPlayerProgressBar,
+            requiresReload = false,
         },
     }
 end
