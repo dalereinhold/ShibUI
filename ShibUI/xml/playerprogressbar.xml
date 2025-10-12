@@ -36,6 +36,16 @@
                     </Controls>
                 </Control>
 
+                <!-- Enlightened Bar -->
+                <StatusBar name="$(parent)EnlightenedBar" alpha="0.3" textureFile="/esoui/art/unitattributevisualizer/attributebar_dynamic_fill.dds" level="1">
+                <Dimensions x="512" y="16" />
+                    <TextureCoords left="0" right="1" top="0" bottom="0.625" />
+                    <LeadingEdgeTextureCoords left="0" right="1" top="0" bottom="0.625" />
+                    <LeadingEdge textureFile="/esoui/art/unitattributevisualizer/attributebar_dynamic_leadingedge.dds" width="8" height="16" />
+                    <Anchor point="TOPLEFT" />
+                    <Anchor point="BOTTOMRIGHT" offsetY="2"/>
+                </StatusBar>
+
             </Controls>
         </StatusBar>
     </Controls>
