@@ -19,13 +19,14 @@
 
 ### v1.7.0
 - **Added:** Debug:Log method for consistent debug message formatting.
+- **Fixed:** Player Progress Bar to show on initialization if enabled in settings.
 
 ### v1.6.0
 - **Refactored:** Initialization order across all modules to ensure proper loading sequence.
 - **Added:** SavedVars handling to each module for better state management.
 - **Improved:** Overall code structure and readability.
 - **Fixed:** Player Progress module display issues.
-- **Fixed:** Player Progress module not updating correctly.
+- **Fixed:** Player Progress bar not updating correctly on level/champion point changes.
 
 ### v1.5.0
 - **Refactored:** Code cleanup and optimization across all modules.

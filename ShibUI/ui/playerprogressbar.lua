@@ -5,7 +5,7 @@ local SUI = SUI
 local sv
 
 SUI.PlayerProgressBar = SUI.PlayerProgressBar or {}
-local PlayerProgressBar = SUI.PlayerProgressBar
+local PPB = SUI.PlayerProgressBar
 
 local Log = function(...) SUI.Debug:Log("PlayerProgressBar", ...) end
 
@@ -22,54 +22,55 @@ end)
 --------------------------------------------------
 -- Runtime functions
 --------------------------------------------------
--- Simple and safe always visible toggle
-local originalOnFadeOutComplete = PLAYER_PROGRESS_BAR.OnFadeOutComplete
+-- Hook the fragment's RefreshBaseType to prevent clearing when always visible
+local originalRefreshBaseType = ZO_PlayerProgressBarCurrentFragment.RefreshBaseType
 
-function PLAYER_PROGRESS_BAR:OnFadeOutComplete()
-    local oldBarMode = self.barMode
-    
-    self:SetBarMode(nil)
-    self.barType = nil
-   
-    self:SetBarState(ZO_STATE.HIDDEN)
-    self.control:SetHidden(true)
-
-    local nextAnnouncementHasBar = CENTER_SCREEN_ANNOUNCE:DoesNextMessageHaveBarParams()
-
-    if oldBarMode == PPB_MODE_INCREASE then
-        self:ClearIncreaseData()
-        self:FireCallbacks("Complete")
+function ZO_PlayerProgressBarCurrentFragment:RefreshBaseType()
+    if(self:IsShowing() or sv.showPlayerProgressBar) then
+        if(CanUnitGainChampionPoints("player")) then
+            PLAYER_PROGRESS_BAR:SetBaseType(PPB_CP)
+        else
+            PLAYER_PROGRESS_BAR:SetBaseType(PPB_XP)
+        end
+    else
+        PLAYER_PROGRESS_BAR:ClearBaseType()
     end
-
-    -- Modified logic: show if baseType exists OR if always visible is on
-    if((self.baseType or sv.showPlayerProgressBar) and not nextAnnouncementHasBar and not self.pendingShowIncrease) then
-        local barType = self.baseType or (CanUnitGainChampionPoints("player") and PPB_CP or PPB_XP)
-        self:ShowCurrent(barType)
-    end
-    
-    self:FireCallbacks("FadeOutComplete")
 end
 
-function PlayerProgressBar:Toggle()
+-- Initialize on player activated
+local function OnPlayerActivated()
+    if sv.showPlayerProgressBar and PLAYER_PROGRESS_BAR_CURRENT_FRAGMENT then
+        PLAYER_PROGRESS_BAR_CURRENT_FRAGMENT:RefreshBaseType()
+    end
+end
+
+EVENT_MANAGER:RegisterForEvent("AlwaysVisibleProgressBarInit", EVENT_PLAYER_ACTIVATED, OnPlayerActivated)
+
+function PPB:Toggle()
     sv.showPlayerProgressBar = not sv.showPlayerProgressBar
     
     if sv.showPlayerProgressBar then
-        local barType = CanUnitGainChampionPoints("player") and PPB_CP or PPB_XP
-        PLAYER_PROGRESS_BAR:ShowCurrent(barType)
+        -- Trigger a refresh to set the base type
+        if PLAYER_PROGRESS_BAR_CURRENT_FRAGMENT then
+            PLAYER_PROGRESS_BAR_CURRENT_FRAGMENT:RefreshBaseType()
+        end
+    else
+        -- Clear base type when turning off
+        PLAYER_PROGRESS_BAR:ClearBaseType()
     end
-    
-    Log("Progress bar always visible: " .. (sv.showPlayerProgressBar and "ON" or "OFF"))
+
+    Log("Progress bar always visible: " .. (sv.showPlayerProgressBar and "ON" or "OFF"), 0)
 end
 
 --------------------------------------------------
 -- Initialization
 --------------------------------------------------
-function PlayerProgressBar:Initialize()
+function PPB:Initialize()
     sv = SUI.SavedVars.saved
     if not (sv and sv.playerProgressBar) then
         Log("Disabled")
         return    
     end
     Log("Initialized")
-    SLASH_COMMANDS["/togglebar"] = function() PlayerProgressBar:Toggle() end
+    SLASH_COMMANDS["/togglebar"] = function() PPB:Toggle() end
 end
