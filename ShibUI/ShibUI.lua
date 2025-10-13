@@ -12,7 +12,7 @@ SUI = SUI or {}
 SUI.name        = "ShibUI"
 SUI.menuName    = "ShibUI Settings"
 SUI.displayName = "Shibui User Interface"
-SUI.version     = "1.6.0" -- Refactored ShibUI to SUI and local sv references.
+SUI.version     = "1.7.0" -- Updated Debug and Styling to Settings.
 SUI.author      = "Shownie & Ai"
 SUI.description = "ShibUI is a modern and minimalistic UI."
 
