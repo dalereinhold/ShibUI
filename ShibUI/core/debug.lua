@@ -9,9 +9,9 @@ local Debug = SUI.Debug
 --------------------------------------------------
 -- Private helpers
 --------------------------------------------------
-local colorAddon   = "|cFF9900"   -- Orange for addon name
-local colorSource  = "|c80FFBF"   -- Light Green for source
-local colorMessage = "|cF0F0F0"   -- Light Gray for message
+local colorAddon   = "|cFF6C37"   -- Primary #FF6C37
+local colorSource  = "|c728D72"   -- Secondary #728D72
+local colorMessage = "|cEEEEEE"   -- Tertiary #EEEEEE
 
 local function FormatDebugMessage(source, message)
     local src = tostring(source or "General")
@@ -20,19 +20,19 @@ local function FormatDebugMessage(source, message)
     if msg == "" then
         return string.format("%s[ShibUI]|r %s[%s]|r", colorAddon, colorSource, src)
     else
-        return string.format("%s[ShibUI]|r %s[%s]|r %s[%s]|r", colorAddon, colorSource, src, colorMessage, msg)
+        return string.format("%s[ShibUI]|r %s[%s]|r %s%s|r", colorAddon, colorSource, src, colorMessage, msg)
     end
 end
 
 local function DebugWarnNoArgs()
-    d(string.format("%s[ShibUI]|r %s[%s]|r %s[%s]|r", colorAddon, colorSource, "General", colorMessage, "Debug called with no arguments."))
+    d(string.format("%s[ShibUI]|r %s[%s]|r %s%s|r", colorAddon, colorSource, "General", colorMessage, "Debug called with no arguments."))
     d(debug.traceback())
 end
 
 --------------------------------------------------
 -- Debugging function for ShibUI
 -- Usage: SUI.Debug:Log("Source", "Message")
--- Prints: [ShibUI] [Source] [Message] to the chat window.
+-- Prints: [ShibUI] [Source] Message to the chat window.
 -- Define local Log = function(...) SUI.Debug:Log(...) end for easier access.
 -- Only logs if debug mode is enabled in settings.
 --------------------------------------------------

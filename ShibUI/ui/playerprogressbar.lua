@@ -72,5 +72,6 @@ function PPB:Initialize()
         return    
     end
     Log("Initialized")
-    SLASH_COMMANDS["/togglebar"] = function() PPB:Toggle() end
+    ZO_CreateStringId("SI_BINDING_NAME_TOGGLE_PROGRESS_BAR_KEYBIND", "Toggle Progress Bar")
+    SLASH_COMMANDS["/ppb"] = function() self:Toggle() end
 end
