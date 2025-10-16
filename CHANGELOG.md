@@ -18,7 +18,7 @@
 ## Changelog
 
 ### v1.7.0
-- **Added:** Debug:Log method for consistent debug message formatting.
+- **Reworked:** Debug:Log method for consistent debug message formatting.
 - **Fixed:** Player Progress Bar to show on initialization if enabled in settings.
 
 ### v1.6.0

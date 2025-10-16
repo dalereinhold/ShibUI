@@ -14,14 +14,11 @@ local Log = function(...) SUI.Debug:Log("Settings", ...) end
 -- Each function returns a table of settings for a specific section.
 -- These are combined to form the full settings panel.
 -- Add new sections as needed.
--- Primary color rgba(255, 108, 55, 1) = "|cFF6C37|r"
--- Secondary color rgba(114, 141, 114, 1) = "|c728D72|r"   
--- Tertiary color rgba(238, 238, 238, 1) = "|cEEEEEE|r"   
 --------------------------------------------------
 
-local orange = "|cFF6C37"
-local green  = "|c728D72"
-local grey    = "|cEEEEEE"
+local orange = "|cE6A57E" -- Soft persimmon orange
+local green  = "|cB7D3B2" -- Pale green with a hint of mint
+local grey    = "|cEDE6DB" -- Off-white with a warm beige tint
 local reset  = "|r"
 
 local function GeneralSettings()
@@ -54,16 +51,19 @@ local function GeneralSettings()
             getFunc = function() return sv.confirmReload end,
             setFunc = function(value) sv.confirmReload = value end,
             default = SUI.SavedVars.defaults.confirmReload,
-            requiresReload = true,
+            requiresReload = false,
         },
         {
             type = "checkbox",
             name = green .. "Enable Debug Mode" .. reset,
             tooltip = grey .. "Toggle debug messages for troubleshooting. Requires UI reload to take effect." .. reset,
             getFunc = function() return sv.debug end,
-            setFunc = function(value) sv.debug = value end,
+            setFunc = function(value) 
+                sv.debug = value
+                SUI.Debug:Initialize() 
+            end,
             default = SUI.SavedVars.defaults.debug,
-            requiresReload = true,
+            requiresReload = false,
         },
     }
 end
@@ -223,7 +223,7 @@ local function TargetBarSettings()
                     getFunc = function() return sv.hideTargetBar end,
                     setFunc = function(value) sv.hideTargetBar = value end,
                     default = SUI.SavedVars.defaults.hideTargetBar,
-                    requiresReload = true,
+                    requiresReload = false,
                 },
             }
         }
@@ -366,7 +366,6 @@ local function SettingsPanel()
     end
 
     appendOptions(GeneralSettings())
-    appendOptions(DevSettings())
     appendOptions(AttributeBarSettings())
     appendOptions(ActionBarSettings())
     appendOptions(TargetBarSettings())
