@@ -1,6 +1,6 @@
 <Bindings>
     <Layer name="SI_KEYBINDINGS_CATEGORY_GENERAL">
-        <Category name="|cFF6C37Shibui User Interface|r">
+        <Category name="Shibui User Interface">
             <Action name="RELOAD_UI_KEYBIND">
                 <Down>SUI.ReloadUI:OnKeybind()</Down>
             </Action>
