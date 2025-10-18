@@ -7,6 +7,9 @@
             <Action name="TOGGLE_PROGRESS_BAR_KEYBIND">
                 <Down>SUI.PlayerProgressBar:Toggle()</Down>
             </Action>
+            <Action name="TOGGLE_TARGET_BAR_KEYBIND">
+                <Down>SUI.TargetBar:Toggle()</Down>
+            </Action>
         </Category>
     </Layer>
 </Bindings>

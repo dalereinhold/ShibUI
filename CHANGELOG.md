@@ -17,6 +17,16 @@
 
 ## Changelog
 
+### v1.8.0
+- **Moved:** Dev files to root. Not included in release packages.
+- **Updated:** Codebase to match current state of ShibUI.
+- **Improved:** Documentation and comments throughout the code.
+- **General:** Code cleanup and optimization.
+- **Added:** Keybinding to toggle Target Bar visibility.
+- **Added:** Target Bar visibility toggle command `/tbh`.
+- **Added:** Keybinding to toggle Player Progress Bar visibility.
+- **Added:** Player Progress Bar visibility toggle command `/ppb`.
+
 ### v1.7.0
 - **Reworked:** Debug:Log method for consistent debug message formatting.
 - **Fixed:** Player Progress Bar to show on initialization if enabled in settings.

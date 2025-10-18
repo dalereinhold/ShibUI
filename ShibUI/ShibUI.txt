@@ -1,7 +1,7 @@
 ## Title: ShibUI
 ## Description: ShibUI is a minimalistic ESO addon that cleans up and modernizes the user interface.
-## Version: 1.7.0
-## AddOnVersion: 160
+## Version: 1.8.0
+## AddOnVersion: 180
 ## APIVersion: 101047 101048
 ## Author: Shownie & Ai
 ## OptionalDependsOn: LibAddonMenu-2.0
@@ -23,12 +23,12 @@ core/debug.lua
 core/miscellaneous.lua
 core/reloadui.lua
 
-ui/actionbar.lua
-ui/attributebar.lua
-ui/compass.lua
-ui/targetbar.lua
-ui/groupunitframe.lua
-ui/playerprogressbar.lua
+hud/actionbar.lua
+hud/attributebar.lua
+hud/compass.lua
+hud/targetbar.lua
+hud/groupunitframe.lua
+hud/playerprogressbar.lua
 
 # This Add-on is not created by, affiliated with, or sponsored by, ZeniMax Media Inc. or its affiliates.
 # The Elder Scrolls® and related logos are registered trademarks or trademarks of ZeniMax Media Inc. in the United States
