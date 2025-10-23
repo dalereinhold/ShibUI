@@ -23,6 +23,7 @@ SUI.SavedVars.defaults = {
     -- Target Bar
     targetBar           = true,
     hideTargetBar       = true,
+    showHostileOnly     = true,
 
     -- Action Bar
     actionBar           = true,

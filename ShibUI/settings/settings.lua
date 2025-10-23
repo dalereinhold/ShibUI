@@ -154,7 +154,6 @@ local function ActionBarSettings()
             tooltip =  "Toggle the visibility of the weapon swap icon on the action bar.",
             getFunc = function() return true end,
             setFunc = function(value) end,
-            width = "half",
         },
         {
             type = "checkbox",
@@ -162,7 +161,6 @@ local function ActionBarSettings()
             tooltip =  "Toggle the visibility of keybindings on the action bar.",
             getFunc = function() return true end,
             setFunc = function(value) end,
-            width = "half",
         },
         {
             type = "checkbox",
@@ -170,7 +168,6 @@ local function ActionBarSettings()
             tooltip = "Toggle the use of scaled ultimate slots on the action bar.",
             getFunc = function() return true end,
             setFunc = function(value) end,
-            width = "half",
         },
         {
             type = "slider",
@@ -181,7 +178,6 @@ local function ActionBarSettings()
             step = 1,
             getFunc = function() return 1 or 50 end,
             setFunc = function(value) end,
-            width = "half",
         },
         {
             type = "checkbox",
@@ -189,7 +185,6 @@ local function ActionBarSettings()
             tooltip = "Show numeric countdown on backbar abilities.",
             getFunc = function() return true end,
             setFunc = function(value) end,
-            width = "half",
         },
     }
 end
@@ -216,14 +211,13 @@ local function TargetBarSettings()
         },
         {
             type = "checkbox",
-            name = "Hide Target Bar Out of Combat",
-            tooltip = "Toggle the visibility of the target bar when not in combat.",
-            getFunc = function() return sv.hideTargetBar end,
+            name = "Show Only Hostile Targets",
+            tooltip = "Display only hostile targets on the target bar.",
+            getFunc = function() return sv.showHostileOnly end,
             setFunc = function(value)
-                sv.hideTargetBar = value
-                SUI.TargetBar:Toggle()
+                sv.showHostileOnly = value
             end,
-            default = SUI.SavedVars.defaults.hideTargetBar,
+            default = SUI.SavedVars.defaults.showHostileOnly,
             requiresReload = false,
         },
     }
@@ -246,7 +240,6 @@ local function CompassSettings()
             tooltip = "Apply a modern style to the compass and boss bar.",
             getFunc = function() return true end,
             setFunc = function(value) end,
-            width = "half",
         },
         {
             type = "slider",
@@ -257,7 +250,6 @@ local function CompassSettings()
             step = 10,
             getFunc = function() return 10 or 800 end,
             setFunc = function(value) end,
-            width = "half",
         },
     }
 end
@@ -278,7 +270,6 @@ local function GroupFrameSettings()
             tooltip = "Apply a modern style to group frames.",
             getFunc = function() return true end,
             setFunc = function(value) end,
-            width = "half",
         },
         {
             type = "checkbox",
@@ -286,7 +277,6 @@ local function GroupFrameSettings()
             tooltip = "Toggle the visibility of the companion group frame.",
             getFunc = function() return true end,
             setFunc = function(value) end,
-            width = "half",
         },
         {
             type = "slider",
@@ -297,7 +287,6 @@ local function GroupFrameSettings()
             step = 10,
             getFunc = function() return 10 or 400 end,
             setFunc = function(value) end,
-            width = "half",
         },
     }
 end
@@ -328,10 +317,9 @@ local function PlayerProgressBarSettings()
             getFunc = function() return sv.showPlayerProgressBar end,
             setFunc = function(value)
                 sv.showPlayerProgressBar = value 
-                SUI.PPB:Toggle() 
+                SUI.PPB:Toggle()
             end,
             default = SUI.SavedVars.defaults.showPlayerProgressBar,
-            requiresReload = false,
         },
     }
 end

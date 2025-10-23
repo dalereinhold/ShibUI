@@ -17,12 +17,12 @@ local texturesToRedirect = {
     "/esoui/art/chatwindow/chat_minimized_mungebg.dds",
     "/esoui/art/itemtooltip/item_chargemeter.dds",
     "/esoui/art/performance/statusmetermunge.dds",
-    "/esoui/art/unitattributevisualizer/attributebar_dynamic_decreasedarmor_large_glow.dds",
-    "/esoui/art/unitattributevisualizer/attributebar_dynamic_decreasedarmor_large.dds",
-    "/esoui/art/unitattributevisualizer/attributebar_dynamic_decreasedarmor_small_glow.dds",
-    "/esoui/art/unitattributevisualizer/attributebar_dynamic_decreasedarmor_small.dds",
-    "/esoui/art/unitattributevisualizer/attributebar_dynamic_decreasedarmor_standard_glow.dds",
-    "/esoui/art/unitattributevisualizer/attributebar_dynamic_decreasedarmor_standard.dds",
+    "/esoui/art/unitattributevisualizer/targetbar_dynamic_decreasedarmor_large_glow.dds",
+    "/esoui/art/unitattributevisualizer/targetbar_dynamic_decreasedarmor_large.dds",
+    "/esoui/art/unitattributevisualizer/targetbar_dynamic_decreasedarmor_small_glow.dds",
+    "/esoui/art/unitattributevisualizer/targetbar_dynamic_decreasedarmor_small.dds",
+    "/esoui/art/unitattributevisualizer/targetbar_dynamic_decreasedarmor_standard_glow.dds",
+    "/esoui/art/unitattributevisualizer/targetbar_dynamic_decreasedarmor_standard.dds",
 }
 
 function Miscellaneous:Initialize()

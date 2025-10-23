@@ -17,7 +17,7 @@
 ## Todo
 - [ ] Fix Player Progress Bar to hide when other Progress Bars are shown.
 - [ ] Add self.saved to modules. All modules should manage their own saved variables.
-- [ ] Fix Target Bar to show/hide correctly based on settings and combat state. Sometimes appears semi-transparent.
+- [x] Fix Target Bar to show/hide correctly based on settings and combat state. Sometimes appears semi-transparent.
 - [ ] Fix Target Bar styling and sizing.
 - [ ] Fix Group Unit Frame styling and sizing. Breaks when more than 1 group member is present.
 
@@ -32,6 +32,7 @@
 - **Added:** Target Bar visibility toggle command `/tbh`.
 - **Added:** Keybinding to toggle Player Progress Bar visibility.
 - **Added:** Player Progress Bar visibility toggle command `/ppb`.
+- **Fixed:** Target Bar to show/hide correctly based on settings and combat state.
 
 ### v1.7.0
 - **Reworked:** Debug:Log method for consistent debug message formatting.
