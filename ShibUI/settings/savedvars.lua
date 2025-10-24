@@ -11,22 +11,21 @@ local SavedVars = SUI.SavedVars
 --------------------------------------------------
 SUI.SavedVars.defaults = {
     -- General
-    accountWide         = true,
-    confirmReload       = true,
-    debug               = false,
+    accountWide = true,
+    confirmReload = true,
+    debug = false,
 
     -- Attribute Bar
-    attributeBar        = true,
+    attributeBar = true,
     attributeBarPyramid = false,
-    attributeBarSize    = "default",
+    attributeBarSize = "default",
 
     -- Target Bar
-    targetBar           = true,
-    hideTargetBar       = true,
-    showHostileOnly     = true,
+    targetBarStyling = true,
+    showHostileOnly = true,
 
     -- Action Bar
-    actionBar           = true,
+    actionBar = true,
 
     -- Player Progress Bar
     playerProgressBar = true,
@@ -38,15 +37,15 @@ SUI.SavedVars.defaults = {
 --------------------------------------------------
 function SavedVars:Initialize()
     -- create both stores
-    local accountSaved   = ZO_SavedVars:NewAccountWide("suiSavedVars", 1, nil, self.defaults)
+    local accountSaved = ZO_SavedVars:NewAccountWide("suiSavedVars", 1, nil, self.defaults)
     local characterSaved = ZO_SavedVars:New("suiSavedVars", 1, nil, self.defaults)
 
     -- decide which one to use
-    local useAccount    = accountSaved.accountWide or false
-    local sv            = useAccount and accountSaved or characterSaved
+    local useAccount = accountSaved.accountWide or false
+    local sv = useAccount and accountSaved or characterSaved
 
     -- expose all handles
-    self.accountSaved   = accountSaved
+    self.accountSaved = accountSaved
     self.characterSaved = characterSaved
-    self.saved          = sv   -- global reference
+    self.saved = sv   -- global reference
 end

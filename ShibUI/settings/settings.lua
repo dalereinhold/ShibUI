@@ -52,14 +52,11 @@ local function GeneralSettings()
         {
             type = "checkbox",
             name = "Enable Debug Mode",
-            tooltip = "Toggle debug messages for troubleshooting. Requires UI reload to take effect.",
+            tooltip = "Toggle debug messages for troubleshooting.",
             getFunc = function() return sv.debug end,
-            setFunc = function(value) 
-                sv.debug = value
-                SUI.Debug:Initialize() 
-            end,
+            setFunc = function(value) sv.debug = value end,
             default = SUI.SavedVars.defaults.debug,
-            requiresReload = false,
+            requiresReload = true,
         },
     }
 end
@@ -169,7 +166,7 @@ local function ActionBarSettings()
             getFunc = function() return true end,
             setFunc = function(value) end,
         },
-        {
+--[[         {
             type = "slider",
             name = "Adjust Horizontal Action Bar Position",
             tooltip = "Fine-tune the horizontal position of the action bar.",
@@ -185,7 +182,7 @@ local function ActionBarSettings()
             tooltip = "Show numeric countdown on backbar abilities.",
             getFunc = function() return true end,
             setFunc = function(value) end,
-        },
+        }, ]]
     }
 end
 
@@ -204,9 +201,9 @@ local function TargetBarSettings()
             type = "checkbox",
             name = "Enable Target Bar Styling",
             tooltip = "Apply a modern style to the target bar.",
-            getFunc = function() return sv.targetBar end,
-            setFunc = function(value) sv.targetBar = value end,
-            default = SUI.SavedVars.defaults.targetBar,
+            getFunc = function() return sv.targetBarStyling end,
+            setFunc = function(value) sv.targetBarStyling = value end,
+            default = SUI.SavedVars.defaults.targetBarStyling,
             requiresReload = true,
         },
         {
@@ -241,7 +238,7 @@ local function CompassSettings()
             getFunc = function() return true end,
             setFunc = function(value) end,
         },
-        {
+--[[         {
             type = "slider",
             name = "Adjust Compass/Boss Bar Width",
             tooltip = "Set the width of the compass and boss bar.",
@@ -250,7 +247,7 @@ local function CompassSettings()
             step = 10,
             getFunc = function() return 10 or 800 end,
             setFunc = function(value) end,
-        },
+        }, ]]
     }
 end
 
@@ -271,7 +268,7 @@ local function GroupFrameSettings()
             getFunc = function() return true end,
             setFunc = function(value) end,
         },
-        {
+--[[         {
             type = "checkbox",
             name = "Hide Companion Group Frame",
             tooltip = "Toggle the visibility of the companion group frame.",
@@ -287,7 +284,7 @@ local function GroupFrameSettings()
             step = 10,
             getFunc = function() return 10 or 400 end,
             setFunc = function(value) end,
-        },
+        }, ]]
     }
 end
 
@@ -347,8 +344,8 @@ local function SettingsPanel()
 
     local optionsTable = {}
     local function appendOptions(tbl)
-        for _, s in ipairs(tbl) do
-            table.insert(optionsTable, s)
+        for _, i in ipairs(tbl) do
+            table.insert(optionsTable, i)
         end
     end
 

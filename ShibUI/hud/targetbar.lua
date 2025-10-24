@@ -16,8 +16,10 @@ local TARGET_UNIT_FRAME = "ZO_TargetUnitFrame"
 
 SecurePostHook("CreateControlFromVirtual", function(name, _, template, suffix)
     if template == TARGET_UNIT_FRAME then
-        local control = GetControl(name, suffix)
-        ApplyTemplateToControl(control, "SUI_TargetUnitFrame")
+        if sv and sv.targetBarStyling then
+            local control = GetControl(name, suffix)
+            ApplyTemplateToControl(control, "SUI_TargetUnitFrame")
+        end
     end
 end)
 
