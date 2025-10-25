@@ -9,9 +9,9 @@ local Debug = SUI.Debug
 --------------------------------------------------
 -- Private helpers
 --------------------------------------------------
-local colorAddon   = "|cE6A57E"   -- Primary #E6A57E
-local colorSource  = "|cB7D3B2"   -- Secondary #B7D3B2
-local colorMessage = "|cEDE6DB"   -- Tertiary #EDE6DB
+local colorAddon   = "|cFF9900"   -- Primary #ff9900
+local colorSource  = "|c669933"   -- Secondary #669933
+local colorMessage = "|cCECECE"   -- Tertiary #cecece
 
 local function FormatDebugMessage(source, message)
     local src = tostring(source or "General")

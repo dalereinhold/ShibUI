@@ -27,8 +27,8 @@
 
         <!-- Group Unit Frame Status Bar Template -->
         <StatusBar name="SUI_GroupUnitFrameStatus_Keyboard_Template" inherits="ZO_ArrowStatusBarWithBG" virtual="true">
-            <Dimensions x="180" y="15" />
-            <Controls>
+          <Dimensions x="180" y="15" />
+          <Controls>
                 <!-- Override BG with hidden textures -->
                 <Control name="$(parent)BG">
                     <Controls>

@@ -16,10 +16,8 @@ local TARGET_UNIT_FRAME = "ZO_TargetUnitFrame"
 
 SecurePostHook("CreateControlFromVirtual", function(name, _, template, suffix)
     if template == TARGET_UNIT_FRAME then
-        if sv and sv.targetBarStyling then
-            local control = GetControl(name, suffix)
-            ApplyTemplateToControl(control, "SUI_TargetUnitFrame")
-        end
+        local control = GetControl(name, suffix)
+        ApplyTemplateToControl(control, "SUI_TargetUnitFrame")
     end
 end)
 
@@ -73,11 +71,6 @@ EVENT_MANAGER:RegisterForEvent("SUI_FilterHostileTargets", EVENT_PLAYER_COMBAT_S
 ---------------------------------------------------
 function TargetBar:Initialize()
     sv = SUI.SavedVars.saved
-    if not sv then
-        Log("SavedVars not initialized.")
-        return
-    end
-
     ZO_CreateStringId("SI_BINDING_NAME_TOGGLE_TARGET_BAR_KEYBIND", "Toggle Target Bar Filter")
     SLASH_COMMANDS["/tbh"] = function() self:Toggle() end
 end
