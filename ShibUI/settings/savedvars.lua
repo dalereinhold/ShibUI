@@ -21,14 +21,14 @@ SUI.SavedVars.defaults = {
     attributeBarSize = "default",
 
     -- Target Bar
-    targetBarStyling = true,
     showHostileOnly = true,
 
     -- Action Bar
-    actionBar = true,
+    showWeaponSwap = false,
+    showKeybindings = false,
+    scaledUltimateButton = true,
 
     -- Player Progress Bar
-    playerProgressBar = true,
     showPlayerProgressBar = false,
 }
 

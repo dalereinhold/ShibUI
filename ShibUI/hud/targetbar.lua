@@ -22,10 +22,11 @@ SecurePostHook("CreateControlFromVirtual", function(name, _, template, suffix)
 end)
 
 
---[[ 
-Filter out non-hostile targets during combat
-Based on CombatTopHealthbar from Masteroshi430
-]]
+-----------------------------------------------------
+-- Filter out non-hostile targets during combat
+-- Based on CombatTopHealthbar from Masteroshi430
+-- Togglable via keybind or /tbh command
+-----------------------------------------------------
 
 function TargetBar:ShowHostileOnly()
     if not IsPlayerActivated() then return end
@@ -71,6 +72,7 @@ EVENT_MANAGER:RegisterForEvent("SUI_FilterHostileTargets", EVENT_PLAYER_COMBAT_S
 ---------------------------------------------------
 function TargetBar:Initialize()
     sv = SUI.SavedVars.saved
+    Log("Initialized")
     ZO_CreateStringId("SI_BINDING_NAME_TOGGLE_TARGET_BAR_KEYBIND", "Toggle Target Bar Filter")
     SLASH_COMMANDS["/tbh"] = function() self:Toggle() end
 end

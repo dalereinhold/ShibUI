@@ -26,11 +26,8 @@ local function GeneralSettings()
         },
         { 
             type = "header",
-            name = "General Settings "},
-        { 
-            type = "description", 
-            text = "General settings for ShibUI.", 
-            width = "full" },
+            name = "General Settings "
+        },
         {
             type = "checkbox",
             name = "Account Wide Settings",
@@ -66,11 +63,6 @@ local function AttributeBarSettings()
         {
             type = "header",
             name = "Attribute Bar Layout Preview",
-        },
-        {
-            type = "description",
-            text = "Adjust the appearance and behavior of the attribute bar.",
-            width = "full"
         },
         {
             type = "checkbox",
@@ -132,32 +124,26 @@ local function ActionBarSettings()
             name = "Action Bar",
         },
         {
-            type = "description",
-            text = "Adjust the appearance and behavior of the action bar and related elements.",
-            width = "full"
-        },
-        { 
-            type = "checkbox",
-            name = "Enable Action Bar Styling",
-            tooltip = "Apply a modern style to the action bar and related elements.",
-            getFunc = function() return sv.actionBar end,
-            setFunc = function(value) sv.actionBar = value end,
-            default = SUI.SavedVars.defaults.actionBar,
-            requiresReload = true,
-        },
-        {
             type = "checkbox",
             name = "Hide Weapon Swap Icon",
             tooltip =  "Toggle the visibility of the weapon swap icon on the action bar.",
-            getFunc = function() return true end,
-            setFunc = function(value) end,
+            getFunc = function() return sv.showWeaponSwap end,
+            setFunc = function(value) 
+                sv.showWeaponSwap = value 
+                SUI.ActionBar:ToggleWeaponSwap()
+            end,
+            default = SUI.SavedVars.defaults.showWeaponSwap,
         },
         {
             type = "checkbox",
-            name =  "Hide Keybindings" ,
+            name =  "Hide Keybindings",
             tooltip =  "Toggle the visibility of keybindings on the action bar.",
-            getFunc = function() return true end,
-            setFunc = function(value) end,
+            getFunc = function() return sv.showKeybindings end,
+            setFunc = function(value) 
+                sv.showKeybindings = value 
+                SUI.ActionBar:ToggleKeybindings()
+            end,
+            default = SUI.SavedVars.defaults.showKeybindings,
         },
         {
             type = "checkbox",
@@ -166,23 +152,6 @@ local function ActionBarSettings()
             getFunc = function() return true end,
             setFunc = function(value) end,
         },
---[[         {
-            type = "slider",
-            name = "Adjust Horizontal Action Bar Position",
-            tooltip = "Fine-tune the horizontal position of the action bar.",
-            min = -100,
-            max = 100,
-            step = 1,
-            getFunc = function() return 1 or 50 end,
-            setFunc = function(value) end,
-        },
-        {
-            type = "checkbox",
-            name = "Backbar Numeric countdown",
-            tooltip = "Show numeric countdown on backbar abilities.",
-            getFunc = function() return true end,
-            setFunc = function(value) end,
-        }, ]]
     }
 end
 
@@ -193,98 +162,13 @@ local function TargetBarSettings()
             name = "Target Bar",
         },
         {
-            type = "description",
-            text = "Adjust the appearance and behavior of the target bar.",
-            width = "full"
-        },
-        {
-            type = "checkbox",
-            name = "Enable Target Bar Styling",
-            tooltip = "Apply a modern style to the target bar.",
-            getFunc = function() return sv.targetBarStyling end,
-            setFunc = function(value) sv.targetBarStyling = value end,
-            default = SUI.SavedVars.defaults.targetBarStyling,
-            requiresReload = true,
-        },
-        {
             type = "checkbox",
             name = "Show Only Hostile Targets",
             tooltip = "Display only hostile targets on the target bar.",
             getFunc = function() return sv.showHostileOnly end,
-            setFunc = function(value)
-                sv.showHostileOnly = value
-            end,
+            setFunc = function(value) sv.showHostileOnly = value end,
             default = SUI.SavedVars.defaults.showHostileOnly,
-            requiresReload = false,
         },
-    }
-end
-
-local function CompassSettings()
-    return {
-        {
-            type = "header",
-            name = "Compass and Boss Bar",
-        },
-        {
-            type = "description",
-            text = "Adjust the appearance of the compass and boss bar.",
-            width = "full" 
-        },
-        {
-            type = "checkbox",
-            name = "Enable Compass and Boss Bar Styling",
-            tooltip = "Apply a modern style to the compass and boss bar.",
-            getFunc = function() return true end,
-            setFunc = function(value) end,
-        },
---[[         {
-            type = "slider",
-            name = "Adjust Compass/Boss Bar Width",
-            tooltip = "Set the width of the compass and boss bar.",
-            min = 400,
-            max = 1600,
-            step = 10,
-            getFunc = function() return 10 or 800 end,
-            setFunc = function(value) end,
-        }, ]]
-    }
-end
-
-local function GroupFrameSettings()
-    return {
-        {
-            type = "header",
-            name = "Group Frame",
-        },
-        {
-            type = "description",
-            text = "Adjust the appearance and behavior of group frames.",
-        },
-        {
-            type = "checkbox",
-            name = "Enable Group Frame Styling",
-            tooltip = "Apply a modern style to group frames.",
-            getFunc = function() return true end,
-            setFunc = function(value) end,
-        },
---[[         {
-            type = "checkbox",
-            name = "Hide Companion Group Frame",
-            tooltip = "Toggle the visibility of the companion group frame.",
-            getFunc = function() return true end,
-            setFunc = function(value) end,
-        },
-        {
-            type = "slider",
-            name = "Adjust Group Frame Width",
-            tooltip = "Set the width of group frames.",
-            min = 200,
-            max = 600,
-            step = 10,
-            getFunc = function() return 10 or 400 end,
-            setFunc = function(value) end,
-        }, ]]
     }
 end
 
@@ -293,19 +177,6 @@ local function PlayerProgressBarSettings()
         {
             type = "header",
             name = "Player Progress Bar",
-        },
-        {
-            type = "description",
-            text = "Adjust the appearance of the player progress bar.",
-        },
-        {
-            type = "checkbox",
-            name = "Enable Player Progress Bar Effect",
-            tooltip = "Apply a modern style to the player progress bar.",
-            getFunc = function() return sv.playerProgressBar end,
-            setFunc = function(value) sv.playerProgressBar = value end,
-            default = SUI.SavedVars.defaults.playerProgressBar,
-            requiresReload = true,
         },
         { 
             type = "checkbox",
@@ -353,8 +224,6 @@ local function SettingsPanel()
     appendOptions(AttributeBarSettings())
     appendOptions(ActionBarSettings())
     appendOptions(TargetBarSettings())
-    appendOptions(CompassSettings())
-    appendOptions(GroupFrameSettings())
     appendOptions(PlayerProgressBarSettings())
 
     LAM:RegisterAddonPanel(SUI.menuName, panelData)

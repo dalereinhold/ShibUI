@@ -57,5 +57,5 @@ end
 
 function Debug:Initialize()
     self.enabled = SUI.SavedVars.saved and SUI.SavedVars.saved.debug
-    self:Log("Debug", "Initialized Debug Module")
+    self:Log("Debug", "Initialized")
 end

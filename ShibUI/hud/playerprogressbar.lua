@@ -14,9 +14,7 @@ local Log = function(...) SUI.Debug:Log("PlayerProgressBar", ...) end
 -- local PLAYER_PROGRESS_BAR = "ZO_PlayerProgressBar"
 --------------------------------------------------
 SecurePostHook(PLAYER_PROGRESS_BAR, "RefreshTemplate", function(self)
-    if sv and sv.playerProgressBar then
     ApplyTemplateToControl(self.barControl, "SUI_PlayerProgressBarTemplate")
-    end
 end)
 
 --------------------------------------------------
@@ -67,10 +65,6 @@ end
 --------------------------------------------------
 function PPB:Initialize()
     sv = SUI.SavedVars.saved
-    if not (sv and sv.playerProgressBar) then
-        Log("Disabled")
-        return    
-    end
     Log("Initialized")
     ZO_CreateStringId("SI_BINDING_NAME_TOGGLE_PROGRESS_BAR_KEYBIND", "Toggle Progress Bar")
     SLASH_COMMANDS["/ppb"] = function() self:Toggle() end

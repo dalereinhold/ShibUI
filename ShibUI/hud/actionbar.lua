@@ -12,6 +12,39 @@ local Log = function(...) SUI.Debug:Log("Action Bar", ...) end
 -- Apply the bar template
 ApplyTemplateToControl(ZO_ActionBar1, "SUI_ActionBar1")
 
+function ActionBar:ToggleWeaponSwap()
+    sv.showWeaponSwap = not sv.showWeaponSwap
+    ZO_ActionBar1WeaponSwap:SetAlpha(sv.showWeaponSwap and 1 or 0)
+    ZO_ActionBar1WeaponSwap:SetAlpha(not sv.showWeaponSwap and 1 or 0)
+    Log("Weapon Swap Icon: " .. (sv.showWeaponSwap and "ON" or "OFF"), 0)
+end
+
+function ActionBar:ToggleKeybindings()
+    sv.showKeybindings = not sv.showKeybindings
+
+    -- hide/show each action button's text
+    for i = 1, 8 do
+        local buttonText = _G["ActionButton"..i.."ButtonText"]
+        if buttonText and buttonText.SetHidden then
+            buttonText:SetHidden(not sv.showKeybindings)
+        end
+    end
+
+    -- quickslot text
+    local quickslotText = _G["QuickslotButtonButtonText"]
+    if quickslotText and quickslotText.SetHidden then
+        quickslotText:SetHidden(not sv.showKeybindings)
+    end
+
+    -- ultimate button text
+    local ultimateText = _G["CompanionUltimateButtonButtonText"]
+    if ultimateText and ultimateText.SetHidden then
+        ultimateText:SetHidden(not sv.showKeybindings)
+    end
+
+    Log("Action Bar Keybindings: " .. (sv.showKeybindings and "ON" or "OFF"), 0)
+end
+
 -- Hook all buttons
 SecurePostHook(ActionButton, "ApplyStyle", function(self)
     if self.slot == _G["ActionButton8"] or self.slot == _G["CompanionUltimateButton"] then
@@ -44,8 +77,8 @@ end)
 
 --------------------------------------------------
 -- Handle Ultimate Button After Swap
---------------------------------------------------
 -- Override animation style method to maintain custom sizing
+--------------------------------------------------
 local originalApplySwapAnimationStyle = ActionButton.ApplySwapAnimationStyle
 function ActionButton:ApplySwapAnimationStyle()
     originalApplySwapAnimationStyle(self)
@@ -66,9 +99,5 @@ end
 
 function ActionBar:Initialize()
     sv = SUI.SavedVars.saved
-    if not sv or not sv.actionBar then
-        Log("Disabled via settings")
-        return
-    end
-    Log("Initialized successfully")
+    Log("Initialized")
 end

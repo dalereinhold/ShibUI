@@ -7,11 +7,11 @@ local sv
 SUI.Compass = SUI.Compass or {}
 local Compass = SUI.Compass
 
-local Log = function(...) SUI.Debug:Log(...) end
+local Log = function(...) SUI.Debug:Log("Compass & BossBar", ...) end
 
 ApplyTemplateToControl(ZO_CompassFrame, "SUI_CompassFrame")
-ApplyTemplateToControl(ZO_Compass,      "SUI_Compass")
-ApplyTemplateToControl(ZO_BossBar,      "SUI_BossBar")
+ApplyTemplateToControl(ZO_Compass, "SUI_Compass")
+ApplyTemplateToControl(ZO_BossBar, "SUI_BossBar")
 
 -- Don't Resize Compass
 ZO_CompassFrame:UnregisterForEvent(EVENT_PLAYER_ACTIVATED)
@@ -24,6 +24,6 @@ function COMPASS_FRAME:SetBossBarActive (active)
 end
 
 function Compass:Initialize()
-    sv = SUI.SavedVars.sv
-    Log("Compass", "Initialized Compass Module")
+    sv = SUI.SavedVars.saved
+    Log("Initialized")
 end

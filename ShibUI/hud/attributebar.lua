@@ -7,7 +7,7 @@ local sv
 SUI.AttributeBar = SUI.AttributeBar or {}
 local AttributeBar = SUI.AttributeBar
 
-local Log = function(...) SUI.Debug:Log(...) end
+local Log = function(...) SUI.Debug:Log("AttributeBar", ...) end
 
 ---------------------------------------------------
 -- Texture Redirection for Attribute Bar
@@ -215,5 +215,5 @@ function AttributeBar:Initialize()
         local layout = sv.attributeBarPyramid and "pyramid" or "shibui"
         SUI.ApplyAttributeBarLayout(layout)
     end)
-    Log("AttributeBar", "Initialized Attribute Bar module.")
+    Log("Initialized")
 end

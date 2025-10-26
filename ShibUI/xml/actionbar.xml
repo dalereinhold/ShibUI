@@ -4,10 +4,7 @@
         <!-- Action Bar -->
         <Control name="SUI_ActionBar1" virtual="true">
             <Controls>
-
                 <Texture name="$(parent)KeybindBG" alpha="0" />
-                <Button name="$(parent)WeaponSwap" alpha="0" />
-
             </Controls>
         </Control>
 
@@ -15,8 +12,8 @@
         <Control name="SUI_ActionButton_Keyboard_Template" virtual="true" >
             <Controls> 
 
-                <Label name="$(parent)ButtonText" hidden="true" />
-
+<!--                 <Label name="$(parent)ButtonText" hidden="true" />
+ -->
                 <Texture name="$(parent)Decoration" hidden="true" />
                 
                 <Button name="$(parent)Button" alpha="0" />
@@ -32,8 +29,8 @@
                     <Dimensions x="57" y="57" />
                 </Control>
 
-                <Label name="$(parent)ButtonText" hidden="true" />
-
+<!--                 <Label name="$(parent)ButtonText" hidden="true" />
+ -->
                 <Texture name="$(parent)Decoration" hidden="true" />
 
                 <Button name="$(parent)Button" alpha="0" />

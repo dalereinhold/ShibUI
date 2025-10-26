@@ -7,7 +7,7 @@ local sv
 SUI.Miscellaneous = SUI.Miscellaneous or {}
 local Miscellaneous = SUI.Miscellaneous
 
-local Log = function(...) SUI.Debug:Log(...) end
+local Log = function(...) SUI.Debug:Log("Miscellaneous", ...) end
 
 --------------------------------------------------
 -- Apply miscellaneous textures to blank textures.
@@ -25,10 +25,14 @@ local texturesToRedirect = {
     "/esoui/art/unitattributevisualizer/targetbar_dynamic_decreasedarmor_standard.dds",
 }
 
-function Miscellaneous:Initialize()
-    sv = SUI.SavedVars.saved
+local function TextureRedirect()
     for _, texturePath in ipairs(texturesToRedirect) do
         RedirectTexture(texturePath, blankTexture)
     end
-    Log("Miscellaneous", "Initialized")
+end
+
+function Miscellaneous:Initialize()
+    sv = SUI.SavedVars.saved
+    TextureRedirect()
+    Log("Initialized")
 end

@@ -33,7 +33,7 @@
 - **Added:** Keybinding to toggle Player Progress Bar visibility.
 - **Added:** Player Progress Bar visibility toggle command `/ppb`.
 - **Fixed:** Target Bar to show/hide correctly based on settings and combat state.
-- **Added:** Target Bar styling conditions and setting options.
+- **Removed:** Styling conditions. All styling is now applied consistently.
 
 ### v1.7.0
 - **Reworked:** Debug:Log method for consistent debug message formatting.
