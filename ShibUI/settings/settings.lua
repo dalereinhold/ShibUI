@@ -125,12 +125,12 @@ local function ActionBarSettings()
         },
         {
             type = "checkbox",
-            name = "Hide Weapon Swap Icon",
+            name = "Show Weapon Swap Icon",
             tooltip =  "Toggle the visibility of the weapon swap icon on the action bar.",
             getFunc = function() return sv.showWeaponSwap end,
             setFunc = function(value) 
                 sv.showWeaponSwap = value 
-                SUI.ActionBar:ToggleWeaponSwap()
+                SUI.ActionBar:ApplyWeaponSwapVisibility()
             end,
             default = SUI.SavedVars.defaults.showWeaponSwap,
         },

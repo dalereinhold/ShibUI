@@ -12,10 +12,13 @@ local Log = function(...) SUI.Debug:Log("Action Bar", ...) end
 -- Apply the bar template
 ApplyTemplateToControl(ZO_ActionBar1, "SUI_ActionBar1")
 
+function ActionBar:ApplyWeaponSwapVisibility()
+    ZO_ActionBar1WeaponSwap:SetAlpha(sv.showWeaponSwap and 1 or 0)
+end
+
 function ActionBar:ToggleWeaponSwap()
     sv.showWeaponSwap = not sv.showWeaponSwap
-    ZO_ActionBar1WeaponSwap:SetAlpha(sv.showWeaponSwap and 1 or 0)
-    ZO_ActionBar1WeaponSwap:SetAlpha(not sv.showWeaponSwap and 1 or 0)
+    self:ApplyWeaponSwapVisibility()
     Log("Weapon Swap Icon: " .. (sv.showWeaponSwap and "ON" or "OFF"), 0)
 end
 
@@ -99,7 +102,7 @@ end
 
 function ActionBar:Initialize()
     sv = SUI.SavedVars.saved
-    self:ToggleWeaponSwap()
+    self:ApplyWeaponSwapVisibility()
     self:ToggleKeybindings()
     Log("Initialized")
 end
