@@ -53,16 +53,67 @@ function ActionBar:ToggleKeybindings()
     Log("Action Bar Keybindings: " .. (sv.showKeybindings and "ON" or "OFF"), 0)
 end
 
+function ActionBar:ApplyUltimateButtonScaling()
+    zo_callLater(function()
+        local actionButton8 = _G["ActionButton8"]
+        local companionUltimateButton = _G["CompanionUltimateButton"]
+        
+        if actionButton8 then
+            if sv.scaledUltimateButton then
+                ApplyTemplateToControl(actionButton8, "SUI_UltimateActionButton_Keyboard_Template")
+                if actionButton8.flipCard then
+                    actionButton8.flipCard:SetDimensions(57, 57)
+                end
+            else
+                ApplyTemplateToControl(actionButton8, "SUI_ActionButton_Keyboard_Template")
+                if actionButton8.flipCard then
+                    actionButton8.flipCard:SetDimensions(47, 47) -- Default size
+                end
+            end
+        end
+        
+        if companionUltimateButton then
+            if sv.scaledUltimateButton then
+                ApplyTemplateToControl(companionUltimateButton, "SUI_UltimateActionButton_Keyboard_Template")
+                if companionUltimateButton.flipCard then
+                    companionUltimateButton.flipCard:SetDimensions(57, 57)
+                end
+            else
+                ApplyTemplateToControl(companionUltimateButton, "SUI_ActionButton_Keyboard_Template")
+                if companionUltimateButton.flipCard then
+                    companionUltimateButton.flipCard:SetDimensions(47, 47) -- Default size
+                end
+            end
+        end
+    end, 100)
+end
+
+function ActionBar:ToggleUltimateButtonScaling()
+    sv.scaledUltimateButton = not sv.scaledUltimateButton
+    self:ApplyUltimateButtonScaling()
+    Log("Scaled Ultimate Buttons: " .. (sv.scaledUltimateButton and "ON" or "OFF"), 0)
+end
+
 -- Hook all buttons
 SecurePostHook(ActionButton, "ApplyStyle", function(self)
     if self.slot == _G["ActionButton8"] or self.slot == _G["CompanionUltimateButton"] then
-        ApplyTemplateToControl(self.slot, "SUI_UltimateActionButton_Keyboard_Template")
-        -- Ensure FlipCard maintains correct size
-        zo_callLater(function()
-            if self.flipCard then
-                self.flipCard:SetDimensions(57, 57)
-            end
-        end, 50)
+        if sv.scaledUltimateButton then
+            ApplyTemplateToControl(self.slot, "SUI_UltimateActionButton_Keyboard_Template")
+            -- Ensure FlipCard maintains correct size
+            zo_callLater(function()
+                if self.flipCard then
+                    self.flipCard:SetDimensions(57, 57)
+                end
+            end, 50)
+        else
+            ApplyTemplateToControl(self.slot, "SUI_ActionButton_Keyboard_Template")
+            -- Apply default size
+            zo_callLater(function()
+                if self.flipCard then
+                    self.flipCard:SetDimensions(47, 47)
+                end
+            end, 50)
+        end
     else
         ApplyTemplateToControl(self.slot, "SUI_ActionButton_Keyboard_Template")
     end
@@ -92,15 +143,16 @@ function ActionButton:ApplySwapAnimationStyle()
     originalApplySwapAnimationStyle(self)
     
     if self.slot == _G["ActionButton8"] then
-        self.flipCard:SetDimensions(57, 57)
+        local size = sv.scaledUltimateButton and 57 or 47
+        self.flipCard:SetDimensions(size, size)
         local timeline = self.hotbarSwapAnimation
         if timeline then
             local firstAnimation = timeline:GetFirstAnimation()
             local lastAnimation = timeline:GetLastAnimation()
-            firstAnimation:SetStartAndEndWidth(57, 57)
-            firstAnimation:SetStartAndEndHeight(57, 0)
-            lastAnimation:SetStartAndEndWidth(57, 57)
-            lastAnimation:SetStartAndEndHeight(0, 57)
+            firstAnimation:SetStartAndEndWidth(size, size)
+            firstAnimation:SetStartAndEndHeight(size, 0)
+            lastAnimation:SetStartAndEndWidth(size, size)
+            lastAnimation:SetStartAndEndHeight(0, size)
         end
     end
 end
@@ -109,10 +161,12 @@ function ActionBar:Initialize()
     sv = SUI.SavedVars.saved
     self:ApplyWeaponSwapVisibility()
     self:ApplyKeybindingsVisibility()
+    self:ApplyUltimateButtonScaling()
     
-    -- Also apply keybindings when player is activated (UI fully loaded)
+    -- Also apply settings when player is activated (UI fully loaded)
     EVENT_MANAGER:RegisterForEvent("SUI_ActionBar_PlayerActivated", EVENT_PLAYER_ACTIVATED, function()
         self:ApplyKeybindingsVisibility()
+        self:ApplyUltimateButtonScaling()
         EVENT_MANAGER:UnregisterForEvent("SUI_ActionBar_PlayerActivated", EVENT_PLAYER_ACTIVATED)
     end)
     

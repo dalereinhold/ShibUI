@@ -149,8 +149,12 @@ local function ActionBarSettings()
             type = "checkbox",
             name = "Use Scaled Ultimate Slots",
             tooltip = "Toggle the use of scaled ultimate slots on the action bar.",
-            getFunc = function() return true end,
-            setFunc = function(value) end,
+            getFunc = function() return sv.scaledUltimateButton end,
+            setFunc = function(value) 
+                sv.scaledUltimateButton = value 
+                SUI.ActionBar:ApplyUltimateButtonScaling()
+            end,
+            default = SUI.SavedVars.defaults.scaledUltimateButton,
         },
     }
 end
