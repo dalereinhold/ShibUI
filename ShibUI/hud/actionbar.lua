@@ -99,5 +99,7 @@ end
 
 function ActionBar:Initialize()
     sv = SUI.SavedVars.saved
+    self:ToggleWeaponSwap()
+    self:ToggleKeybindings()
     Log("Initialized")
 end
