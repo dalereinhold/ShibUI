@@ -30,6 +30,7 @@ end)
 
 function TargetBar:ShowHostileOnly()
     if not IsPlayerActivated() then return end
+    if not UNIT_FRAMES then return end
 
     self.targetFrame = ZO_UnitFrames_GetUnitFrame("reticleover")
     self.targetFrame:SetAnimateShowHide(false) -- Maybe needed to prevent animation glitches
