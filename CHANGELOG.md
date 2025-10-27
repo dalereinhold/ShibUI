@@ -14,12 +14,6 @@
   A value of `0` denotes a **pre-release** or **internal development version** not yet targeted at a specific game update (e.g., `v0.3.0` is a dev build before targeting Update 46).
 
 ---
-## Todo
-- [ ] Fix Player Progress Bar to hide when other Progress Bars are shown.
-- [ ] Add self.saved to modules. All modules should manage their own saved variables.
-- [x] Fix Target Bar to show/hide correctly based on settings and combat state. Sometimes appears semi-transparent.
-- [ ] Fix Target Bar styling and sizing.
-- [ ] Fix Group Unit Frame styling and sizing. Breaks when more than 1 group member is present.
 
 ## Changelog
 
