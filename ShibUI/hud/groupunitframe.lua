@@ -7,9 +7,9 @@ local sv
 SUI.GroupUnitFrame = SUI.GroupUnitFrame or {}
 local GroupUnitFrame = SUI.GroupUnitFrame
 
-local Log = function(...) SUI.Debug:Log(...) end
+local Log = function(...) SUI.Debug:Log("GroupUnitFrame", ...) end
 
-local GROUP_UNIT_FRAME = "ZO_GroupUnitFrame"
+--[[ local GROUP_UNIT_FRAME = "ZO_GroupUnitFrame"
 local COMPANION_UNIT_FRAME = "ZO_CompanionUnitFrame"
 local COMPANION_GROUP_UNIT_FRAME = "ZO_CompanionGroupUnitFrame"
 
@@ -27,9 +27,40 @@ SecurePostHook(ZO_UnitFrameObject, "ApplyVisualStyle", function(self)
             ApplyTemplateToControl(self.healthBar.barControls[i], "SUI_GroupUnitFrameStatus_Keyboard_Template")
         end
     end
-end)
+end) ]]
+
+local blankTexture = "/esoui/art/icons/heraldrycrests_misc_blank_01.dds"
+local basePath = "/esoui/art/unitframes/"
+
+local defaultTextures = {
+    basePath .. "unitframe_group_left.dds",
+    basePath .. "unitframe_group_right.dds",
+    basePath .. "unitframe_group_withcompanion.dds",
+    basePath .. "target_health_frame.dds",
+}
+
+local function BlankTexture()
+    for _, tex in ipairs(defaultTextures) do
+        RedirectTexture(tex, blankTexture)
+    end
+end
+
+local function DefaultTexture()
+    for _, tex in ipairs(defaultTextures) do
+        RedirectTexture(tex, tex)
+    end
+end
+
+function GroupUnitFrame:ApplyVisualStyle()
+    if sv.groupUnitFrame then
+        BlankTexture()
+    else
+        DefaultTexture()
+    end
+end
 
 function GroupUnitFrame:Initialize()
     sv = SUI.SavedVars.saved
-    Log("GroupUnitFrame", "Initialized")
+    self:ApplyVisualStyle()
+    Log("Initialized")
 end

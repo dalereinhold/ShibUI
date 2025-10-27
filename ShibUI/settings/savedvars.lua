@@ -30,6 +30,9 @@ SUI.SavedVars.defaults = {
 
     -- Player Progress Bar
     showPlayerProgressBar = false,
+
+    -- Group Unit Frame
+    groupUnitFrame = true,
 }
 
 --------------------------------------------------

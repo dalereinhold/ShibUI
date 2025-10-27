@@ -130,7 +130,9 @@ local function ActionBarSettings()
             getFunc = function() return sv.showWeaponSwap end,
             setFunc = function(value) 
                 sv.showWeaponSwap = value 
-                SUI.ActionBar:ApplyWeaponSwapVisibility()
+                if SUI.ActionBar and SUI.ActionBar.ApplyWeaponSwapVisibility then
+                    SUI.ActionBar:ApplyWeaponSwapVisibility()
+                end
             end,
             default = SUI.SavedVars.defaults.showWeaponSwap,
         },
@@ -141,7 +143,9 @@ local function ActionBarSettings()
             getFunc = function() return sv.showKeybindings end,
             setFunc = function(value) 
                 sv.showKeybindings = value 
-                SUI.ActionBar:ApplyKeybindingsVisibility()
+                if SUI.ActionBar and SUI.ActionBar.ApplyKeybindingsVisibility then
+                    SUI.ActionBar:ApplyKeybindingsVisibility()
+                end
             end,
             default = SUI.SavedVars.defaults.showKeybindings,
         },
@@ -152,7 +156,9 @@ local function ActionBarSettings()
             getFunc = function() return sv.scaledUltimateButton end,
             setFunc = function(value) 
                 sv.scaledUltimateButton = value 
-                SUI.ActionBar:ApplyUltimateButtonScaling()
+                if SUI.ActionBar and SUI.ActionBar.ApplyUltimateButtonScaling then
+                    SUI.ActionBar:ApplyUltimateButtonScaling()
+                end
             end,
             default = SUI.SavedVars.defaults.scaledUltimateButton,
         },
@@ -189,9 +195,34 @@ local function PlayerProgressBarSettings()
             getFunc = function() return sv.showPlayerProgressBar end,
             setFunc = function(value)
                 sv.showPlayerProgressBar = value 
-                SUI.PPB:Toggle()
+                if SUI.PPB and SUI.PPB.Toggle then
+                    SUI.PPB:Toggle()
+                end
             end,
             default = SUI.SavedVars.defaults.showPlayerProgressBar,
+        },
+    }
+end
+
+local function GroupUnitFrame()
+    return {
+        {
+            type = "header",
+            name = "Group Unit Frame",
+        },
+        {
+            type = "checkbox",
+            name = "Apply Group Frame Styling",
+            tooltip = "Apply styling.",
+            getFunc = function() return sv.groupUnitFrame end,
+            setFunc = function(value)
+                sv.groupUnitFrame = value
+                if SUI.GroupUnitFrame and SUI.GroupUnitFrame.ApplyVisualStyle then
+                    SUI.GroupUnitFrame:ApplyVisualStyle()
+                end
+            end,
+            default = SUI.SavedVars.defaults.groupUnitFrame,
+            requiresReload = true,
         },
     }
 end
@@ -229,6 +260,7 @@ local function SettingsPanel()
     appendOptions(ActionBarSettings())
     appendOptions(TargetBarSettings())
     appendOptions(PlayerProgressBarSettings())
+    appendOptions(GroupUnitFrame())
 
     LAM:RegisterAddonPanel(SUI.menuName, panelData)
     LAM:RegisterOptionControls(SUI.menuName, optionsTable)
