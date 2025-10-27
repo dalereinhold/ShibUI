@@ -136,12 +136,12 @@ local function ActionBarSettings()
         },
         {
             type = "checkbox",
-            name =  "Hide Keybindings",
+            name =  "Show Keybindings",
             tooltip =  "Toggle the visibility of keybindings on the action bar.",
             getFunc = function() return sv.showKeybindings end,
             setFunc = function(value) 
                 sv.showKeybindings = value 
-                SUI.ActionBar:ToggleKeybindings()
+                SUI.ActionBar:ApplyKeybindingsVisibility()
             end,
             default = SUI.SavedVars.defaults.showKeybindings,
         },

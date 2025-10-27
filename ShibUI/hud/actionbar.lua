@@ -22,29 +22,34 @@ function ActionBar:ToggleWeaponSwap()
     Log("Weapon Swap Icon: " .. (sv.showWeaponSwap and "ON" or "OFF"), 0)
 end
 
+function ActionBar:ApplyKeybindingsVisibility()
+    -- Use a small delay to ensure UI elements are created
+    zo_callLater(function()
+        -- hide/show each action button's text
+        for i = 1, 8 do
+            local buttonText = _G["ActionButton"..i.."ButtonText"]
+            if buttonText and buttonText.SetHidden then
+                buttonText:SetHidden(not sv.showKeybindings)
+            end
+        end
+
+        -- quickslot text
+        local quickslotText = _G["QuickslotButtonButtonText"]
+        if quickslotText and quickslotText.SetHidden then
+            quickslotText:SetHidden(not sv.showKeybindings)
+        end
+
+        -- ultimate button text
+        local ultimateText = _G["CompanionUltimateButtonButtonText"]
+        if ultimateText and ultimateText.SetHidden then
+            ultimateText:SetHidden(not sv.showKeybindings)
+        end
+    end, 100)
+end
+
 function ActionBar:ToggleKeybindings()
     sv.showKeybindings = not sv.showKeybindings
-
-    -- hide/show each action button's text
-    for i = 1, 8 do
-        local buttonText = _G["ActionButton"..i.."ButtonText"]
-        if buttonText and buttonText.SetHidden then
-            buttonText:SetHidden(not sv.showKeybindings)
-        end
-    end
-
-    -- quickslot text
-    local quickslotText = _G["QuickslotButtonButtonText"]
-    if quickslotText and quickslotText.SetHidden then
-        quickslotText:SetHidden(not sv.showKeybindings)
-    end
-
-    -- ultimate button text
-    local ultimateText = _G["CompanionUltimateButtonButtonText"]
-    if ultimateText and ultimateText.SetHidden then
-        ultimateText:SetHidden(not sv.showKeybindings)
-    end
-
+    self:ApplyKeybindingsVisibility()
     Log("Action Bar Keybindings: " .. (sv.showKeybindings and "ON" or "OFF"), 0)
 end
 
@@ -103,6 +108,13 @@ end
 function ActionBar:Initialize()
     sv = SUI.SavedVars.saved
     self:ApplyWeaponSwapVisibility()
-    self:ToggleKeybindings()
+    self:ApplyKeybindingsVisibility()
+    
+    -- Also apply keybindings when player is activated (UI fully loaded)
+    EVENT_MANAGER:RegisterForEvent("SUI_ActionBar_PlayerActivated", EVENT_PLAYER_ACTIVATED, function()
+        self:ApplyKeybindingsVisibility()
+        EVENT_MANAGER:UnregisterForEvent("SUI_ActionBar_PlayerActivated", EVENT_PLAYER_ACTIVATED)
+    end)
+    
     Log("Initialized")
 end
