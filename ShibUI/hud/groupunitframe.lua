@@ -36,7 +36,8 @@ local defaultTextures = {
     basePath .. "unitframe_group_left.dds",
     basePath .. "unitframe_group_right.dds",
     basePath .. "unitframe_group_withcompanion.dds",
-    basePath .. "target_health_frame.dds",
+    "/esoui/art/miscellaneous/progressbar_frame_bg.dds",
+    "/esoui/art/miscellaneous/progressbar_frame.dds",
 }
 
 local function BlankTexture()
