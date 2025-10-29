@@ -198,22 +198,19 @@ end
 ---------------------------------------------------
 function AttributeBar:Initialize()
     sv = SUI.SavedVars.saved
-    if sv and sv.attributeBar then
-        BlankTextures()
-        local layout = sv.attributeBarPyramid and "pyramid" or "shibui"
-        SUI.ApplyAttributeBarLayout(layout)
-    else
-        DefaultTextures()
-        SUI.ApplyAttributeBarLayout("default")
-    end
+
+    BlankTextures()
+
     SUI.ApplyAttributeBarSize(sv.attributeBarSize)
-        EVENT_MANAGER:UnregisterForEvent("ShibUI_AttributeBarWidth", EVENT_STATS_UPDATED)
+        
+    EVENT_MANAGER:UnregisterForEvent("ShibUI_AttributeBarWidth", EVENT_STATS_UPDATED)
     local layout = sv.attributeBarPyramid and "pyramid" or "shibui"
     SUI.ApplyAttributeBarLayout(layout)
-
+    
     EVENT_MANAGER:RegisterForEvent("ShibUI_AttributeBarWidth", EVENT_STATS_UPDATED, function()
         local layout = sv.attributeBarPyramid and "pyramid" or "shibui"
         SUI.ApplyAttributeBarLayout(layout)
     end)
+    
     Log("Initialized")
 end

@@ -66,18 +66,6 @@ local function AttributeBarSettings()
         },
         {
             type = "checkbox",
-            name = "Enable Attribute Bar",
-            tooltip = "Removes textures and applies a modern style to the attribute bar.",
-            getFunc = function() return sv.attributeBar end,
-            setFunc = function(value)
-                sv.attributeBar = value
-                SUI.InitializeAttributeBar()
-            end,
-            default = SUI.SavedVars.defaults.attributeBar,
-            requiresReload = true,
-        },
-        {
-            type = "checkbox",
             name = "Pyramid Layout",
             tooltip = "Stack attribute bars in a pyramid style (Health on top of Magicka and Stamina).",
             getFunc = function() return sv.attributeBarPyramid end,
@@ -100,19 +88,6 @@ local function AttributeBarSettings()
                 SUI.ApplyAttributeBarSize(mode)
             end,
             default = SUI.SavedVars.defaults.attributeBarSize,
-        },
-        {
-            type = "dropdown",
-            name = "Attribute Bar Layout",
-            tooltip = "Default layout matches the game's default. Pyramid stacks Health on top of Magicka and Stamina. ShibUI stacks and widens attributes horizontally.",
-            choices = { "Default", "Pyramid", "ShibUI" },
-            choicesValues = { "default", "pyramid", "shibui" },
-            getFunc = function() return sv.attributeBarLayout or "default" end,
-            setFunc = function(value)
-                sv.attributeBarLayout = value
-                SUI.ApplyAttributeBarLayout(value)
-            end,
-            default = SUI.SavedVars.defaults.attributeBarLayout or "default",
         },
     }
 end
@@ -204,29 +179,6 @@ local function PlayerProgressBarSettings()
     }
 end
 
-local function GroupUnitFrame()
-    return {
-        {
-            type = "header",
-            name = "Group Unit Frame",
-        },
-        {
-            type = "checkbox",
-            name = "Apply Group Frame Styling",
-            tooltip = "Apply styling.",
-            getFunc = function() return sv.groupUnitFrame end,
-            setFunc = function(value)
-                sv.groupUnitFrame = value
-                if SUI.GroupUnitFrame and SUI.GroupUnitFrame.ApplyVisualStyle then
-                    SUI.GroupUnitFrame:ApplyVisualStyle()
-                end
-            end,
-            default = SUI.SavedVars.defaults.groupUnitFrame,
-            requiresReload = true,
-        },
-    }
-end
-
 --------------------------------------------------
 -- Settings Panel Creation
 --------------------------------------------------
@@ -260,7 +212,6 @@ local function SettingsPanel()
     appendOptions(ActionBarSettings())
     appendOptions(TargetBarSettings())
     appendOptions(PlayerProgressBarSettings())
-    appendOptions(GroupUnitFrame())
 
     LAM:RegisterAddonPanel(SUI.menuName, panelData)
     LAM:RegisterOptionControls(SUI.menuName, optionsTable)

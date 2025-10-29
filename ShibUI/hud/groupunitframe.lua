@@ -40,28 +40,20 @@ local defaultTextures = {
     "/esoui/art/miscellaneous/progressbar_frame.dds",
 }
 
-local function BlankTexture()
+local function BlankTextures()
     for _, tex in ipairs(defaultTextures) do
         RedirectTexture(tex, blankTexture)
     end
 end
 
-local function DefaultTexture()
+local function DefaultTextures()
     for _, tex in ipairs(defaultTextures) do
         RedirectTexture(tex, tex)
     end
 end
 
-function GroupUnitFrame:ApplyVisualStyle()
-    if sv.groupUnitFrame then
-        BlankTexture()
-    else
-        DefaultTexture()
-    end
-end
-
 function GroupUnitFrame:Initialize()
     sv = SUI.SavedVars.saved
-    self:ApplyVisualStyle()
+    BlankTextures()
     Log("Initialized")
 end
