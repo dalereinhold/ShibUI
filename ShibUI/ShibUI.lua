@@ -2,88 +2,55 @@
 -- ShibUI - A modern and minimalistic UI.
 -- Copyright (C) 2025 Shownie & Ai
 --------------------------------------------------
-
-ShibUI = ShibUI or {}
-local sui = ShibUI
+SUI = SUI or {}
 
 --------------------------------------------------
--- Global metadata for ShibUI.    
+-- Global metadata for ShibUI.
+-- DO NOT MODIFY. Except for version updates.
+-- Version format: MAJOR.MINOR.ESOAPI/0 for private use.
 --------------------------------------------------
-sui.name        = "ShibUI"
-sui.menuName    = "ShibUI Settings"
-sui.displayName = "Shibui User Interface"
-sui.version     = "1.0.46"
-sui.author      = "Shownie & Ai"
-sui.description = "ShibUI is a minimalistic ESO addon that cleans up and modernizes the user interface."
--- end of global metadata
+SUI.name        = "ShibUI"
+SUI.menuName    = "ShibUI Settings"
+SUI.displayName = "Shibui User Interface"
+SUI.version     = "1.8.48"
+SUI.author      = "Shownie & Ai"
+SUI.description = "ShibUI is a modern and minimalistic UI."
 
 --------------------------------------------------
 -- Main entry point for initializing ShibUI.
+-- Add new modules to the initializers table below.
 --------------------------------------------------
-function sui.initialize()
+function SUI:InitializeModules()
     local initializers = {
-        sui.initializeSettings,
-        sui.initializeReloadUI,
-        sui.initializeMiscellaneous,
-        sui.initializeActionBar,
-        sui.initializeCompass,
-        sui.initializeUnitFrame,
-        sui.initializeAttributeBar,
-        sui.initializeTargetBar,
+        function() self.Settings:Initialize() end,      -- Keep Settings first as other modules depend on it.
+        function() self.ReloadUI:Initialize() end,      -- Rest is independent or can be loaded in any order.
+        function() self.Debug:Initialize() end,
+        function() self.Miscellaneous:Initialize() end,
+        function() self.GroupUnitFrame:Initialize() end,
+        function() self.PlayerProgressBar:Initialize() end,
+        function() self.Compass:Initialize() end,
+        function() self.ActionBar:Initialize() end,
+        function() self.AttributeBar:Initialize() end,
+        function() self.TargetBar:Initialize() end,
     }
     for _, init in ipairs(initializers) do
         if type(init) == "function" then
             init()
         end
     end
-    
-    sui.debug("Initialize", string.format("%s v%s loaded!", sui.displayName, sui.version))
-
-    local em = EVENT_MANAGER
-    local playerActivated = EVENT_PLAYER_ACTIVATED
-    local statsUpdated = EVENT_STATS_UPDATED
-    local actionSlotUpdated = EVENT_ACTION_SLOT_UPDATED
-    local hotbarUpdated = EVENT_ACTION_SLOTS_ACTIVE_HOTBAR_UPDATED
-
-    em:RegisterForEvent("ShibUI_ApplyKeybinds", playerActivated, function()
-        sui.initializeActionBar()
-        em:UnregisterForEvent("ShibUI_ApplyKeybinds", playerActivated)
-    end)
-    
-    em:RegisterForEvent("ShibUI_ApplyUltimateScale", hotbarUpdated, function()
-        sui.applyActionBarSettings()
-        em:UnregisterForEvent("ShibUI_ApplyUltimateScale", hotbarUpdated)
-    end)
-
-    em:RegisterForEvent("ShibUI_ApplyUltimateScale_Slot", actionSlotUpdated, function(_, slotNum)
-        if slotNum == 8 then
-            sui.applyActionBarSettings()
-            -- Also update the companion ultimate button
-            local companionButton = _G["CompanionUltimateButton"]
-            if companionButton then
-                companionButton:SetScale(sui.saved.ultimateButtonScaled and 1.1 or 1.0)
-            end
-        end
-    end)
-
-    em:UnregisterForEvent("ShibUI_AttributeBarWidth", statsUpdated)
-    local layout = sui.saved.attributeBarPyramid and "pyramid" or "shibui"
-    sui.applyAttributeBarLayout(layout)
-    em:RegisterForEvent("ShibUI_AttributeBarWidth", statsUpdated, function()
-        local layout = sui.saved.attributeBarPyramid and "pyramid" or "shibui"
-        sui.applyAttributeBarLayout(layout)
-    end)
-end
--- end of main entry point
-
---------------------------------------------------
--- Event handler for when the addon is loaded.
---------------------------------------------------
-local function onAddonLoaded(event, addonName)
-    if addonName ~= sui.name then return end
-    sui.initialize()
-    EVENT_MANAGER:UnregisterForEvent(sui.name, EVENT_ADD_ON_LOADED)
 end
 
-EVENT_MANAGER:RegisterForEvent(sui.name, EVENT_ADD_ON_LOADED, onAddonLoaded)
--- end of event handler
+--------------------------------------------------
+-- Initialization function called when the addon is loaded.
+-- This function sets up saved variables and initializes all modules.
+--------------------------------------------------
+function SUI:InitializeAddon(eventCode, addonName)
+    if addonName ~= self.name then return end
+    self.SavedVars:Initialize() -- Saved Vars must be initialized first.
+    self:InitializeModules()    -- Initialize all other modules.
+    self.Debug:Log("Core", string.format("Initialized %s v%s by %s", self.displayName, self.version, self.author))
+    -- Unregister the event to prevent re-initialization.
+    EVENT_MANAGER:UnregisterForEvent(self.name, EVENT_ADD_ON_LOADED)
+end
+
+EVENT_MANAGER:RegisterForEvent(SUI.name, EVENT_ADD_ON_LOADED, function(...) SUI:InitializeAddon(...) end)
