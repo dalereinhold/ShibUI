@@ -67,5 +67,5 @@ function PPB:Initialize()
     sv = SUI.SavedVars.saved
     Log("Initialized")
     ZO_CreateStringId("SI_BINDING_NAME_TOGGLE_PROGRESS_BAR_KEYBIND", "Toggle Progress Bar")
-    SLASH_COMMANDS["/ppb"] = function() self:Toggle() end
+    SLASH_COMMANDS["/sui progressbar"] = function() self:Toggle() end
 end

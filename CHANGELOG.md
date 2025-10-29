@@ -17,6 +17,21 @@
 
 ## Changelog
 
+### Known Issues
+- The Target Bar may not always show/hide correctly based on settings and combat state.
+- The Player Progress Bar if always on displays correctly, but overlays other progress bars in scenes or if leveling up.
+- The Action Bar ultimate button scaling may not reset correctly after bar swaps in some scenarios.
+- Styling is missing size adjustments for hidden textures compensation. You may notice slight misalignments in certain UI elements after applying styles.
+
+### v1.8.48
+- **Bumped:** AddOnVersion to 1848 for ESO Addon distribution.
+- **Updated:** README.md to reflect recent changes and clarify settings.
+- **Changed:** slash commands to use `/sui` prefix for consistency.
+- **Added:** `/sui targetbarhostile` command to toggle Target Bar hostile-only filter.
+- **Added:** `/sui progressbar` command to toggle Player Progress Bar visibility.
+- **Added:** `/sui settings` command to open ShibUI settings panel (if LAM2 is installed).
+- **Added:** `/sui reload` command to invoke reload helper (see settings for binding).
+
 ### v1.8.0
 - **Moved:** Dev files to root. Not included in release packages.
 - **Updated:** Codebase to match current state of ShibUI.
@@ -28,6 +43,8 @@
 - **Added:** Player Progress Bar visibility toggle command `/ppb`.
 - **Fixed:** Target Bar to show/hide correctly based on settings and combat state.
 - **Removed:** Styling conditions. All styling is now applied consistently.
+- **Refactored:** Attribute Bar initialization to streamline loading and remove unused settings.
+- **Fixed:** Attribute Bar Pyramid layout not applying correctly on load.
 
 ### v1.7.0
 - **Reworked:** Debug:Log method for consistent debug message formatting.
