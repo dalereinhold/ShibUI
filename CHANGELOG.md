@@ -23,6 +23,9 @@
 - The Action Bar ultimate button scaling may not reset correctly after bar swaps in some scenarios.
 - Styling is missing size adjustments for hidden textures compensation. You may notice slight misalignments in certain UI elements after applying styles.
 
+### v1.9.0
+- **Added:** Chat Window Module.
+
 ### v1.8.48
 - **Bumped:** AddOnVersion to 1848 for ESO Addon distribution.
 - **Updated:** README.md to reflect recent changes and clarify settings.

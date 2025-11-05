@@ -12,7 +12,7 @@ SUI = SUI or {}
 SUI.name        = "ShibUI"
 SUI.menuName    = "ShibUI Settings"
 SUI.displayName = "Shibui User Interface"
-SUI.version     = "1.8.48"
+SUI.version     = "1.9.0" -- Chat Window Settings
 SUI.author      = "Shownie & Ai"
 SUI.description = "ShibUI is a modern and minimalistic UI."
 
@@ -32,6 +32,7 @@ function SUI:InitializeModules()
         function() self.ActionBar:Initialize() end,
         function() self.AttributeBar:Initialize() end,
         function() self.TargetBar:Initialize() end,
+        function() self.ChatWindow:Initialize() end, -- New experimental feature 1.9.0
     }
     for _, init in ipairs(initializers) do
         if type(init) == "function" then

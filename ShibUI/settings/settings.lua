@@ -58,6 +58,81 @@ local function GeneralSettings()
     }
 end
 
+local function ChatWindowSettings()
+    return {
+        {
+            type = "header",
+            name = "Chat Window Settings",
+        },
+        {
+            type = "slider",
+            name = "Width",
+            min = 300, max = 1000,
+            getFunc = function() return sv.chatWidth end,
+            setFunc = function(value)
+                sv.chatWidth = value
+                SUI.ChatWindow:SetSize()
+            end,
+            default = SUI.SavedVars.defaults.chatWidth,
+        },
+        {
+            type = "slider",
+            name = "Height",
+            min = 200, max = 800,
+            getFunc = function() return sv.chatHeight end,
+            setFunc = function(value)
+                sv.chatHeight = value
+                SUI.ChatWindow:SetSize()
+            end,
+            default = SUI.SavedVars.defaults.chatHeight,
+        },
+
+        {
+            type = "dropdown",
+            name = "Side",
+            choices = {"Left", "Right"},
+            getFunc = function() return sv.chatSide end,
+            setFunc = function(value)
+                sv.chatSide = value
+                SUI.ChatWindow:SetPosition()
+            end,
+            default = SUI.SavedVars.defaults.chatSide,
+        },
+        {
+            type = "dropdown",
+            name = "Anchor",
+            choices = {"Top", "Bottom"},
+            getFunc = function() return sv.chatAnchor end,
+            setFunc = function(value)
+                sv.chatAnchor = value
+                SUI.ChatWindow:SetPosition()
+            end,
+            default = SUI.SavedVars.defaults.chatAnchor,
+        },
+        {
+            type = "dropdown",
+            name = "Default Channel on Login",
+            choices = {"Say", "Group", "Zone", "Guild 1", "Guild 2", "Guild 3", "Guild 4", "Guild 5"},
+            getFunc = function() return sv.chatDefaultChannelName end,
+            setFunc = function(value)
+                sv.chatDefaultChannelName = value
+                local map = {
+                    ["Say"] = CHAT_CHANNEL_SAY,
+                    ["Group"] = CHAT_CHANNEL_PARTY,
+                    ["Zone"] = CHAT_CHANNEL_ZONE,
+                    ["Guild 1"] = CHAT_CHANNEL_GUILD_1,
+                    ["Guild 2"] = CHAT_CHANNEL_GUILD_2,
+                    ["Guild 3"] = CHAT_CHANNEL_GUILD_3,
+                    ["Guild 4"] = CHAT_CHANNEL_GUILD_4,
+                    ["Guild 5"] = CHAT_CHANNEL_GUILD_5,
+                }
+                sv.chatDefaultChannel = map[value]
+            end,
+            default = SUI.SavedVars.defaults.chatDefaultChannelName,
+        },
+    }
+end
+
 local function AttributeBarSettings()
     return {
         {
@@ -208,6 +283,7 @@ local function SettingsPanel()
     end
 
     appendOptions(GeneralSettings())
+    appendOptions(ChatWindowSettings())
     appendOptions(AttributeBarSettings())
     appendOptions(ActionBarSettings())
     appendOptions(TargetBarSettings())
