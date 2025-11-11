@@ -13,8 +13,14 @@ local Log = function(...) SUI.Debug:Log("PlayerProgressBar", ...) end
 -- XML Template Application
 -- local PLAYER_PROGRESS_BAR = "ZO_PlayerProgressBar"
 --------------------------------------------------
+local function RepositionProgressBar()
+    ZO_PlayerProgress:ClearAnchors()
+    ZO_PlayerProgress:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 15, 60)
+end
+
 SecurePostHook(PLAYER_PROGRESS_BAR, "RefreshTemplate", function(self)
     ApplyTemplateToControl(self.barControl, "SUI_PlayerProgressBarTemplate")
+    RepositionProgressBar()
 end)
 
 --------------------------------------------------
@@ -37,6 +43,7 @@ end
 
 -- Initialize on player activated
 local function OnPlayerActivated()
+    RepositionProgressBar()
     if sv.showPlayerProgressBar and PLAYER_PROGRESS_BAR_CURRENT_FRAGMENT then
         PLAYER_PROGRESS_BAR_CURRENT_FRAGMENT:RefreshBaseType()
     end
@@ -68,4 +75,7 @@ function PPB:Initialize()
     Log("Initialized")
     ZO_CreateStringId("SI_BINDING_NAME_TOGGLE_PROGRESS_BAR_KEYBIND", "Toggle Progress Bar")
     SLASH_COMMANDS["/sui progressbar"] = function() self:Toggle() end
+    
+    -- Apply initial position
+    RepositionProgressBar()
 end
