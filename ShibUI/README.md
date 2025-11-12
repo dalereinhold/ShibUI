@@ -82,8 +82,8 @@ Notes:
 
 - ShibUI registers relevant keybind descriptors and exposes a small set of slash commands depending on modules present. Example command used by the Reload UI helper:
 ```
+/shibui -- open ShibUI settings panel (if LAM2 is installed)
 /sui reload  -- invoke reload helper (see settings for binding)
-/sui settings -- open ShibUI settings panel (if LAM2 is installed)
 /sui targetbarhostile -- toggle target bar hostile-only filter
 /sui progressbar -- toggle player progress bar visibility
 ```

@@ -20,7 +20,7 @@
 ### Known Issues
 - The Action Bar ultimate button scaling may not reset correctly after bar swaps in some scenarios.
 
-### v1.9.0
+### v1.9.48
 - **Added:** Chat Window Module.
 - **Fixed:** `PlayerProgressBar` Now shows below original position to avoid overlapping when always visible.
 - **Added:** `slashcommands` module to support spaces. `/sui command` now works and also includes a list of all commands.
