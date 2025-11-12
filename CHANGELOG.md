@@ -18,10 +18,13 @@
 ## Changelog
 
 ### Known Issues
-- The Target Bar may not always show/hide correctly based on settings and combat state.
-- The Player Progress Bar if always on displays correctly, but overlays other progress bars in scenes or if leveling up.
 - The Action Bar ultimate button scaling may not reset correctly after bar swaps in some scenarios.
-- Styling is missing size adjustments for hidden textures compensation. You may notice slight misalignments in certain UI elements after applying styles.
+
+### v1.9.48
+- **Added:** Chat Window Module.
+- **Fixed:** `PlayerProgressBar` Now shows below original position to avoid overlapping when always visible.
+- **Added:** `slashcommands` module to support spaces. `/sui command` now works and also includes a list of all commands.
+- **Changed:** Slash commands for LAM settings to `/shibui`
 
 ### v1.8.48
 - **Bumped:** AddOnVersion to 1848 for ESO Addon distribution.

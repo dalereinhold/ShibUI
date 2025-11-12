@@ -75,5 +75,4 @@ function TargetBar:Initialize()
     sv = SUI.SavedVars.saved
     Log("Initialized")
     ZO_CreateStringId("SI_BINDING_NAME_TOGGLE_TARGET_BAR_KEYBIND", "Toggle Target Bar Filter")
-    SLASH_COMMANDS["/sui targetbarhostile"] = function() self:Toggle() end
 end

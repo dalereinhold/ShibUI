@@ -33,6 +33,14 @@ SUI.SavedVars.defaults = {
 
     -- Group Unit Frame
     groupUnitFrame = true,
+
+    -- Chat Window
+    chatWidth = 800,
+    chatHeight = 400,
+    chatSide = "Left",
+    chatAnchor = "Bottom",
+    chatDefaultChannelName = "Say",
+    chatDefaultChannel = 1, -- CHAT_CHANNEL_SAY value
 }
 
 --------------------------------------------------
