@@ -54,6 +54,5 @@ function ReloadUI:Initialize()
     self.enabled = SUI.SavedVars.saved and SUI.SavedVars.saved.confirmReload
     RegisterDialogs()
     ZO_CreateStringId("SI_BINDING_NAME_RELOAD_UI_KEYBIND", "Reload UI")
-    SLASH_COMMANDS["/sui reload"] = function() self:PerformReload() end
     Log("ReloadUI", "Initialized")
 end

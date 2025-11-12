@@ -73,9 +73,6 @@ end
 function PPB:Initialize()
     sv = SUI.SavedVars.saved
     Log("Initialized")
-    ZO_CreateStringId("SI_BINDING_NAME_TOGGLE_PROGRESS_BAR_KEYBIND", "Toggle Progress Bar")
-    SLASH_COMMANDS["/sui progressbar"] = function() self:Toggle() end
-    
-    -- Apply initial position
+    ZO_CreateStringId("SI_BINDING_NAME_TOGGLE_PROGRESS_BAR_KEYBIND", "Toggle Progress Bar")    
     RepositionProgressBar()
 end

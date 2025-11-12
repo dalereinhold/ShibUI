@@ -270,7 +270,7 @@ local function SettingsPanel()
         displayName         = SUI.displayName,
         author              = SUI.author,
         version             = SUI.version,
-        slashCommand        = "/sui settings",
+        slashCommand        = "/shibui",
         registerForRefresh  = true,
         registerForDefaults = true,
     }
