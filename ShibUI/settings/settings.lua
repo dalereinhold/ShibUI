@@ -137,30 +137,31 @@ local function AttributeBarSettings()
     return {
         {
             type = "header",
-            name = "Attribute Bar Layout Preview",
-        },
-        {
-            type = "checkbox",
-            name = "Pyramid Layout",
-            tooltip = "Stack attribute bars in a pyramid style (Health on top of Magicka and Stamina).",
-            getFunc = function() return sv.attributeBarPyramid end,
-            setFunc = function(value)
-                sv.attributeBarPyramid = value
-                local layout = value and "pyramid" or "shibui"
-                SUI.ApplyAttributeBarLayout(layout)
-            end,
-            default = SUI.SavedVars.defaults.attributeBarPyramid,
+            name = "Attribute Bar Settings",
         },
         {
             type = "dropdown",
-            name = "Attribute Bar Width Mode",
+            name = "Bar Layout",
+            tooltip = "Choose the layout style for attribute bars:\n• Default - ESO's original centered layout\n• ShibUI - Horizontal spread layout\n• Pyramid - Health on top, Magicka and Stamina below\n• Stacked - All bars stacked vertically",
+            choices = { "Default", "ShibUI", "Pyramid", "Stacked" },
+            choicesValues = { "default", "shibui", "pyramid", "stacked" },
+            getFunc = function() return sv.attributeBarLayout end,
+            setFunc = function(layout)
+                sv.attributeBarLayout = layout
+                SUI.AttributeBar:ApplyLayout(layout)
+            end,
+            default = SUI.SavedVars.defaults.attributeBarLayout,
+        },
+        {
+            type = "dropdown",
+            name = "Bar Width",
             tooltip = "Choose Normal or Expanded for fixed width, or Default for dynamic width based on current stats.",
-            choices = { "Normal", "Default", "Expanded" },
-            choicesValues = { "normal", "default", "expanded" },
+            choices = { "Default", "Normal", "Expanded" },
+            choicesValues = { "default", "normal", "expanded" },
             getFunc = function() return sv.attributeBarSize end,
             setFunc = function(mode)
                 sv.attributeBarSize = mode
-                SUI.ApplyAttributeBarSize(mode)
+                SUI.AttributeBar:ApplySize(mode)
             end,
             default = SUI.SavedVars.defaults.attributeBarSize,
         },

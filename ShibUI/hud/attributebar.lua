@@ -1,13 +1,14 @@
 --------------------------------------------------
 -- ShibUI Attribute Bar Module
 --------------------------------------------------
+
 local SUI = SUI
 local sv
 
 SUI.AttributeBar = SUI.AttributeBar or {}
 local AttributeBar = SUI.AttributeBar
 
-local Log = function(...) SUI.Debug:Log("AttributeBar", ...) end
+local Log = function(...) SUI.Debug:Log("Attribute Bar", ...) end
 
 ---------------------------------------------------
 -- Texture Redirection for Attribute Bar
@@ -39,103 +40,79 @@ local function DefaultTextures()
 end
 
 ---------------------------------------------------
--- Attribute Bar size and layout control
+-- Attribute Bar Size and Layout Control
 ---------------------------------------------------
-local shrunkWidth = 141 -- ESO default values
-local normalWidth = 237 -- ESO default values
-local expandedWidth = 323 -- ESO default values
+
+-- ESO default width values from ZO_UnitVisualizer_ShrinkExpandModule
+local SHRUNK_WIDTH = 141
+local NORMAL_WIDTH = 237
+local EXPANDED_WIDTH = 323
 
 local pBar = ZO_PlayerAttribute
 local hpBar = ZO_PlayerAttributeHealth
 local mpBar = ZO_PlayerAttributeMagicka
 local spBar = ZO_PlayerAttributeStamina
+local mountBar = ZO_PlayerAttributeMountStamina
 
 local bars = { hpBar, mpBar, spBar }
+
+-- Get individual bar controls for manipulation
+local hpBarLeft = GetControl(hpBar, "BarLeft")
+local hpBarRight = GetControl(hpBar, "BarRight")
+local mpBarSingle = GetControl(mpBar, "Bar")
+local spBarSingle = GetControl(spBar, "Bar")
+local mountBarSingle = mountBar and GetControl(mountBar, "Bar")
+
+---------------------------------------------------
+-- Bar Size Control
+---------------------------------------------------
 
 local function LockBarWidth(bar, width)
     bar:SetWidth(width)
 end
 
-local function UnlockBarWidth(bar)
-    -- Do nothing; let ESO handle the width dynamically
-end
-
-local barSizeNormal = false
-local barSizeDefault = false
-local barSizeExpanded = false
-
-local function ResetBarSizeFlags()
-    barSizeNormal = false
-    barSizeDefault = false
-    barSizeExpanded = false
-end
-
-local function SetBarSizeToNormal()
-    for _, bar in ipairs(bars) do
-        LockBarWidth(bar, normalWidth)
-    end
-    if not barSizeNormal then
-        barSizeNormal = true
-    end
-end
-
-local function SetBarSizeToDefault()
-    for _, bar in ipairs(bars) do
-        -- Reset to ESO's default dynamic behavior
-        UnlockBarWidth(bar)
-    end
-    if not barSizeDefault then
-        barSizeDefault = true
-    end
-end
-
-local function SetBarSizeToExpanded()
-    for _, bar in ipairs(bars) do
-        LockBarWidth(bar, expandedWidth)
-    end
-    if not barSizeExpanded then
-        barSizeExpanded = true
-    end
-end
-
--- Event handler to keep bar width locked live
 local function OnAttributeBarRelevantUpdate()
-    if sv and sv.attributeBar then
-        if sv then
-            SUI.ApplyAttributeBarSize(sv.attributeBarSize)
-        else
-            SUI.ApplyAttributeBarSize("default")
-        end
+    if sv and sv.attributeBarSize then
+        AttributeBar:ApplySize(sv.attributeBarSize)
     end
 end
 
-function SUI.ApplyAttributeBarSize(mode)
-    ResetBarSizeFlags()
+function AttributeBar:ApplySize(mode)
     if mode == "default" then
-        -- Unregister events so bars can resize dynamically
         EVENT_MANAGER:UnregisterForEvent("ShibUI_AttributeBarLock_Stats", EVENT_STATS_UPDATED)
         EVENT_MANAGER:UnregisterForEvent("ShibUI_AttributeBarLock_Power", EVENT_POWER_UPDATE)
-        SetBarSizeToDefault()
-    elseif mode == "normal" or mode == "expanded" then
-        -- Register events to keep width locked
+        
+        for _, bar in ipairs(bars) do
+            bar:SetWidth(NORMAL_WIDTH)
+        end
+    elseif mode == "normal" then
         EVENT_MANAGER:RegisterForEvent("ShibUI_AttributeBarLock_Stats", EVENT_STATS_UPDATED, OnAttributeBarRelevantUpdate)
         EVENT_MANAGER:RegisterForEvent("ShibUI_AttributeBarLock_Power", EVENT_POWER_UPDATE, function(_, unitTag)
             if unitTag == "player" then
                 OnAttributeBarRelevantUpdate()
             end
         end)
-        if mode == "normal" then
-            SetBarSizeToNormal()
-        else
-            SetBarSizeToExpanded()
+        
+        for _, bar in ipairs(bars) do
+            LockBarWidth(bar, NORMAL_WIDTH)
         end
-    else
+    elseif mode == "expanded" then
+        EVENT_MANAGER:RegisterForEvent("ShibUI_AttributeBarLock_Stats", EVENT_STATS_UPDATED, OnAttributeBarRelevantUpdate)
+        EVENT_MANAGER:RegisterForEvent("ShibUI_AttributeBarLock_Power", EVENT_POWER_UPDATE, function(_, unitTag)
+            if unitTag == "player" then
+                OnAttributeBarRelevantUpdate()
+            end
+        end)
+        
+        for _, bar in ipairs(bars) do
+            LockBarWidth(bar, EXPANDED_WIDTH)
+        end
     end
 end
 
-local barLayoutPyramid = false
-local barLayoutShibui = false
-local barLayoutDefault = false
+---------------------------------------------------
+-- Bar Layout Control
+---------------------------------------------------
 
 local function ClearAllBarAnchors()
     for _, bar in ipairs(bars) do
@@ -143,73 +120,89 @@ local function ClearAllBarAnchors()
     end
 end
 
-local function SetLayoutPyramid()
+local function SetLayoutDefault()
     ClearAllBarAnchors()
-
-    hpBar:SetAnchor(BOTTOM, GuiRoot, BOTTOM, 0, -115)
-    mpBar:SetAnchor(BOTTOMRIGHT, GuiRoot, BOTTOM, -5, -90)
-    spBar:SetAnchor(BOTTOMLEFT, GuiRoot, BOTTOM, 5, -90)
-
-    if not barLayoutPyramid then
-        barLayoutPyramid = true
-    end
+    
+    hpBar:SetAnchor(CENTER, pBar, CENTER, 0, 0)
+    mpBar:SetAnchor(RIGHT, pBar, LEFT, 237, 0)
+    spBar:SetAnchor(LEFT, pBar, RIGHT, -237, 0)
+    
+    pBar:ClearAnchors()
+    pBar:SetAnchor(BOTTOM, GuiRoot, BOTTOM, 0, -74)
 end
 
 local function SetLayoutShibui()
     ClearAllBarAnchors()
-
+    
     hpBar:SetAnchor(BOTTOM, GuiRoot, BOTTOM, 0, -94)
     mpBar:SetAnchor(BOTTOMRIGHT, GuiRoot, BOTTOM, -200, -94)
     spBar:SetAnchor(BOTTOMLEFT, GuiRoot, BOTTOM, 200, -94)
-
-    if not barLayoutShibui then
-        barLayoutShibui = true
-    end
 end
 
-local function SetLayoutDefault()
+local function SetLayoutPyramid()
     ClearAllBarAnchors()
-
-    hpBar:SetAnchor(CENTER, pBar, CENTER, 0, 0)
-    mpBar:SetAnchor(RIGHT, pBar, LEFT, 237, 0)
-    spBar:SetAnchor(LEFT, pBar, RIGHT, -237, 0)
-
-    pBar:ClearAnchors()
-    pBar:SetAnchor(BOTTOM, GuiRoot, BOTTOM, 0, -74)
-
-    if not barLayoutDefault then
-        barLayoutDefault = true
-    end
+    
+    hpBar:SetAnchor(BOTTOM, GuiRoot, BOTTOM, 0, -115)
+    mpBar:SetAnchor(BOTTOMRIGHT, GuiRoot, BOTTOM, -5, -90)
+    spBar:SetAnchor(BOTTOMLEFT, GuiRoot, BOTTOM, 5, -90)
 end
 
-function SUI.ApplyAttributeBarLayout(layout)
-        if layout == "pyramid" then
-            SetLayoutPyramid()
-        elseif layout == "shibui" then
-            SetLayoutShibui()
-        elseif layout == "default" then
-            SetLayoutDefault()
-        else
+local function SetLayoutStacked()
+    ClearAllBarAnchors()
+    
+    -- Stack all bars vertically with health on top, centered
+    hpBar:SetAnchor(BOTTOM, GuiRoot, BOTTOM, 0, -120)
+    spBar:SetAnchor(TOP, hpBar, BOTTOM, 0, 2)
+    mpBar:SetAnchor(TOP, spBar, BOTTOM, 0, 2)
+    
+    -- Mount stamina bar positioned to the side when mounted
+    if mountBar then
+        mountBar:ClearAnchors()
+        mountBar:SetAnchor(LEFT, spBar, RIGHT, 10, 0)
+    end
+    
+    -- Set bar heights to half
+    local halfHeight = 15
+    hpBar:SetHeight(halfHeight)
+    spBar:SetHeight(halfHeight)
+    mpBar:SetHeight(halfHeight)
+    if mountBar then
+        mountBar:SetHeight(halfHeight)
+    end
+    
+    -- Set sub-bar controls heights
+    if hpBarLeft then hpBarLeft:SetHeight(halfHeight) end
+    if hpBarRight then hpBarRight:SetHeight(halfHeight) end
+    if spBarSingle then spBarSingle:SetHeight(halfHeight) end
+    if mpBarSingle then mpBarSingle:SetHeight(halfHeight) end
+    if mountBarSingle then mountBarSingle:SetHeight(halfHeight) end
+end
+
+function AttributeBar:ApplyLayout(layout)
+    if layout == "default" then
+        SetLayoutDefault()
+    elseif layout == "shibui" then
+        SetLayoutShibui()
+    elseif layout == "pyramid" then
+        SetLayoutPyramid()
+    elseif layout == "stacked" then
+        SetLayoutStacked()
     end
 end
 
 ---------------------------------------------------
--- Apply Attribute Bar Settings
+-- Initialization
 ---------------------------------------------------
 function AttributeBar:Initialize()
     sv = SUI.SavedVars.saved
-
-    BlankTextures()
-
-    SUI.ApplyAttributeBarSize(sv.attributeBarSize)
-        
-    EVENT_MANAGER:UnregisterForEvent("ShibUI_AttributeBarWidth", EVENT_STATS_UPDATED)
-    local layout = sv.attributeBarPyramid and "pyramid" or "shibui"
-    SUI.ApplyAttributeBarLayout(layout)
     
-    EVENT_MANAGER:RegisterForEvent("ShibUI_AttributeBarWidth", EVENT_STATS_UPDATED, function()
-        local layout = sv.attributeBarPyramid and "pyramid" or "shibui"
-        SUI.ApplyAttributeBarLayout(layout)
+    BlankTextures()
+    
+    self:ApplySize(sv.attributeBarSize)
+    self:ApplyLayout(sv.attributeBarLayout)
+    
+    EVENT_MANAGER:RegisterForEvent("ShibUI_AttributeBarLayout", EVENT_STATS_UPDATED, function()
+        AttributeBar:ApplyLayout(sv.attributeBarLayout)
     end)
     
     Log("Initialized")

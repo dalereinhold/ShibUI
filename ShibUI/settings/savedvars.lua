@@ -17,7 +17,7 @@ SUI.SavedVars.defaults = {
 
     -- Attribute Bar
     attributeBar = true,
-    attributeBarPyramid = false,
+    attributeBarLayout = "shibui",
     attributeBarSize = "default",
 
     -- Target Bar

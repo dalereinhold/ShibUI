@@ -20,6 +20,15 @@
 ### Known Issues
 - The Action Bar ultimate button scaling may not reset correctly after bar swaps in some scenarios.
 
+### v1.10.48
+- **Added:** New "Stacked" layout option for attribute bars - all three bars stacked vertically with health on top, stamina in middle, and magicka on bottom.
+- **Improved:** Attribute bar layout system - replaced pyramid toggle checkbox with comprehensive layout dropdown including Default, ShibUI, Pyramid, and Stacked options.
+- **Enhanced:** Mount stamina bar positioning in stacked layout - positioned to the side of regular stamina bar when mounted.
+- **Optimized:** Attribute bar sizing system to use ESO's built-in width constants (SHRUNK_WIDTH, NORMAL_WIDTH, EXPANDED_WIDTH) from ZO_UnitVisualizer_ShrinkExpandModule.
+- **Refactored:** Attribute bar module to use proper colon-style methods (AttributeBar:ApplySize(), AttributeBar:ApplyLayout()) for better OOP consistency.
+- **Updated:** SavedVars defaults - replaced `attributeBarPyramid` boolean with `attributeBarLayout` string, defaulting to "shibui".
+- **Cleaned:** Code structure with improved organization, consistent naming conventions, and removal of redundant flag variables.
+
 ### v1.9.48
 - **Added:** Chat Window Module.
 - **Fixed:** `PlayerProgressBar` Now shows below original position to avoid overlapping when always visible.
